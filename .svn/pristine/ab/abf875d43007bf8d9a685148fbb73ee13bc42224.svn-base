@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+  PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+  "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+  <classPathEntry location="D:\maven\respository\mysql\mysql-connector-java\5.1.44\mysql-connector-java-5.1.44" />
+
+  <context id="DB2Tables" targetRuntime="MyBatis3">
+    <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+        connectionURL="jdbc:mysql://47.98.180.58:3306/test"
+        userId="root"
+        password="19961013">
+    </jdbcConnection>
+
+    <javaTypeResolver >
+      <property name="forceBigDecimals" value="false" />
+    </javaTypeResolver>
+
+    <javaModelGenerator targetPackage="com.fengdi.keepsheep.bean" targetProject=".\src">
+      <property name="enableSubPackages" value="true" />
+      <property name="trimStrings" value="true" />
+    </javaModelGenerator>
+
+    <sqlMapGenerator targetPackage="com.fengdi.keepsheep.mapper"  targetProject=".\src">
+      <property name="enableSubPackages" value="true" />
+    </sqlMapGenerator>
+
+    <javaClientGenerator type="XMLMAPPER" targetPackage="com.fengdi.keepsheep.mapper"  targetProject=".\src">
+      <property name="enableSubPackages" value="true" />
+    </javaClientGenerator>
+
+    <table tableName="f_admin" domainObjectName="Admin" />
+    <table tableName="f_admin_group" domainObjectName="AdminGroup" ></table>
+    <table tableName="f_announcement" domainObjectName="Announcement"></table>
+    <table tableName="f_authorize" domainObjectName="Authorize"></table>
+    <table tableName="f_picture" domainObjectName="Picture"></table>
+    <table tableName="f_problem" domainObjectName="Problem"></table>
+    <table tableName="f_product" domainObjectName="Product"></table>
+    <table tableName="f_service" domainObjectName="Service"></table>
+
+  </context>
+</generatorConfiguration>

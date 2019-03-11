@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fengdi.keepsheep.mapper.FAdminGroupMapper" >
+  <resultMap id="BaseResultMap" type="com.fengdi.keepsheep.bean.FAdminGroup" >
+    <id column="admin_group_no" property="adminGroupNo" jdbcType="VARCHAR" />
+    <result column="id" property="id" jdbcType="BIGINT" />
+    <result column="group_name" property="groupName" jdbcType="VARCHAR" />
+    <result column="group_cnname" property="groupCnname" jdbcType="VARCHAR" />
+    <result column="admin_no" property="adminNo" jdbcType="VARCHAR" />
+    <result column="founder" property="founder" jdbcType="VARCHAR" />
+    <result column="delstatus" property="delstatus" jdbcType="VARCHAR" />
+    <result column="edit_flag" property="editFlag" jdbcType="BIT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.fengdi.keepsheep.bean.FAdminGroup" extends="BaseResultMap" >
+    <result column="authorize_list" property="authorizeList" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    admin_group_no, id, group_name, group_cnname, admin_no, founder, delstatus, edit_flag, 
+    create_time, update_time
+  </sql>
+  <sql id="Blob_Column_List" >
+    authorize_list
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.fengdi.keepsheep.bean.FAdminGroupExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from f_admin_group
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.fengdi.keepsheep.bean.FAdminGroupExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from f_admin_group
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from f_admin_group
+    where admin_group_no = #{adminGroupNo,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from f_admin_group
+    where admin_group_no = #{adminGroupNo,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.fengdi.keepsheep.bean.FAdminGroupExample" >
+    delete from f_admin_group
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.fengdi.keepsheep.bean.FAdminGroup" >
+    insert into f_admin_group (admin_group_no, id, group_name, 
+      group_cnname, admin_no, founder, 
+      delstatus, edit_flag, create_time, 
+      update_time, authorize_list)
+    values (#{adminGroupNo,jdbcType=VARCHAR}, #{id,jdbcType=BIGINT}, #{groupName,jdbcType=VARCHAR}, 
+      #{groupCnname,jdbcType=VARCHAR}, #{adminNo,jdbcType=VARCHAR}, #{founder,jdbcType=VARCHAR}, 
+      #{delstatus,jdbcType=VARCHAR}, #{editFlag,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{authorizeList,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fengdi.keepsheep.bean.FAdminGroup" >
+    insert into f_admin_group
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="adminGroupNo != null" >
+        admin_group_no,
+      </if>
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="groupName != null" >
+        group_name,
+      </if>
+      <if test="groupCnname != null" >
+        group_cnname,
+      </if>
+      <if test="adminNo != null" >
+        admin_no,
+      </if>
+      <if test="founder != null" >
+        founder,
+      </if>
+      <if test="delstatus != null" >
+        delstatus,
+      </if>
+      <if test="editFlag != null" >
+        edit_flag,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="authorizeList != null" >
+        authorize_list,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="adminGroupNo != null" >
+        #{adminGroupNo,jdbcType=VARCHAR},
+      </if>
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="groupName != null" >
+        #{groupName,jdbcType=VARCHAR},
+      </if>
+      <if test="groupCnname != null" >
+        #{groupCnname,jdbcType=VARCHAR},
+      </if>
+      <if test="adminNo != null" >
+        #{adminNo,jdbcType=VARCHAR},
+      </if>
+      <if test="founder != null" >
+        #{founder,jdbcType=VARCHAR},
+      </if>
+      <if test="delstatus != null" >
+        #{delstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="editFlag != null" >
+        #{editFlag,jdbcType=BIT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="authorizeList != null" >
+        #{authorizeList,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.fengdi.keepsheep.bean.FAdminGroupExample" resultType="java.lang.Integer" >
+    select count(*) from f_admin_group
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update f_admin_group
+    <set >
+      <if test="record.adminGroupNo != null" >
+        admin_group_no = #{record.adminGroupNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.groupName != null" >
+        group_name = #{record.groupName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.groupCnname != null" >
+        group_cnname = #{record.groupCnname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.adminNo != null" >
+        admin_no = #{record.adminNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.founder != null" >
+        founder = #{record.founder,jdbcType=VARCHAR},
+      </if>
+      <if test="record.delstatus != null" >
+        delstatus = #{record.delstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.editFlag != null" >
+        edit_flag = #{record.editFlag,jdbcType=BIT},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null" >
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.authorizeList != null" >
+        authorize_list = #{record.authorizeList,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update f_admin_group
+    set admin_group_no = #{record.adminGroupNo,jdbcType=VARCHAR},
+      id = #{record.id,jdbcType=BIGINT},
+      group_name = #{record.groupName,jdbcType=VARCHAR},
+      group_cnname = #{record.groupCnname,jdbcType=VARCHAR},
+      admin_no = #{record.adminNo,jdbcType=VARCHAR},
+      founder = #{record.founder,jdbcType=VARCHAR},
+      delstatus = #{record.delstatus,jdbcType=VARCHAR},
+      edit_flag = #{record.editFlag,jdbcType=BIT},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      authorize_list = #{record.authorizeList,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update f_admin_group
+    set admin_group_no = #{record.adminGroupNo,jdbcType=VARCHAR},
+      id = #{record.id,jdbcType=BIGINT},
+      group_name = #{record.groupName,jdbcType=VARCHAR},
+      group_cnname = #{record.groupCnname,jdbcType=VARCHAR},
+      admin_no = #{record.adminNo,jdbcType=VARCHAR},
+      founder = #{record.founder,jdbcType=VARCHAR},
+      delstatus = #{record.delstatus,jdbcType=VARCHAR},
+      edit_flag = #{record.editFlag,jdbcType=BIT},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fengdi.keepsheep.bean.FAdminGroup" >
+    update f_admin_group
+    <set >
+      <if test="id != null" >
+        id = #{id,jdbcType=BIGINT},
+      </if>
+      <if test="groupName != null" >
+        group_name = #{groupName,jdbcType=VARCHAR},
+      </if>
+      <if test="groupCnname != null" >
+        group_cnname = #{groupCnname,jdbcType=VARCHAR},
+      </if>
+      <if test="adminNo != null" >
+        admin_no = #{adminNo,jdbcType=VARCHAR},
+      </if>
+      <if test="founder != null" >
+        founder = #{founder,jdbcType=VARCHAR},
+      </if>
+      <if test="delstatus != null" >
+        delstatus = #{delstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="editFlag != null" >
+        edit_flag = #{editFlag,jdbcType=BIT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="authorizeList != null" >
+        authorize_list = #{authorizeList,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where admin_group_no = #{adminGroupNo,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.fengdi.keepsheep.bean.FAdminGroup" >
+    update f_admin_group
+    set id = #{id,jdbcType=BIGINT},
+      group_name = #{groupName,jdbcType=VARCHAR},
+      group_cnname = #{groupCnname,jdbcType=VARCHAR},
+      admin_no = #{adminNo,jdbcType=VARCHAR},
+      founder = #{founder,jdbcType=VARCHAR},
+      delstatus = #{delstatus,jdbcType=VARCHAR},
+      edit_flag = #{editFlag,jdbcType=BIT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      authorize_list = #{authorizeList,jdbcType=LONGVARCHAR}
+    where admin_group_no = #{adminGroupNo,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fengdi.keepsheep.bean.FAdminGroup" >
+    update f_admin_group
+    set id = #{id,jdbcType=BIGINT},
+      group_name = #{groupName,jdbcType=VARCHAR},
+      group_cnname = #{groupCnname,jdbcType=VARCHAR},
+      admin_no = #{adminNo,jdbcType=VARCHAR},
+      founder = #{founder,jdbcType=VARCHAR},
+      delstatus = #{delstatus,jdbcType=VARCHAR},
+      edit_flag = #{editFlag,jdbcType=BIT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where admin_group_no = #{adminGroupNo,jdbcType=VARCHAR}
+  </update>
+</mapper>

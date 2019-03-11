@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<!-- <settings> <setting name="logImpl" value="LOG4J"/> </settings> -->
+	<settings>
+		<setting name="jdbcTypeForNull" value="NULL" />
+	</settings>
+	<typeAliases>
+		<typeAlias type="com.fengdi.keepsheep.bean.FAdmin" alias="admin" />
+		<typeAlias type="com.fengdi.keepsheep.bean.FAdminGroup" alias="admin_group" />
+		<typeAlias type="com.fengdi.keepsheep.bean.FAnnouncement" alias="announcement" />
+		<typeAlias type="com.fengdi.keepsheep.bean.FAuthorize" alias="authorize" />
+		<typeAlias type="com.fengdi.keepsheep.bean.FPicture" alias="picture" />
+		<typeAlias type="com.fengdi.keepsheep.bean.FProblem" alias="problem" />
+		<typeAlias type="com.fengdi.keepsheep.bean.FProduct" alias="product" />
+		<typeAlias type="com.fengdi.keepsheep.bean.FService" alias="service" />
+	</typeAliases>
+</configuration>

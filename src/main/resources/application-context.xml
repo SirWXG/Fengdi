@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+	<context:component-scan base-package="com.fengdi.keepsheep">
+		<context:exclude-filter type="annotation"
+			expression="org.springframework.stereotype.Controller" />
+	</context:component-scan>
+
+	<!-- 配置数据库连接池 -->
+	<context:property-placeholder location="classpath:db.properties" />
+
+	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+		<property name="driverClassName" value="${jdbc.driver}"></property>
+		<property name="url" value="${jdbc.url}"></property>
+		<property name="username" value="${jdbc.user}"></property>
+		<property name="password" value="${jdbc.password}"></property>
+		<property name="initialSize" value="1" /> 
+		<property name="minIdle" value="1" /> 
+		<property name="maxActive" value="10" />
+		<property name="maxWait" value="10000" />
+		<property name="timeBetweenEvictionRunsMillis" value="60000" />
+		<property name="minEvictableIdleTimeMillis" value="300000" />
+		<property name="testWhileIdle" value="true" />
+		<property name="testOnBorrow" value="true" /> 
+		<property name="testOnReturn" value="false" />
+		<property name="poolPreparedStatements" value="true" /> 
+		<property name="maxPoolPreparedStatementPerConnectionSize" value="20" />
+		<property name="defaultAutoCommit" value="true" />
+		<property name="validationQuery" value="select 1 " /> 
+		<property name="filters" value="stat" /> 
+	</bean>
+
+	<!-- 配置spring与mybatis整合 -->
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="configLocation" value="classpath:mybatis-config.xml">
+		</property>
+		<property name="mapperLocations" value="classpath:mapper/*.xml">
+		</property>
+		<property name="dataSource" ref="dataSource"></property>
+		<property name="plugins">
+			<array>
+				<bean class="com.github.pagehelper.PageInterceptor">
+					<property name="properties">
+						<!--使用下面的方式配置参数，一行配置一个 -->
+						<value></value>
+					</property>
+				</bean>
+			</array>
+		</property>
+	</bean>
+
+	<!-- 接口映射文件 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.fengdi.keepsheep.mapper"></property>
+	</bean>
+
+
+	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+		<!-- <property name="cacheManager" ref="cacheManager" /> -->
+		<!-- Single realm app. If you have multiple realms, use the 'realms' property 
+			instead. <property name="authenticator" ref="authenticator"></property> -->
+		<property name="authenticator">
+			<bean class="org.apache.shiro.authc.pam.ModularRealmAuthenticator">
+				<property name="authenticationStrategy">
+					<bean class="org.apache.shiro.authc.pam.AllSuccessfulStrategy">
+					</bean>
+				</property>
+			</bean>
+		</property>
+		<property name="realms">
+			<list>
+				<ref bean="jdbcRealm" />
+			</list>
+		</property>
+
+		<property name="rememberMeManager.cookie.maxAge" value="2592000">
+		</property>
+	</bean>
+
+	<!-- ModularRealmAuthenticator <bean id="authenticator" class="org.apache.shiro.authc.pam.ModularRealmAuthenticator"> 
+		<property name="realms"> <list> <ref bean="jdbcRealm" /> <ref bean="jdbcRealms" 
+		/> </list> </property> <property name="authenticationStrategy"> <bean class="org.apache.shiro.authc.pam.AllSuccessfulStrategy"></bean> 
+		</property> </bean> -->
+	<!-- Let's use some enterprise caching support for better performance. You 
+		can replace this with any enterprise caching framework implementation that 
+		you like (Terracotta+Ehcache, Coherence, GigaSpaces, etc -->
+	<bean id="cacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
+		<!-- Set a net.sf.ehcache.CacheManager instance here if you already have 
+			one. If not, a new one will be creaed with a default config: <property name="cacheManager" 
+			ref="ehCacheManager"/> -->
+		<!-- If you don't have a pre-built net.sf.ehcache.CacheManager instance 
+			to inject, but you want a specific Ehcache configuration to be used, specify 
+			that here. If you don't, a default will be used.: -->
+		<!-- <property name="cacheManagerConfigFile" value="classpath:ehcache.xml" /> -->
+	</bean>
+
+	<!-- Used by the SecurityManager to access security data (users, roles, 
+		etc). Many other realm implementations can be used too (PropertiesRealm, LdapRealm, etc. -->		
+	<bean id="jdbcRealm" class="com.fengdi.keepsheep.shiro.Shiro">
+		
+		 <property name="credentialsMatcher">
+				<bean
+					class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
+					<property name="hashAlgorithmName" value="MD5">
+					</property>
+					<property name="hashIterations" value="1024"></property>
+				</bean>
+			
+		</property> 
+	</bean>
+	<!-- ========================================================= Shiro Spring-specific 
+		integration ========================================================= -->
+	<!-- Post processor that automatically invokes init() and destroy() methods 
+		for Spring-configured Shiro objects so you don't have to 1) specify an init-method 
+		and destroy-method attributes for every bean definition and 2) even know 
+		which Shiro objects require these methods to be called. -->
+	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />
+
+	<!-- Enable Shiro Annotations for Spring-configured beans. Only run after 
+		the lifecycleBeanProcessor has run: -->
+	<bean
+		class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"
+		depends-on="lifecycleBeanPostProcessor" />
+	<bean
+		class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+		<property name="securityManager" ref="securityManager" />
+	</bean>
+
+	<!-- Secure Spring remoting: Ensure any Spring Remoting method invocations 
+		can be associated with a Subject for security checks. -->
+	<bean id="secureRemoteInvocationExecutor"
+		class="org.apache.shiro.spring.remoting.SecureRemoteInvocationExecutor">
+		<property name="securityManager" ref="securityManager" />
+	</bean>
+
+	<!-- Define the Shiro Filter here (as a FactoryBean) instead of directly 
+		in web.xml - web.xml uses the DelegatingFilterProxy to access this bean. 
+		This allows us to wire things with more control as well utilize nice Spring 
+		things such as PropertiesPlaceholderConfigurer and abstract beans or anything 
+		else we might need: -->
+	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+		<property name="securityManager" ref="securityManager" />
+		<property name="loginUrl" value="/dologin/login" />
+		<property name="successUrl" value="/index" />
+		<property name="unauthorizedUrl" value="unauthorized" />
+		<property name="filterChainDefinitions">
+			<value>
+			    /css/**=anon
+			    /fonts/**=anon
+			    /images/**=anon
+			    /js/**=anon
+			    /lib/**=anon
+				/index.jsp=authc
+				/index=authc
+			</value>
+		</property>
+	</bean>
+</beans>

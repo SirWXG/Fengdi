@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fengdi.keepsheep.mapper.FServiceMapper" >
+  <resultMap id="BaseResultMap" type="com.fengdi.keepsheep.bean.FService" >
+    <id column="service_no" property="serviceNo" jdbcType="INTEGER" />
+    <result column="id" property="id" jdbcType="INTEGER" />
+    <result column="super_service_no" property="superServiceNo" jdbcType="INTEGER" />
+    <result column="service_name" property="serviceName" jdbcType="VARCHAR" />
+    <result column="service_level" property="serviceLevel" jdbcType="INTEGER" />
+    <result column="group_cnname" property="groupCnname" jdbcType="VARCHAR" />
+    <result column="admin_group_no" property="adminGroupNo" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.fengdi.keepsheep.bean.FService" extends="BaseResultMap" >
+    <result column="service_url" property="serviceUrl" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    service_no, id, super_service_no, service_name, service_level, group_cnname, admin_group_no, 
+    create_time, update_time
+  </sql>
+  <sql id="Blob_Column_List" >
+    service_url
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.fengdi.keepsheep.bean.FServiceExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from f_service
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.fengdi.keepsheep.bean.FServiceExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from f_service
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from f_service
+    where service_no = #{serviceNo,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from f_service
+    where service_no = #{serviceNo,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.fengdi.keepsheep.bean.FServiceExample" >
+    delete from f_service
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.fengdi.keepsheep.bean.FService" >
+    insert into f_service (service_no, id, super_service_no, 
+      service_name, service_level, group_cnname, 
+      admin_group_no, create_time, update_time, 
+      service_url)
+    values (#{serviceNo,jdbcType=INTEGER}, #{id,jdbcType=INTEGER}, #{superServiceNo,jdbcType=INTEGER}, 
+      #{serviceName,jdbcType=VARCHAR}, #{serviceLevel,jdbcType=INTEGER}, #{groupCnname,jdbcType=VARCHAR}, 
+      #{adminGroupNo,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{serviceUrl,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fengdi.keepsheep.bean.FService" >
+    insert into f_service
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="serviceNo != null" >
+        service_no,
+      </if>
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="superServiceNo != null" >
+        super_service_no,
+      </if>
+      <if test="serviceName != null" >
+        service_name,
+      </if>
+      <if test="serviceLevel != null" >
+        service_level,
+      </if>
+      <if test="groupCnname != null" >
+        group_cnname,
+      </if>
+      <if test="adminGroupNo != null" >
+        admin_group_no,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="serviceUrl != null" >
+        service_url,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="serviceNo != null" >
+        #{serviceNo,jdbcType=INTEGER},
+      </if>
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="superServiceNo != null" >
+        #{superServiceNo,jdbcType=INTEGER},
+      </if>
+      <if test="serviceName != null" >
+        #{serviceName,jdbcType=VARCHAR},
+      </if>
+      <if test="serviceLevel != null" >
+        #{serviceLevel,jdbcType=INTEGER},
+      </if>
+      <if test="groupCnname != null" >
+        #{groupCnname,jdbcType=VARCHAR},
+      </if>
+      <if test="adminGroupNo != null" >
+        #{adminGroupNo,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="serviceUrl != null" >
+        #{serviceUrl,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.fengdi.keepsheep.bean.FServiceExample" resultType="java.lang.Integer" >
+    select count(*) from f_service
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update f_service
+    <set >
+      <if test="record.serviceNo != null" >
+        service_no = #{record.serviceNo,jdbcType=INTEGER},
+      </if>
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.superServiceNo != null" >
+        super_service_no = #{record.superServiceNo,jdbcType=INTEGER},
+      </if>
+      <if test="record.serviceName != null" >
+        service_name = #{record.serviceName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.serviceLevel != null" >
+        service_level = #{record.serviceLevel,jdbcType=INTEGER},
+      </if>
+      <if test="record.groupCnname != null" >
+        group_cnname = #{record.groupCnname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.adminGroupNo != null" >
+        admin_group_no = #{record.adminGroupNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null" >
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.serviceUrl != null" >
+        service_url = #{record.serviceUrl,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update f_service
+    set service_no = #{record.serviceNo,jdbcType=INTEGER},
+      id = #{record.id,jdbcType=INTEGER},
+      super_service_no = #{record.superServiceNo,jdbcType=INTEGER},
+      service_name = #{record.serviceName,jdbcType=VARCHAR},
+      service_level = #{record.serviceLevel,jdbcType=INTEGER},
+      group_cnname = #{record.groupCnname,jdbcType=VARCHAR},
+      admin_group_no = #{record.adminGroupNo,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      service_url = #{record.serviceUrl,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update f_service
+    set service_no = #{record.serviceNo,jdbcType=INTEGER},
+      id = #{record.id,jdbcType=INTEGER},
+      super_service_no = #{record.superServiceNo,jdbcType=INTEGER},
+      service_name = #{record.serviceName,jdbcType=VARCHAR},
+      service_level = #{record.serviceLevel,jdbcType=INTEGER},
+      group_cnname = #{record.groupCnname,jdbcType=VARCHAR},
+      admin_group_no = #{record.adminGroupNo,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fengdi.keepsheep.bean.FService" >
+    update f_service
+    <set >
+      <if test="id != null" >
+        id = #{id,jdbcType=INTEGER},
+      </if>
+      <if test="superServiceNo != null" >
+        super_service_no = #{superServiceNo,jdbcType=INTEGER},
+      </if>
+      <if test="serviceName != null" >
+        service_name = #{serviceName,jdbcType=VARCHAR},
+      </if>
+      <if test="serviceLevel != null" >
+        service_level = #{serviceLevel,jdbcType=INTEGER},
+      </if>
+      <if test="groupCnname != null" >
+        group_cnname = #{groupCnname,jdbcType=VARCHAR},
+      </if>
+      <if test="adminGroupNo != null" >
+        admin_group_no = #{adminGroupNo,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="serviceUrl != null" >
+        service_url = #{serviceUrl,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where service_no = #{serviceNo,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.fengdi.keepsheep.bean.FService" >
+    update f_service
+    set id = #{id,jdbcType=INTEGER},
+      super_service_no = #{superServiceNo,jdbcType=INTEGER},
+      service_name = #{serviceName,jdbcType=VARCHAR},
+      service_level = #{serviceLevel,jdbcType=INTEGER},
+      group_cnname = #{groupCnname,jdbcType=VARCHAR},
+      admin_group_no = #{adminGroupNo,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      service_url = #{serviceUrl,jdbcType=LONGVARCHAR}
+    where service_no = #{serviceNo,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fengdi.keepsheep.bean.FService" >
+    update f_service
+    set id = #{id,jdbcType=INTEGER},
+      super_service_no = #{superServiceNo,jdbcType=INTEGER},
+      service_name = #{serviceName,jdbcType=VARCHAR},
+      service_level = #{serviceLevel,jdbcType=INTEGER},
+      group_cnname = #{groupCnname,jdbcType=VARCHAR},
+      admin_group_no = #{adminGroupNo,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where service_no = #{serviceNo,jdbcType=INTEGER}
+  </update>
+</mapper>
