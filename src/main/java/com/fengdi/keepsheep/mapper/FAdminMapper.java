@@ -36,4 +36,18 @@ public interface FAdminMapper {
      * @return
      */
     List<FAdmin> checkLogin(Map<String, String>map);
+
+    /**
+     * 更新登录时间
+     * @param map
+     * @return
+     */
+    int updateAdminForLoginTime(Map<String,Object>map);
+
+    /**
+     * 条件查询
+     * @param fAdmin
+     * @return
+     */
+    List<FAdmin> selectAdminByStatus(FAdmin fAdmin);
 }

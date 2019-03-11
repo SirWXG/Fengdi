@@ -29,14 +29,18 @@ public class Shiro extends AuthenticatingRealm{
 		String username = upt.getUsername();
 		char c[] = upt.getPassword();
 		String pass = new String(c);
-		Map<String, String> map = new HashMap<>();
+		Map<String, String> map = new HashMap<String,String>();
 		map.put("loginName", username);
-		SimpleHash hash = new SimpleHash("MD5", pass, username, 1024);
-		map.put("password", hash.toString());
+		map.put("password", ToMD5(username,pass));
 		List<FAdmin> list = fAdminService.checkLogin(map);
 		System.out.println(list.get(0).getLoginName()+"  "+list.get(0).getPwd());
 		SimpleAuthenticationInfo simpleAuthenticationInfo = new SimpleAuthenticationInfo(list.get(0).getLoginName(),
 				list.get(0).getPwd(), ByteSource.Util.bytes(username), getName());
 		return simpleAuthenticationInfo;
+	}
+
+	public static String ToMD5(String username,String pass){
+		SimpleHash simpleHash = new SimpleHash("MD5",pass,username,1024);
+		return simpleHash.toString();
 	}
 }
