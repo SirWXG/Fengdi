@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Param;
 public interface FProblemMapper {
     int countByExample(FProblemExample example);
 
-    int deleteByExample(FProblemExample example);
+    boolean deleteById(@Param("id") Integer id);
 
     int deleteByPrimaryKey(String problemNo);
 
