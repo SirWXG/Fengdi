@@ -1,23 +1,23 @@
 package com.fengdi.keepsheep.service.Impl;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import com.fengdi.keepsheep.bean.FAdmin;
 import com.fengdi.keepsheep.bean.FAdminExample;
 import com.fengdi.keepsheep.mapper.FAdminMapper;
+import com.fengdi.keepsheep.service.FAdminService;
+import com.fengdi.keepsheep.shiro.Shiro;
 import com.fengdi.keepsheep.util.IPUtil;
+import com.fengdi.keepsheep.util.Random2Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.fengdi.keepsheep.service.FAdminService;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 @Service
@@ -60,6 +60,18 @@ public class FAdminImpl implements FAdminService{
 	public List<FAdmin> selectAdminByStatus(Map<String,Object> map) {
 		List<FAdmin> list = fAdminMapper.selectAdminByStatus(map);
 		return list;
+	}
+
+	@Override
+	public int insert(FAdmin fAdmin) {
+		fAdmin.setAdminNo(Random2Utils.buildSn("SHP"));
+		fAdmin.setPwd(Shiro.ToMD5(fAdmin.getLoginName(),fAdmin.getPwd()));
+		fAdmin.setStatus("common");
+		fAdmin.setCreateTime(new Date());
+		fAdmin.setUpdateTime(new Date());
+		fAdmin.setSalt(fAdmin.getLoginName());
+		int flag = fAdminMapper.insert(fAdmin);
+		return flag;
 	}
 
 }

@@ -28,4 +28,11 @@ public interface FAdminService {
 	 * @return
 	 */
 	List<FAdmin> selectAdminByStatus(Map<String,Object> map);
+
+	/**
+	 * 添加会员
+	 * @param fAdmin
+	 * @return
+	 */
+	int insert(FAdmin fAdmin);
 }

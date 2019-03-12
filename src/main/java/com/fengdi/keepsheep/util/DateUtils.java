@@ -331,4 +331,11 @@ public class DateUtils {
 		cal.set(Calendar.SECOND, 59);
 		return cal.getTime();
 	}
+
+
+	public static Date getParseDate(String date) throws ParseException {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Date dates = sdf.parse(date);
+		return dates;
+	}
 }
