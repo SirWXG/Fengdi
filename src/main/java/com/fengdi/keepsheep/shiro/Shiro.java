@@ -7,7 +7,6 @@ import java.util.Map;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
-import org.apache.shiro.authc.Authenticator;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.crypto.hash.SimpleHash;
@@ -15,7 +14,6 @@ import org.apache.shiro.realm.AuthenticatingRealm;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.fengdi.keepsheep.bean.FAdmin;
 import com.fengdi.keepsheep.service.FAdminService;
 
 public class Shiro extends AuthenticatingRealm{

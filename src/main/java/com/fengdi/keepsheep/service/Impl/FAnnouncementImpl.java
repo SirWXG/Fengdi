@@ -6,10 +6,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
-import com.fengdi.keepsheep.bean.FAnnouncement;
-import com.fengdi.keepsheep.bean.FAnnouncementExample;
 import com.fengdi.keepsheep.util.Random2Utils;
-import com.fengdi.keepsheep.mapper.FAnnouncementMapper;
 import com.fengdi.keepsheep.service.FAnnouncementService;
 
 @Service

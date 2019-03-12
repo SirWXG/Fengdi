@@ -15,6 +15,8 @@ public class FPicture {
 
     private String pictureType;
 
+    private String status;
+
     private String groupCnname;
 
     private String adminGroupNo;
@@ -71,6 +73,14 @@ public class FPicture {
 
     public void setPictureType(String pictureType) {
         this.pictureType = pictureType == null ? null : pictureType.trim();
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status == null ? null : status.trim();
     }
 
     public String getGroupCnname() {

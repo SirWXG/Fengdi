@@ -7,6 +7,7 @@
     <result column="problem_answers" property="problemAnswers" jdbcType="VARCHAR" />
     <result column="group_cnname" property="groupCnname" jdbcType="VARCHAR" />
     <result column="admin_group_no" property="adminGroupNo" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
   </resultMap>
@@ -69,7 +70,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    problem_no, id, problem_answers, group_cnname, admin_group_no, create_time, update_time
+    problem_no, id, problem_answers, group_cnname, admin_group_no, status, create_time, 
+    update_time
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.fengdi.keepsheep.bean.FProblemExample" >
     select
@@ -103,11 +105,11 @@
   </delete>
   <insert id="insert" parameterType="com.fengdi.keepsheep.bean.FProblem" >
     insert into f_problem (problem_no, id, problem_answers, 
-      group_cnname, admin_group_no, create_time, 
-      update_time)
+      group_cnname, admin_group_no, status, 
+      create_time, update_time)
     values (#{problemNo,jdbcType=VARCHAR}, #{id,jdbcType=BIGINT}, #{problemAnswers,jdbcType=VARCHAR}, 
-      #{groupCnname,jdbcType=VARCHAR}, #{adminGroupNo,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{updateTime,jdbcType=TIMESTAMP})
+      #{groupCnname,jdbcType=VARCHAR}, #{adminGroupNo,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.fengdi.keepsheep.bean.FProblem" >
     insert into f_problem
@@ -126,6 +128,9 @@
       </if>
       <if test="adminGroupNo != null" >
         admin_group_no,
+      </if>
+      <if test="status != null" >
+        status,
       </if>
       <if test="createTime != null" >
         create_time,
@@ -149,6 +154,9 @@
       </if>
       <if test="adminGroupNo != null" >
         #{adminGroupNo,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
       </if>
       <if test="createTime != null" >
         #{createTime,jdbcType=TIMESTAMP},
@@ -182,6 +190,9 @@
       <if test="record.adminGroupNo != null" >
         admin_group_no = #{record.adminGroupNo,jdbcType=VARCHAR},
       </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=VARCHAR},
+      </if>
       <if test="record.createTime != null" >
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
@@ -200,6 +211,7 @@
       problem_answers = #{record.problemAnswers,jdbcType=VARCHAR},
       group_cnname = #{record.groupCnname,jdbcType=VARCHAR},
       admin_group_no = #{record.adminGroupNo,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null" >
@@ -221,6 +233,9 @@
       <if test="adminGroupNo != null" >
         admin_group_no = #{adminGroupNo,jdbcType=VARCHAR},
       </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
       <if test="createTime != null" >
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
@@ -236,6 +251,7 @@
       problem_answers = #{problemAnswers,jdbcType=VARCHAR},
       group_cnname = #{groupCnname,jdbcType=VARCHAR},
       admin_group_no = #{adminGroupNo,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where problem_no = #{problemNo,jdbcType=VARCHAR}

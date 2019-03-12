@@ -11,6 +11,8 @@ public class FProduct {
 
     private String productIntroduction;
 
+    private String status;
+
     private String groupCnname;
 
     private String adminGroupNo;
@@ -51,6 +53,14 @@ public class FProduct {
 
     public void setProductIntroduction(String productIntroduction) {
         this.productIntroduction = productIntroduction == null ? null : productIntroduction.trim();
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status == null ? null : status.trim();
     }
 
     public String getGroupCnname() {

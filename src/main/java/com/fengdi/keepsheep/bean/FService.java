@@ -13,6 +13,8 @@ public class FService {
 
     private Integer serviceLevel;
 
+    private String status;
+
     private String groupCnname;
 
     private String adminGroupNo;
@@ -61,6 +63,14 @@ public class FService {
 
     public void setServiceLevel(Integer serviceLevel) {
         this.serviceLevel = serviceLevel;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status == null ? null : status.trim();
     }
 
     public String getGroupCnname() {

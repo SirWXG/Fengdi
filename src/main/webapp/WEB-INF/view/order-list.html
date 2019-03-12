@@ -8,11 +8,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
-    <link rel="stylesheet" href="./css/font.css">
-    <link rel="stylesheet" href="./css/xadmin.css">
+    <link rel="stylesheet" href="../css/font.css">
+    <link rel="stylesheet" href="../css/xadmin.css">
     <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
-    <script type="text/javascript" src="./lib/layui/layui.js" charset="utf-8"></script>
-    <script type="text/javascript" src="./js/xadmin.js"></script>
+    <script type="text/javascript" src="../lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../js/xadmin.js"></script>
     <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
     <!--[if lt IE 9]>
       <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
@@ -68,7 +68,7 @@
       </div>
       <xblock>
         <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
-        <button class="layui-btn" onclick="x_admin_show('添加用户','./order-add.html')"><i class="layui-icon"></i>添加</button>
+        <button class="layui-btn" onclick="x_admin_show('添加公告','/view/order-add')"><i class="layui-icon"></i>添加</button>
         <span class="x-right" style="line-height:40px">共有数据：88 条</span>
       </xblock>
       <table class="layui-table">
@@ -77,34 +77,26 @@
             <th>
               <div class="layui-unselect header layui-form-checkbox" lay-skin="primary"><i class="layui-icon">&#xe605;</i></div>
             </th>
-            <th>订单编号</th>
-            <th>收货人</th>
-            <th>总金额</th>
-            <th>应付金额</th>
-            <th>订单状态</th>
-            <th>支付状态</th>
-            <th>发货状态</th>
-            <th>支付方式</th>
-            <th>配送方式</th>
-            <th>下单时间</th>
+            <th>平台编号</th>
+            <th>平台内容</th>
+            <th>用户名称</th>
+            <th>用户编号</th>
+            <th>创建时间</th>
+            <th>更新时间</th>
             <th >操作</th>
             </tr>
         </thead>
         <tbody>
-          <tr>
+        <tr th:each="s:${selectByExample}">
             <td>
               <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='2'><i class="layui-icon">&#xe605;</i></div>
             </td>
-            <td>2017009171822298053</td>
-            <td>老王:18925139194</td>
-            <td>7829.10</td>
-            <td>7854.10</td>
-            <td>待确认</td>
-            <td>未支付</td>
-            <td>未发货</td>
-            <td>其他方式</td>
-            <td>申通物流</td>
-            <td>2017-08-17 18:22</td>
+          <td th:text="${s.announcementNo}"></td>
+          <td th:text="${s.announcementName}"></td>
+          <td th:text="${s.groupCnname}"></td>
+          <td th:text="${s.adminGroupNo}"></td>
+          <td th:text="${#dates.format(s.createTime,'yyyy-MM-dd')}"</td>
+          <td th:text="${#dates.format(s.updateTime,'yyyy-MM-dd')}"></td>
             <td class="td-manage">
               <a title="查看"  onclick="x_admin_show('编辑','order-view.html')" href="javascript:;">
                 <i class="layui-icon">&#xe63c;</i>

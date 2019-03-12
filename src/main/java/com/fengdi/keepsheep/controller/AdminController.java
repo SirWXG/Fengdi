@@ -1,6 +1,5 @@
 package com.fengdi.keepsheep.controller;
 
-import com.fengdi.keepsheep.bean.FAdmin;
 import com.fengdi.keepsheep.service.FAdminService;
 import com.fengdi.keepsheep.util.SimpleResult;
 import org.springframework.beans.factory.annotation.Autowired;

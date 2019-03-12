@@ -5,9 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.fengdi.keepsheep.bean.FProblem;
-import com.fengdi.keepsheep.bean.FProblemExample;
-import com.fengdi.keepsheep.mapper.FProblemMapper;
 import com.fengdi.keepsheep.service.FProblemService;
 
 

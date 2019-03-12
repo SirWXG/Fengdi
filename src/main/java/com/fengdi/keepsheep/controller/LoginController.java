@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.fengdi.keepsheep.bean.FAdmin;
 import com.fengdi.keepsheep.service.FAdminService;
 import com.fengdi.keepsheep.shiro.Shiro;
 import org.apache.shiro.SecurityUtils;

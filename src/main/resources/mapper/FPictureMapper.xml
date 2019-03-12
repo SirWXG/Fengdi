@@ -8,6 +8,7 @@
     <result column="picture_text" property="pictureText" jdbcType="VARCHAR" />
     <result column="picture_area" property="pictureArea" jdbcType="INTEGER" />
     <result column="picture_type" property="pictureType" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
     <result column="group_cnname" property="groupCnname" jdbcType="VARCHAR" />
     <result column="admin_group_no" property="adminGroupNo" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
@@ -75,7 +76,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    picture_no, id, picture_name, picture_text, picture_area, picture_type, group_cnname, 
+    picture_no, id, picture_name, picture_text, picture_area, picture_type, status, group_cnname, 
     admin_group_no, create_time, update_time
   </sql>
   <sql id="Blob_Column_List" >
@@ -132,12 +133,14 @@
   <insert id="insert" parameterType="com.fengdi.keepsheep.bean.FPicture" >
     insert into f_picture (picture_no, id, picture_name, 
       picture_text, picture_area, picture_type, 
-      group_cnname, admin_group_no, create_time, 
-      update_time, picture_img)
+      status, group_cnname, admin_group_no, 
+      create_time, update_time, picture_img
+      )
     values (#{pictureNo,jdbcType=INTEGER}, #{id,jdbcType=BIGINT}, #{pictureName,jdbcType=VARCHAR}, 
       #{pictureText,jdbcType=VARCHAR}, #{pictureArea,jdbcType=INTEGER}, #{pictureType,jdbcType=VARCHAR}, 
-      #{groupCnname,jdbcType=VARCHAR}, #{adminGroupNo,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{pictureImg,jdbcType=LONGVARCHAR})
+      #{status,jdbcType=VARCHAR}, #{groupCnname,jdbcType=VARCHAR}, #{adminGroupNo,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{pictureImg,jdbcType=LONGVARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.fengdi.keepsheep.bean.FPicture" >
     insert into f_picture
@@ -159,6 +162,9 @@
       </if>
       <if test="pictureType != null" >
         picture_type,
+      </if>
+      <if test="status != null" >
+        status,
       </if>
       <if test="groupCnname != null" >
         group_cnname,
@@ -194,6 +200,9 @@
       </if>
       <if test="pictureType != null" >
         #{pictureType,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
       </if>
       <if test="groupCnname != null" >
         #{groupCnname,jdbcType=VARCHAR},
@@ -239,6 +248,9 @@
       <if test="record.pictureType != null" >
         picture_type = #{record.pictureType,jdbcType=VARCHAR},
       </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=VARCHAR},
+      </if>
       <if test="record.groupCnname != null" >
         group_cnname = #{record.groupCnname,jdbcType=VARCHAR},
       </if>
@@ -267,6 +279,7 @@
       picture_text = #{record.pictureText,jdbcType=VARCHAR},
       picture_area = #{record.pictureArea,jdbcType=INTEGER},
       picture_type = #{record.pictureType,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=VARCHAR},
       group_cnname = #{record.groupCnname,jdbcType=VARCHAR},
       admin_group_no = #{record.adminGroupNo,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
@@ -284,6 +297,7 @@
       picture_text = #{record.pictureText,jdbcType=VARCHAR},
       picture_area = #{record.pictureArea,jdbcType=INTEGER},
       picture_type = #{record.pictureType,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=VARCHAR},
       group_cnname = #{record.groupCnname,jdbcType=VARCHAR},
       admin_group_no = #{record.adminGroupNo,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
@@ -310,6 +324,9 @@
       <if test="pictureType != null" >
         picture_type = #{pictureType,jdbcType=VARCHAR},
       </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
       <if test="groupCnname != null" >
         group_cnname = #{groupCnname,jdbcType=VARCHAR},
       </if>
@@ -335,6 +352,7 @@
       picture_text = #{pictureText,jdbcType=VARCHAR},
       picture_area = #{pictureArea,jdbcType=INTEGER},
       picture_type = #{pictureType,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
       group_cnname = #{groupCnname,jdbcType=VARCHAR},
       admin_group_no = #{adminGroupNo,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -349,6 +367,7 @@
       picture_text = #{pictureText,jdbcType=VARCHAR},
       picture_area = #{pictureArea,jdbcType=INTEGER},
       picture_type = #{pictureType,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
       group_cnname = #{groupCnname,jdbcType=VARCHAR},
       admin_group_no = #{adminGroupNo,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},

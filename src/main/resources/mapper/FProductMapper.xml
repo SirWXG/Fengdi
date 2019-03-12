@@ -6,6 +6,7 @@
     <result column="id" property="id" jdbcType="BIGINT" />
     <result column="product_name" property="productName" jdbcType="VARCHAR" />
     <result column="product_introduction" property="productIntroduction" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
     <result column="group_cnname" property="groupCnname" jdbcType="VARCHAR" />
     <result column="admin_group_no" property="adminGroupNo" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
@@ -73,7 +74,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    product_no, id, product_name, product_introduction, group_cnname, admin_group_no, 
+    product_no, id, product_name, product_introduction, status, group_cnname, admin_group_no, 
     create_time, update_time
   </sql>
   <sql id="Blob_Column_List" >
@@ -129,13 +130,13 @@
   </delete>
   <insert id="insert" parameterType="com.fengdi.keepsheep.bean.FProduct" >
     insert into f_product (product_no, id, product_name, 
-      product_introduction, group_cnname, admin_group_no, 
-      create_time, update_time, product_img
-      )
+      product_introduction, status, group_cnname, 
+      admin_group_no, create_time, update_time, 
+      product_img)
     values (#{productNo,jdbcType=INTEGER}, #{id,jdbcType=BIGINT}, #{productName,jdbcType=VARCHAR}, 
-      #{productIntroduction,jdbcType=VARCHAR}, #{groupCnname,jdbcType=VARCHAR}, #{adminGroupNo,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{productImg,jdbcType=LONGVARCHAR}
-      )
+      #{productIntroduction,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{groupCnname,jdbcType=VARCHAR}, 
+      #{adminGroupNo,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{productImg,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.fengdi.keepsheep.bean.FProduct" >
     insert into f_product
@@ -151,6 +152,9 @@
       </if>
       <if test="productIntroduction != null" >
         product_introduction,
+      </if>
+      <if test="status != null" >
+        status,
       </if>
       <if test="groupCnname != null" >
         group_cnname,
@@ -180,6 +184,9 @@
       </if>
       <if test="productIntroduction != null" >
         #{productIntroduction,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
       </if>
       <if test="groupCnname != null" >
         #{groupCnname,jdbcType=VARCHAR},
@@ -219,6 +226,9 @@
       <if test="record.productIntroduction != null" >
         product_introduction = #{record.productIntroduction,jdbcType=VARCHAR},
       </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=VARCHAR},
+      </if>
       <if test="record.groupCnname != null" >
         group_cnname = #{record.groupCnname,jdbcType=VARCHAR},
       </if>
@@ -245,6 +255,7 @@
       id = #{record.id,jdbcType=BIGINT},
       product_name = #{record.productName,jdbcType=VARCHAR},
       product_introduction = #{record.productIntroduction,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=VARCHAR},
       group_cnname = #{record.groupCnname,jdbcType=VARCHAR},
       admin_group_no = #{record.adminGroupNo,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
@@ -260,6 +271,7 @@
       id = #{record.id,jdbcType=BIGINT},
       product_name = #{record.productName,jdbcType=VARCHAR},
       product_introduction = #{record.productIntroduction,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=VARCHAR},
       group_cnname = #{record.groupCnname,jdbcType=VARCHAR},
       admin_group_no = #{record.adminGroupNo,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
@@ -279,6 +291,9 @@
       </if>
       <if test="productIntroduction != null" >
         product_introduction = #{productIntroduction,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
       </if>
       <if test="groupCnname != null" >
         group_cnname = #{groupCnname,jdbcType=VARCHAR},
@@ -303,6 +318,7 @@
     set id = #{id,jdbcType=BIGINT},
       product_name = #{productName,jdbcType=VARCHAR},
       product_introduction = #{productIntroduction,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
       group_cnname = #{groupCnname,jdbcType=VARCHAR},
       admin_group_no = #{adminGroupNo,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -315,6 +331,7 @@
     set id = #{id,jdbcType=BIGINT},
       product_name = #{productName,jdbcType=VARCHAR},
       product_introduction = #{productIntroduction,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
       group_cnname = #{groupCnname,jdbcType=VARCHAR},
       admin_group_no = #{adminGroupNo,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},

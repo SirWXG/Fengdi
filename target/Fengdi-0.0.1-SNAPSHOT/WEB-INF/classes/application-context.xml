@@ -153,8 +153,11 @@
 			    /images/**=anon
 			    /js/**=anon
 			    /lib/**=anon
-				/index.jsp=authc
-				/index=authc
+				/loginAdmin/doLogin=anon
+				/index.jsp=user
+				/index=user
+				/**=authc
+				/loginAdmin/logout=logout
 			</value>
 		</property>
 	</bean>

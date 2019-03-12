@@ -5,13 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.fengdi.keepsheep.bean.FAdminExample;
 import com.fengdi.keepsheep.util.IPUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.fengdi.keepsheep.bean.FAdmin;
-import com.fengdi.keepsheep.mapper.FAdminMapper;
 import com.fengdi.keepsheep.service.FAdminService;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;

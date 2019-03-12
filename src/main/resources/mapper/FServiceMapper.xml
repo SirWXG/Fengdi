@@ -7,6 +7,7 @@
     <result column="super_service_no" property="superServiceNo" jdbcType="INTEGER" />
     <result column="service_name" property="serviceName" jdbcType="VARCHAR" />
     <result column="service_level" property="serviceLevel" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
     <result column="group_cnname" property="groupCnname" jdbcType="VARCHAR" />
     <result column="admin_group_no" property="adminGroupNo" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
@@ -74,8 +75,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    service_no, id, super_service_no, service_name, service_level, group_cnname, admin_group_no, 
-    create_time, update_time
+    service_no, id, super_service_no, service_name, service_level, status, group_cnname, 
+    admin_group_no, create_time, update_time
   </sql>
   <sql id="Blob_Column_List" >
     service_url
@@ -130,13 +131,13 @@
   </delete>
   <insert id="insert" parameterType="com.fengdi.keepsheep.bean.FService" >
     insert into f_service (service_no, id, super_service_no, 
-      service_name, service_level, group_cnname, 
-      admin_group_no, create_time, update_time, 
-      service_url)
+      service_name, service_level, status, 
+      group_cnname, admin_group_no, create_time, 
+      update_time, service_url)
     values (#{serviceNo,jdbcType=INTEGER}, #{id,jdbcType=INTEGER}, #{superServiceNo,jdbcType=INTEGER}, 
-      #{serviceName,jdbcType=VARCHAR}, #{serviceLevel,jdbcType=INTEGER}, #{groupCnname,jdbcType=VARCHAR}, 
-      #{adminGroupNo,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{serviceUrl,jdbcType=LONGVARCHAR})
+      #{serviceName,jdbcType=VARCHAR}, #{serviceLevel,jdbcType=INTEGER}, #{status,jdbcType=VARCHAR}, 
+      #{groupCnname,jdbcType=VARCHAR}, #{adminGroupNo,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{serviceUrl,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.fengdi.keepsheep.bean.FService" >
     insert into f_service
@@ -155,6 +156,9 @@
       </if>
       <if test="serviceLevel != null" >
         service_level,
+      </if>
+      <if test="status != null" >
+        status,
       </if>
       <if test="groupCnname != null" >
         group_cnname,
@@ -187,6 +191,9 @@
       </if>
       <if test="serviceLevel != null" >
         #{serviceLevel,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
       </if>
       <if test="groupCnname != null" >
         #{groupCnname,jdbcType=VARCHAR},
@@ -229,6 +236,9 @@
       <if test="record.serviceLevel != null" >
         service_level = #{record.serviceLevel,jdbcType=INTEGER},
       </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=VARCHAR},
+      </if>
       <if test="record.groupCnname != null" >
         group_cnname = #{record.groupCnname,jdbcType=VARCHAR},
       </if>
@@ -256,6 +266,7 @@
       super_service_no = #{record.superServiceNo,jdbcType=INTEGER},
       service_name = #{record.serviceName,jdbcType=VARCHAR},
       service_level = #{record.serviceLevel,jdbcType=INTEGER},
+      status = #{record.status,jdbcType=VARCHAR},
       group_cnname = #{record.groupCnname,jdbcType=VARCHAR},
       admin_group_no = #{record.adminGroupNo,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
@@ -272,6 +283,7 @@
       super_service_no = #{record.superServiceNo,jdbcType=INTEGER},
       service_name = #{record.serviceName,jdbcType=VARCHAR},
       service_level = #{record.serviceLevel,jdbcType=INTEGER},
+      status = #{record.status,jdbcType=VARCHAR},
       group_cnname = #{record.groupCnname,jdbcType=VARCHAR},
       admin_group_no = #{record.adminGroupNo,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
@@ -294,6 +306,9 @@
       </if>
       <if test="serviceLevel != null" >
         service_level = #{serviceLevel,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
       </if>
       <if test="groupCnname != null" >
         group_cnname = #{groupCnname,jdbcType=VARCHAR},
@@ -319,6 +334,7 @@
       super_service_no = #{superServiceNo,jdbcType=INTEGER},
       service_name = #{serviceName,jdbcType=VARCHAR},
       service_level = #{serviceLevel,jdbcType=INTEGER},
+      status = #{status,jdbcType=VARCHAR},
       group_cnname = #{groupCnname,jdbcType=VARCHAR},
       admin_group_no = #{adminGroupNo,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -332,6 +348,7 @@
       super_service_no = #{superServiceNo,jdbcType=INTEGER},
       service_name = #{serviceName,jdbcType=VARCHAR},
       service_level = #{serviceLevel,jdbcType=INTEGER},
+      status = #{status,jdbcType=VARCHAR},
       group_cnname = #{groupCnname,jdbcType=VARCHAR},
       admin_group_no = #{adminGroupNo,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},

@@ -3,9 +3,6 @@ package com.fengdi.keepsheep.service;
 import java.util.List;
 import java.util.Map;
 
-import com.fengdi.keepsheep.bean.FAdmin;
-import com.fengdi.keepsheep.bean.FAdminExample;
-
 public interface FAdminService {
 	
 	/**

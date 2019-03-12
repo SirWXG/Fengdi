@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html>
-  
+<html xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="UTF-8">
     <title>欢迎页面-X-admin2.0</title>
@@ -31,11 +30,23 @@
       <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" href="javascript:location.replace(location.href);" title="刷新">
         <i class="layui-icon" style="line-height:30px">ဂ</i></a>
     </div>
+    
+    <script type="text/javascript">
+      $(function () {
+          $.ajax({
+              url:"/admin/selectAdminByStatus",
+              type:"post",
+              data:{
+                  loginTime:$("input[name='start']").val(),
+                  username:$("input[name='username']").val()
+              }
+          });
+      })
+    </script>
     <div class="x-body">
       <div class="layui-row">
         <form class="layui-form layui-col-md12 x-so">
-          <input class="layui-input" placeholder="开始日" name="start" id="start">
-          <input class="layui-input" placeholder="截止日" name="end" id="end">
+          <input class="layui-input" placeholder="登录日期" name="start" id="start">
           <input type="text" name="username"  placeholder="请输入用户名" autocomplete="off" class="layui-input">
           <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
         </form>
@@ -51,26 +62,28 @@
             <th>
               <div class="layui-unselect header layui-form-checkbox" lay-skin="primary"><i class="layui-icon">&#xe605;</i></div>
             </th>
-            <th>ID</th>
+            <th>编号</th>
+            <th>用户名</th>
             <th>登录名</th>
-            <th>手机</th>
-            <th>邮箱</th>
-            <th>角色</th>
-            <th>加入时间</th>
+            <th>电话</th>
+            <th>登录IP</th>
+            <th>登录时间</th>
+            <th>创建时间</th>
             <th>状态</th>
             <th>操作</th>
         </thead>
         <tbody>
-          <tr>
+          <tr th:each="admin:${admin}">
             <td>
               <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='2'><i class="layui-icon">&#xe605;</i></div>
             </td>
-            <td>1</td>
-            <td>admin</td>
-            <td>18925139194</td>
-            <td>113664000@qq.com</td>
-            <td>超级管理员</td>
-            <td>2017-01-01 11:11:42</td>
+            <td th:text="${admin.adminNo}"></td>
+            <td th:text="${admin.adminName}"></td>
+            <td th:text="${admin.loginName}"></td>
+            <td th:text="${admin.mobileNo}"></td>
+            <td th:text="${admin.loginIp}"></td>
+            <td th:text="${#dates.format(admin.loginTime,'yyyy-MM-dd hh:mm:ss')}"></td>
+            <td th:text="${#dates.format(admin.createTime,'yyyy-MM-dd hh:mm:ss')}"></td>
             <td class="td-status">
               <span class="layui-btn layui-btn-normal layui-btn-mini">已启用</span></td>
             <td class="td-manage">

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html  xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
     <title>欢迎页面-X-admin2.0</title>
@@ -46,21 +46,23 @@
             <th>编号</th>
             <th>问题标题</th>
             <th>问题答案</th>
+            <th>创建成员</th>
+            <th>创建时间</th>
             <th>更新时间</th>
-            <th>更新成员</th>
             <th>状态</th>
             <th>操作</th>
         </thead>
         <tbody>
-          <tr>
+          <tr th:each="question:${problem}">
             <td>
               <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='2'><i class="layui-icon">&#xe605;</i></div>
             </td>
-            <td>1</td>
-            <td>admin</td>
-            <td>18925139194</td>
-            <td>113664000@qq.com</td>
-            <td>2017-01-01 11:11:42</td>
+            <td th:text="${question.id}"></td>
+            <td th:text="${question.problemNo}"></td>
+            <td th:text="${question.problemAnswers}"></td>
+            <td th:text="${question.groupCnname}"></td>
+            <td th:text="${#dates.format(question.createTime,'yyyy-MM-dd hh:mm:ss')}"></td>
+            <td th:text="${#dates.format(question.updateTime,'yyyy-MM-dd hh:mm:ss')}"></td>
             <td class="td-status">
               <span class="layui-btn layui-btn-normal layui-btn-mini">已启用</span></td>
             <td class="td-manage">

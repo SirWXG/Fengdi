@@ -13,6 +13,8 @@ public class FProblem {
 
     private String adminGroupNo;
 
+    private String status;
+
     private Date createTime;
 
     private Date updateTime;
@@ -55,6 +57,14 @@ public class FProblem {
 
     public void setAdminGroupNo(String adminGroupNo) {
         this.adminGroupNo = adminGroupNo == null ? null : adminGroupNo.trim();
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status == null ? null : status.trim();
     }
 
     public Date getCreateTime() {
