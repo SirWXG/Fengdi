@@ -3,6 +3,8 @@ package com.fengdi.keepsheep.mapper;
 import com.fengdi.keepsheep.bean.FAdmin;
 import com.fengdi.keepsheep.bean.FAdminExample;
 import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Param;
 
 public interface FAdminMapper {
@@ -27,4 +29,10 @@ public interface FAdminMapper {
     int updateByPrimaryKeySelective(FAdmin record);
 
     int updateByPrimaryKey(FAdmin record);
+
+    List<FAdmin> checkLogin(Map<String,String>map);
+
+    int updateAdminForLoginTime(Map<String,Object>map);
+
+    List<FAdmin> selectAdminByStatus(Map<String,Object>map);
 }

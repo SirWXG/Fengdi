@@ -1,5 +1,8 @@
 package com.fengdi.keepsheep.service;
 
+import com.fengdi.keepsheep.bean.FAdmin;
+import com.fengdi.keepsheep.bean.FAdminExample;
+
 import java.util.List;
 import java.util.Map;
 
@@ -24,5 +27,5 @@ public interface FAdminService {
 	 * 条件查询
 	 * @return
 	 */
-	List<FAdmin> selectAdminByStatus(FAdmin fAdmin);
+	List<FAdmin> selectAdminByStatus(Map<String,Object> map);
 }

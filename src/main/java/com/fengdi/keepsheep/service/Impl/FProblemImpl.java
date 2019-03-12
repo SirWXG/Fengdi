@@ -2,6 +2,9 @@ package com.fengdi.keepsheep.service.Impl;
 
 import java.util.List;
 
+import com.fengdi.keepsheep.bean.FProblem;
+import com.fengdi.keepsheep.bean.FProblemExample;
+import com.fengdi.keepsheep.mapper.FProblemMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

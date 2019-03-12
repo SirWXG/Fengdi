@@ -4,6 +4,9 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import com.fengdi.keepsheep.bean.FAnnouncement;
+import com.fengdi.keepsheep.bean.FAnnouncementExample;
+import com.fengdi.keepsheep.mapper.FAnnouncementMapper;
 import org.springframework.stereotype.Service;
 
 import com.fengdi.keepsheep.util.Random2Utils;
@@ -14,7 +17,7 @@ public class FAnnouncementImpl implements FAnnouncementService {
 	
 	@Resource
 	private FAnnouncementMapper fannouncementMapper;
-	
+
 	@Override
 	public List<FAnnouncement> selectByExample() {
 		return fannouncementMapper.selectByExample(new FAnnouncementExample());

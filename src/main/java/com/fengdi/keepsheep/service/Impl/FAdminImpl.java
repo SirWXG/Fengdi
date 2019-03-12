@@ -5,6 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.fengdi.keepsheep.bean.FAdmin;
+import com.fengdi.keepsheep.bean.FAdminExample;
+import com.fengdi.keepsheep.mapper.FAdminMapper;
 import com.fengdi.keepsheep.util.IPUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -54,8 +57,8 @@ public class FAdminImpl implements FAdminService{
 	}
 
 	@Override
-	public List<FAdmin> selectAdminByStatus(FAdmin fAdmin) {
-		List<FAdmin> list = fAdminMapper.selectAdminByStatus(fAdmin);
+	public List<FAdmin> selectAdminByStatus(Map<String,Object> map) {
+		List<FAdmin> list = fAdminMapper.selectAdminByStatus(map);
 		return list;
 	}
 

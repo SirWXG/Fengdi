@@ -1,5 +1,6 @@
 package com.fengdi.keepsheep.controller;
 
+import com.fengdi.keepsheep.bean.FAdmin;
 import com.fengdi.keepsheep.service.FAdminService;
 import com.fengdi.keepsheep.util.SimpleResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,18 +53,18 @@ public class AdminController {
      * @param model
      * @return
      */
-    @RequestMapping(value ="/selectAdminByStatus",method = RequestMethod.POST)
-    @ResponseBody
-    public SimpleResult selectAdmin(FAdmin fAdmin,Model model){
-        SimpleResult simpleResult = new SimpleResult();
-        List<FAdmin> list = fAdminService.selectAdminByStatus(fAdmin);
-        try{
-
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        model.addAttribute("admin",list);
-        return null;
-    }
+//    @RequestMapping(value ="/selectAdminByStatus",method = RequestMethod.POST)
+//    @ResponseBody
+//    public SimpleResult selectAdmin(FAdmin fAdmin,Model model){
+//        SimpleResult simpleResult = new SimpleResult();
+//        List<FAdmin> list = fAdminService.selectAdminByStatus();
+//        try{
+//
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }
+//        model.addAttribute("admin",list);
+//        return null;
+//    }null
 
 }

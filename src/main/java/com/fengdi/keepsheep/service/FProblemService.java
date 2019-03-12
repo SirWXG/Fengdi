@@ -1,5 +1,8 @@
 package com.fengdi.keepsheep.service;
 
+import com.fengdi.keepsheep.bean.FProblem;
+import com.fengdi.keepsheep.bean.FProblemExample;
+
 import java.util.List;
 
 public interface FProblemService {

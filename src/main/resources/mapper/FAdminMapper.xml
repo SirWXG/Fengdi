@@ -477,4 +477,30 @@
       score = #{score,jdbcType=DOUBLE}
     where admin_no = #{adminNo,jdbcType=VARCHAR}
   </update>
+
+  <!--验证登录-->
+  <select id="checkLogin" parameterType="map" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List" />
+    from f_admin where login_name=#{loginName} and pwd=#{password}
+  </select>
+
+  <!--更新登录时间和登录的IP-->
+  <update id="updateAdminForLoginTime" parameterType="map">
+    UPDATE f_admin SET login_time=#{loginTime},login_ip=#{loginIp} WHERE admin_no=#{adminNo}
+  </update>
+
+  <!--通过条件查询-->
+  <select id="selectAdminByStatus" parameterType="admin" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List" />
+    FROM f_admin
+    <where>
+      <if test="adminNo!=null">
+        admin_no=#{adminNo}
+      </if>
+      <if test="loginTime!=null">
+        AND login_time=#{loginTime}
+      </if>
+    </where>
+  </select>
+
 </mapper>
