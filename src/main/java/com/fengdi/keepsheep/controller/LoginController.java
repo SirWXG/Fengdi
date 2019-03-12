@@ -69,6 +69,6 @@ public class LoginController {
 	public String doLogout(HttpSession session) {
 		session.removeAttribute("admin");
 		SecurityUtils.getSubject().logout();
-		return "/login/login";
+		return "redirect:/login/login";
 	}
 }
