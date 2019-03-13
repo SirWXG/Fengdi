@@ -6,6 +6,7 @@ public class SimpleResult {
 	private String errCode;
 	private String errMsg;
 	private String message;
+
 	
 	public SimpleResult(){
 		

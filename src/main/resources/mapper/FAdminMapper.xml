@@ -503,4 +503,8 @@
     </where>
   </select>
 
+  <delete id="deleteAdminByAdminNo" parameterType="string">
+    DELETE FROM f_admin WHERE admin_no=#{adminNo}
+  </delete>
+
 </mapper>

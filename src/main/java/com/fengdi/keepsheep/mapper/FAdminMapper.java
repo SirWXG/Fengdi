@@ -2,10 +2,10 @@ package com.fengdi.keepsheep.mapper;
 
 import com.fengdi.keepsheep.bean.FAdmin;
 import com.fengdi.keepsheep.bean.FAdminExample;
+import org.apache.ibatis.annotations.Param;
+
 import java.util.List;
 import java.util.Map;
-
-import org.apache.ibatis.annotations.Param;
 
 public interface FAdminMapper {
     int countByExample(FAdminExample example);
@@ -35,4 +35,6 @@ public interface FAdminMapper {
     int updateAdminForLoginTime(Map<String,Object>map);
 
     List<FAdmin> selectAdminByStatus(Map<String,Object>map);
+
+    int deleteAdminByAdminNo(String adminNo);
 }

@@ -35,4 +35,18 @@ public interface FAdminService {
 	 * @return
 	 */
 	int insert(FAdmin fAdmin);
+
+	/**
+	 * 根据编号删除会员
+	 * @param adminNo
+	 * @return
+	 */
+	int deleteByPrimaryKey(String adminNo);
+
+	/**
+	 * 根据编号删除会员
+	 * @param adminNo
+	 * @return
+	 */
+	int deleteAdminByAdminNo(String adminNo);
 }
