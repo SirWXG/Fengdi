@@ -57,6 +57,13 @@ public class FProblemImpl implements FProblemService{
 		int flag = fProblemMapper.insert(problem);
 		return flag;
 	}
+	/**
+	 * 根据ID修改状态
+	 */
+	public boolean updateByStatus(Integer id, String status) {
+		boolean stu = fProblemMapper.updateByStatus(id, status);
+		return stu;
+	}
 
 
 }

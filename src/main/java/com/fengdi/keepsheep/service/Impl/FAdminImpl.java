@@ -73,17 +73,17 @@ public class FAdminImpl implements FAdminService{
 		return flag;
 	}
 
-	@Override
+
 	public int deleteByPrimaryKey(String adminNo) {
 		return fAdminMapper.deleteByPrimaryKey(adminNo);
 	}
 
-	@Override
+
 	public int deleteAdminByAdminNo(String adminNo) {
 		return fAdminMapper.deleteAdminByAdminNo(adminNo);
 	}
 
-	@Override
+
 	public int updateAdminStatus(Map<String, String> map) {
 		return fAdminMapper.updateAdminStatus(map);
 	}

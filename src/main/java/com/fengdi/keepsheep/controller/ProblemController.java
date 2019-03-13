@@ -94,4 +94,31 @@ public class ProblemController {
 		}
 		return result;
 	}
+	/**
+	 * 根据ID修改状态
+	 * @return
+	 */
+	@RequestMapping(value = "/updateByStatus",method = RequestMethod.POST)
+	@ResponseBody
+	public SimpleResult updateByStatus(@RequestParam("id")Integer id,@RequestParam("status")String status,HttpSession session){
+		SimpleResult result=new SimpleResult();
+		try {
+			FAdmin admin = (FAdmin) session.getAttribute("admin");
+			if (null==admin){
+				result.setErrCode("1");
+				result.setErrMsg("登录信息失效,请重新登录");
+				result.setSuccess(false);
+			}else{
+				result.setSuccess(true);
+				boolean stu = fProblemService.updateByStatus(id, status);
+				if(stu!=true){
+					result.setSuccess(false);
+					result.setErrMsg("修改失败,请重新修改");
+				}
+			}
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+		return result;
+	}
 }

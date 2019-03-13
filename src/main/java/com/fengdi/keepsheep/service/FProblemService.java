@@ -12,4 +12,5 @@ public interface FProblemService {
 	public boolean deleteById(Integer id);
 
 	public int insert(FProblem problem);
+	public boolean updateByStatus(Integer id,String status);
 }
