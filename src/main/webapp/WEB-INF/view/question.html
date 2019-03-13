@@ -34,16 +34,14 @@
         </form>
       </div>
       <xblock>
-        <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
+
         <button class="layui-btn" onclick="x_admin_show('添加问题','/view/question-add')"><i class="layui-icon"></i>添加</button>
         <span class="x-right" style="line-height:40px">共有数据：88 条</span>
       </xblock>
       <table class="layui-table">
         <thead>
           <tr>
-            <th>
-              <div class="layui-unselect header layui-form-checkbox" lay-skin="primary"><i class="layui-icon">&#xe605;</i></div>
-            </th>
+
             <th>编号</th>
             <th>问题标题</th>
             <th>问题答案</th>
@@ -55,21 +53,18 @@
         </thead>
         <tbody>
           <tr th:each="question:${problem}">
-            <td>
-              <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='2'><i class="layui-icon">&#xe605;</i></div>
-            </td>
             <td th:text="${question.id}"></td>
             <td th:text="${question.problemNo}"></td>
             <td th:text="${question.problemAnswers}"></td>
             <td th:text="${question.groupCnname}"></td>
             <td th:text="${#dates.format(question.createTime,'yyyy-MM-dd hh:mm:ss')}"></td>
             <td th:text="${#dates.format(question.updateTime,'yyyy-MM-dd hh:mm:ss')}"></td>
-            <td class="td-status" th:if="${question.status==1}">
+            <td class="td-status" th:if="${question.status=='1'}">
               <span class="layui-btn layui-btn-normal layui-btn-mini">已展示</span></td>
-            <td class="td-status" th:if="${question.status==0}">
+            <td class="td-status" th:if="${question.status=='0'}">
               <span class="layui-btn layui-btn-normal layui-btn-mini">未展示</span></td>
             <td class="td-manage">
-              <a onclick="member_stop(this,'10001')" href="javascript:;"  title="启用">
+              <a th:onclick="'javascript:member_stop(this,\''+${question.id}+'\')'" href="javascript:;"    title="启用">
                 <i class="layui-icon">&#xe601;</i>
               </a>
               <a title="编辑"  onclick="x_admin_show('编辑','admin-edit.html')" href="javascript:;">
@@ -112,25 +107,48 @@
 
        /*用户-停用*/
       function member_stop(obj,id){
-          layer.confirm('确认要停用吗？',function(index){
-
+          layer.confirm('确认要操作吗？',function(index){
               if($(obj).attr('title')=='启用'){
-
-                //发异步把用户状态进行更改
-                $(obj).attr('title','停用')
-                $(obj).find('i').html('&#xe62f;');
-
-                $(obj).parents("tr").find(".td-status").find('span').addClass('layui-btn-disabled').html('已停用');
-                layer.msg('已停用!',{icon: 5,time:1000});
-
+                  $.ajax({
+                      url:"/problem/updateByStatus",
+                      type:"post",
+                      data:{
+                          id:id,
+                          status:"0"
+                      },
+                      success:function (data) {
+                          if (data.success){
+                              $(obj).attr('title','停用')
+                              $(obj).find('i').html('&#xe62f;');
+                              $(obj).parents("tr").find(".td-status").find('span').addClass('layui-btn-disabled').html('未展示');
+                              layer.msg('未展示!',{icon: 5,time:1000});
+                          }else{
+                              layer.msg('未展示失败,请重新操作',{icon:5,time:1000});
+                          }
+                      }
+                  });
               }else{
-                $(obj).attr('title','启用')
-                $(obj).find('i').html('&#xe601;');
+                  $.ajax({
+                      url:"/problem/updateByStatus",
+                      type:"post",
+                      data:{
+                          id:id,
+                          status:"1"
+                      },
+                      success:function (data) {
+                          if (data.success){
+                              $(obj).attr('title','启用')
+                              $(obj).find('i').html('&#xe601;');
+                              $(obj).parents("tr").find(".td-status").find('span').removeClass('layui-btn-disabled').addClass("layui-btn-normal layui-btn-mini").html('已展示');
+                              layer.msg('已展示!',{icon: 5,time:1000});
+                          }else{
+                              layer.msg('操作失败',{icon:5,time:1000});
+                          }
+                      }
 
-                $(obj).parents("tr").find(".td-status").find('span').removeClass('layui-btn-disabled').html('已启用');
-                layer.msg('已启用!',{icon: 5,time:1000});
+                  });
               }
-              
+
           });
       }
 

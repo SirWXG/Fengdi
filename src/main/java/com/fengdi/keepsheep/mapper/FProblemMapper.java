@@ -27,4 +27,6 @@ public interface FProblemMapper {
     int updateByPrimaryKeySelective(FProblem record);
 
     int updateByPrimaryKey(FProblem record);
+
+    boolean updateByStatus(@Param("id")Integer id,@Param("status")String status);
 }
