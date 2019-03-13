@@ -9,6 +9,8 @@ import javax.servlet.http.HttpSession;
 import com.alibaba.fastjson.JSONArray;
 import com.fengdi.keepsheep.bean.FAdmin;
 import com.fengdi.keepsheep.bean.FProblem;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -34,17 +36,19 @@ public class ProblemController {
 	 * @return
 	 */
 	@RequestMapping(value="/selectAllProblem")
-	public String selectAllProblem(HttpSession session,Model model) {
+	public String selectAllProblem(@RequestParam(name = "page",defaultValue = "1")Integer page,
+								   @RequestParam(name = "rows",defaultValue = "10")Integer rows,HttpSession session,Model model) {
 		SimpleResult simpleResult = new SimpleResult();
 		try {
+			PageHelper.startPage(page,rows);
+			List<FProblem> list = fProblemService.selectByExample(null);
 			FAdmin fAdmin = (FAdmin) session.getAttribute("admin");
 		    if(null==fAdmin) {
 		    	simpleResult.setErrCode("1");
 		    	simpleResult.setErrMsg("登录失效，请重新登录");
 		    }
-		    List<FProblem> list = fProblemService.selectByExample(null);
-		    model.addAttribute("MsgResult", simpleResult);
-			model.addAttribute("problem", list);
+			PageInfo<FProblem> info = new PageInfo<FProblem>(list,4);
+		    model.addAttribute("problem",info);
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
