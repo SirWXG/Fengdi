@@ -27,4 +27,6 @@ public interface FAnnouncementMapper {
     int updateByPrimaryKeySelective(FAnnouncement record);
 
     int updateByPrimaryKey(FAnnouncement record);
+
+    int updatestauts(@Param("announcementNo")String announcementNo,@Param("status")String status);
 }

@@ -83,6 +83,7 @@
             <th>用户编号</th>
             <th>创建时间</th>
             <th>更新时间</th>
+            <th>状态</th>
             <th >操作</th>
             </tr>
         </thead>
@@ -97,7 +98,15 @@
           <td th:text="${s.adminGroupNo}"></td>
           <td th:text="${#dates.format(s.createTime,'yyyy-MM-dd')}"></td>
           <td th:text="${#dates.format(s.updateTime,'yyyy-MM-dd')}"></td>
+          <td class="td-status">
+              <span th:class="${s.status=='1'?'layui-btn layui-btn-normal layui-btn-mini':'layui-btn layui-btn-disabled'}"
+                    th:text="${s.status=='1'}?'正常':'冻结'">
+              </span>
+          </td>
           <td class="td-manage">
+            <a th:onclick="'javascript:member_stop(this,\''+${s.announcementNo}+'\')'" href="javascript:;"  title="修改状态">
+              <i class="layui-icon">&#xe601;</i>
+            </a>
               <a title="查看"  th:onclick="'javascript:member_getNo(\''+${s.announcementNo}+'\');'" href="javascript:;">
                 <i class="layui-icon">&#xe63c;</i>
               </a>
@@ -176,28 +185,51 @@
       });
 
        /*用户-停用*/
-      function member_stop(obj,id){
-          layer.confirm('确认要停用吗？',function(index){
+        function member_stop(obj,id){
+            layer.confirm('确认要操作吗？',function(index){
+                if($(obj).attr('title')=='修改状态'){
+                    $.ajax({
+                        url:"/fannouncementService/stop",
+                        type:"post",
+                        data:{
+                            announcementNo:id,
+                            status:"1"
+                        },
+                        success:function (data) {
+                            if (data.success){
+                                $(obj).attr('title','停用')
+                                $(obj).find('i').html('&#xe62f;');
+                                $(obj).parents("tr").find(".td-status").find('span').addClass('layui-btn-disabled').html('冻结');
+                                layer.msg('冻结!',{icon: 1,time:1000});
+                            }else{
+                                layer.msg('冻结失败,请重新操作',{icon:5,time:1000});
+                            }
+                        }
+                    });
+                }else{
+                    $.ajax({
+                        url:"/fannouncementService/stop",
+                        type:"post",
+                        data:{
+                            announcementNo:id,
+                            status:"0"
+                        },
+                        success:function (data) {
+                            if (data.success){
+                                $(obj).attr('title','修改状态')
+                                $(obj).find('i').html('&#xe601;');
+                                $(obj).parents("tr").find(".td-status").find('span').removeClass('layui-btn-disabled').addClass("layui-btn-normal layui-btn-mini").html('正常');
+                                layer.msg('正常!',{icon: 1,time:1000});
+                            }else{
+                                layer.msg('操作失败',{icon:5,time:1000});
+                            }
+                        }
 
-              if($(obj).attr('title')=='启用'){
+                    });
+                }
 
-                //发异步把用户状态进行更改
-                $(obj).attr('title','停用')
-                $(obj).find('i').html('&#xe62f;');
-
-                $(obj).parents("tr").find(".td-status").find('span').addClass('layui-btn-disabled').html('已停用');
-                layer.msg('已停用!',{icon: 5,time:1000});
-
-              }else{
-                $(obj).attr('title','启用')
-                $(obj).find('i').html('&#xe601;');
-
-                $(obj).parents("tr").find(".td-status").find('span').removeClass('layui-btn-disabled').html('已启用');
-                layer.msg('已启用!',{icon: 5,time:1000});
-              }
-              
-          });
-      }
+            });
+        }
 
 
 

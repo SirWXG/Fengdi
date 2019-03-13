@@ -68,4 +68,10 @@ public class FAnnouncementController {
         int insert = fannouncementService.updateByPrimaryKeySelective(fannouncement);
         return new SimpleResult(insert>0?true:false);
     }
+
+    @RequestMapping(value = "/stop")
+    public @ResponseBody SimpleResult stop(String announcementNo,String status){
+        int insert = fannouncementService.updatestauts(announcementNo,status);
+        return new SimpleResult(insert>0?true:false);
+    }
 }

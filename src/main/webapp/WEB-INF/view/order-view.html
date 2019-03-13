@@ -53,7 +53,7 @@
                 状态
             </label>
             <div class="layui-input-inline">
-                    <select th:filed="${session.fAnnouncement.status}" th:value="${session.fAnnouncement.status}" name="status" lay-verify="required">
+                    <select th:filed="${session.fAnnouncement.status}" th:value="${session.fAnnouncement.status}" name="status" id="status" lay-verify="required">
                         <option th:selected="${session.fAnnouncement.status=='1'}" value="1">已启用</option>
                         <option th:selected="${session.fAnnouncement.status=='0'}" value="0">未启用</option>
                     </select>
@@ -87,7 +87,7 @@
                 },
                 success:function (data) {
                     if (data.success){
-                        layer.alert("增加成功", {icon: 6},function () {
+                        layer.alert("修改成功", {icon: 6},function () {
                             // 获得frame索引
                             var index = parent.layer.getFrameIndex(window.name);
                             //关闭当前frame
