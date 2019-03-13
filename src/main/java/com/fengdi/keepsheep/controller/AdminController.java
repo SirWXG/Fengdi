@@ -36,7 +36,7 @@ public class AdminController {
      */
     @RequestMapping(value = "/selectAllAdmin")
     public String selectAllAdmin(@RequestParam(name = "page",defaultValue = "1")Integer page,
-                                 @RequestParam(name = "rows",defaultValue = "2")Integer rows,HttpSession session, Model model){
+                                 @RequestParam(name = "rows",defaultValue = "10")Integer rows,HttpSession session, Model model){
         SimpleResult result = new SimpleResult();
         try{
             PageHelper.startPage(page,rows);
