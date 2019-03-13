@@ -47,7 +47,6 @@ public class AdminController {
                 result.setErrMsg("登录失效，请重新登录");
             }
             PageInfo<FAdmin> info = new PageInfo<FAdmin>(list,4);
-            System.out.println(info.getPageNum());
             fAdminService.updateAdminForLoginTime();
             model.addAttribute("admin",info);
         }catch (Exception e) {
