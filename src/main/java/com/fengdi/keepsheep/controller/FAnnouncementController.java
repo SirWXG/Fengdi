@@ -57,4 +57,15 @@ public class FAnnouncementController {
         int i = fannouncementService.deleteByPrimaryKey(announcementNo);
         return new SimpleResult(i>0?true:false);
     }
+
+    @RequestMapping(value = "/upd")
+    public @ResponseBody SimpleResult upd(FAnnouncement fannouncement, HttpSession session){
+        FAdmin fAdmin =  (FAdmin)session.getAttribute("admin");
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+        fannouncement.setGroupCnname(fAdmin.getAdminName());
+        fannouncement.setAdminGroupNo(fAdmin.getAdminNo());
+        fannouncement.setUpdateTime(new Date());
+        int insert = fannouncementService.updateByPrimaryKeySelective(fannouncement);
+        return new SimpleResult(insert>0?true:false);
+    }
 }

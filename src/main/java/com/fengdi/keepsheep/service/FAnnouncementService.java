@@ -13,4 +13,6 @@ public interface FAnnouncementService {
     FAnnouncement selectByPrimaryKey(String announcementNo);
 
 	int deleteByPrimaryKey(String announcementNo);
+
+	int updateByPrimaryKeySelective(FAnnouncement record);
 }

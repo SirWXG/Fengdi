@@ -39,5 +39,10 @@ public class FAnnouncementImpl implements FAnnouncementService {
 		return fannouncementMapper.deleteByPrimaryKey(announcementNo);
 	}
 
+	@Override
+	public int updateByPrimaryKeySelective(FAnnouncement record) {
+		return fannouncementMapper.updateByPrimaryKeySelective(record);
+	}
+
 
 }
