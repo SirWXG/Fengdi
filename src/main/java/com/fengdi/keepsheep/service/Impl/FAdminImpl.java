@@ -27,7 +27,7 @@ public class FAdminImpl implements FAdminService{
 	@Autowired
 	private FAdminMapper fAdminMapper;
 
-	@Override
+
 	public List<FAdmin> checkLogin(Map<String, String> map) {
 		List<FAdmin> list = fAdminMapper.checkLogin(map);
 		return list;
@@ -38,7 +38,7 @@ public class FAdminImpl implements FAdminService{
 		return list;
 	}
 
-	@Override
+
 	public int updateAdminForLoginTime() {
 		Map<String,Object> map = new HashMap<String, Object>();
 		HttpServletRequest request=((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
@@ -55,13 +55,13 @@ public class FAdminImpl implements FAdminService{
 		return fAdminMapper.updateAdminForLoginTime(map);
 	}
 
-	@Override
+
 	public List<FAdmin> selectAdminByStatus(Map<String,Object> map) {
 		List<FAdmin> list = fAdminMapper.selectAdminByStatus(map);
 		return list;
 	}
 
-	@Override
+
 	public int insert(FAdmin fAdmin) {
 		fAdmin.setAdminNo(Random2Utils.buildSn("SHP"));
 		fAdmin.setPwd(Shiro.ToMD5(fAdmin.getLoginName(),fAdmin.getPwd()));

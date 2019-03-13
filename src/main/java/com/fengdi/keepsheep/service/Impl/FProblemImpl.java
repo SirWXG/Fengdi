@@ -1,14 +1,22 @@
 package com.fengdi.keepsheep.service.Impl;
 
+import java.util.Date;
 import java.util.List;
 
+import com.fengdi.keepsheep.bean.FAdmin;
 import com.fengdi.keepsheep.bean.FProblem;
 import com.fengdi.keepsheep.bean.FProblemExample;
 import com.fengdi.keepsheep.mapper.FProblemMapper;
+import org.apache.shiro.session.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fengdi.keepsheep.service.FProblemService;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 
 @Service
@@ -32,7 +40,23 @@ public class FProblemImpl implements FProblemService{
 		boolean deleteById = fProblemMapper.deleteById(id);
 		return deleteById;
 	}
-
+	/**
+	 * 添加
+	 */
+	public int insert(FProblem problem) {
+		HttpServletRequest request=((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+		HttpSession session=request.getSession();
+		FAdmin admin =(FAdmin) session.getAttribute("admin");
+		problem.setProblemNo(problem.getProblemNo());
+		problem.setProblemAnswers(problem.getProblemAnswers());
+		problem.setGroupCnname(admin.getLoginName());
+		problem.setAdminGroupNo(admin.getGroupNo());
+		problem.setStatus(problem.getStatus());
+		problem.setCreateTime(new Date());
+		problem.setUpdateTime(new Date());
+		int flag = fProblemMapper.insert(problem);
+		return flag;
+	}
 
 
 }

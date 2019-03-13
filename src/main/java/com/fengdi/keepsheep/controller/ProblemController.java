@@ -67,4 +67,31 @@ public class ProblemController {
 		String json = JSONArray.toJSONString(map);
 		return json;
 	}
+	/**
+	 * 增加
+	 * @return
+	 */
+	@RequestMapping(value = "/addProblem",method = RequestMethod.POST)
+	@ResponseBody
+	public SimpleResult addProblem(FProblem fProblem,HttpSession session){
+		SimpleResult result=new SimpleResult();
+		try {
+			FAdmin admin = (FAdmin) session.getAttribute("admin");
+			if (null==admin){
+				result.setErrCode("1");
+				result.setErrMsg("登录信息失效,请重新登录");
+				result.setSuccess(false);
+			}else{
+				result.setSuccess(true);
+				int insert = fProblemService.insert(fProblem);
+				if(insert<1){
+					result.setSuccess(false);
+					result.setErrMsg("添加失败,请重新添加");
+				}
+			}
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+		return result;
+	}
 }

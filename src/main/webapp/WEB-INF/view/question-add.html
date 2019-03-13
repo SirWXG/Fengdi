@@ -28,7 +28,7 @@
                 <span class="x-red">*</span>问题标题
             </label>
             <div class="layui-input-inline">
-                <input type="text" id="username" name="loginName" required="" lay-verify="required"
+                <input type="text" id="problem_no" name="problem_no" required="" lay-verify="required"
                        autocomplete="off" class="layui-input">
             </div>
 
@@ -38,7 +38,7 @@
                 <span class="x-red">*</span>问题答案
             </label>
             <div class="layui-input-inline">
-                <input type="text" id="phone" name="mobileNo" required="" lay-verify="phone"
+                <input type="text" id="problem_answers" name="problem_answers" required="" lay-verify="phone"
                        autocomplete="off" class="layui-input">
             </div>
 
@@ -48,9 +48,9 @@
                 <span class="x-red">*</span>状态
             </label>
             <div class="layui-input-inline">
-                <select>
-                    <option value="1">已启用</option>
-                    <option value="1">未启用</option>
+                <select id="status">
+                    <option value="1">已展示</option>
+                    <option value="0">未展示</option>
                 </select>
             </div>
 
@@ -58,7 +58,7 @@
 
         <div class="layui-form-item">
 
-            <button id="addAdmin"  class="layui-btn" lay-filter="add" lay-submit="">
+            <button id="addProblem"  class="layui-btn" lay-filter="add" lay-submit="">
                 增加
             </button>
         </div>
@@ -67,35 +67,26 @@
 <script>
 
     $(function () {
-        $("#addAdmin").click(function () {
-            var name = $("input[name='loginName']").val();
-            var phone =$("input[name='mobileNo']").val();
-            var email = $("input[name='email']").val();
-            var password = $("input[name='pwd']").val();
-            if (name==null||name.trim()<1){
-                alert("登录名不能为空");
+        $("#addProblem").click(function () {
+            var problem_no = $("input[name='problem_no']").val();
+            var problem_answers =$("input[name='problem_answers']").val();
+            var status = $('#status option:selected') .val();
+            if (problem_no==null||problem_no.trim()<1){
+                alert("问题标题不能为空");
                 return false;
             }
-            if(phone ==null||phone.trim()<1||((/^1[0-9]{10}&/).test(phone))){
-                alert("手机格式有误,请重新输入");
+            if (problem_answers==null||problem_answers.trim()<1){
+                alert("问题答案不能为空");
                 return false;
             }
-            if (email==null||email.trim()<1||((/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(\.[a-zA-Z0-9_-])+&/).test(email))){
-                alert("邮箱格式有误,请重新输入");
-                return false;
-            }
-            if (password==null||password.trim()<1||password.length<6||password.length>12){
-                alert("密码不能小于6位或者大于12位");
-                return false;
-            }
+
             $.ajax({
-                url:"/admin/addAdmin",
+                url:"/problem/addProblem",
                 type:"post",
                 data:{
-                    loginName:name,
-                    mobileNo:phone,
-                    email:email,
-                    pwd:password
+                    problemNo:problem_no,
+                    problemAnswers:problem_answers,
+                    status:status
                 },
                 success:function (data) {
                     if (data.success){
