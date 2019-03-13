@@ -39,14 +39,18 @@ public class AdminController {
                                  @RequestParam(name = "rows",defaultValue = "2")Integer rows,HttpSession session, Model model){
         SimpleResult result = new SimpleResult();
         try{
-            List<FAdmin> list = fAdminService.selectByExample(null);
             PageHelper.startPage(page,rows);
+            List<FAdmin> list = fAdminService.selectByExample(null);
             FAdmin fAdmin = (FAdmin)session.getAttribute("admin");
             if(null==fAdmin){
                 result.setErrCode("1");
                 result.setErrMsg("登录失效，请重新登录");
             }
             PageInfo<FAdmin> info = new PageInfo<FAdmin>(list,4);
+            List<FAdmin> fAdmins = info.getList();
+            for(FAdmin f : fAdmins){
+                System.out.println(f.getMobileNo());
+            }
             fAdminService.updateAdminForLoginTime();
             model.addAttribute("admin",info);
         }catch (Exception e) {
