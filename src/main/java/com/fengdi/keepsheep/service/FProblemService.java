@@ -10,4 +10,6 @@ public interface FProblemService {
 	public List<FProblem> selectByExample(FProblemExample fExample);
 
 	public boolean deleteById(Integer id);
+
+	public int insert(FProblem problem);
 }
