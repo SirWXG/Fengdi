@@ -8,4 +8,6 @@ import java.util.List;
 public interface FProblemService {
 
 	public List<FProblem> selectByExample(FProblemExample fExample);
+
+	public boolean deleteById(Integer id);
 }

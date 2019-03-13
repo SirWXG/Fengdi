@@ -20,10 +20,19 @@ public class FProblemImpl implements FProblemService{
 	/**
 	 * 查询所有问题请求
 	 */
-	@Override
+
 	public List<FProblem> selectByExample(FProblemExample fExample) {
 		List<FProblem> list = fProblemMapper.selectByExample(null);
 		return list;
 	}
+	/**
+	 * 根据ID删除
+	 */
+	public boolean deleteById(Integer id) {
+		boolean deleteById = fProblemMapper.deleteById(id);
+		return deleteById;
+	}
+
+
 
 }

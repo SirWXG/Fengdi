@@ -256,4 +256,8 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where problem_no = #{problemNo,jdbcType=VARCHAR}
   </update>
+
+  <delete id="deleteById">
+    delete from f_problem where id=#{id}
+  </delete>
 </mapper>
