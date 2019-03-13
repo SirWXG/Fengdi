@@ -39,6 +39,7 @@ public class AdminController {
                                  @RequestParam(name = "rows",defaultValue = "10")Integer rows,HttpSession session, Model model){
         SimpleResult result = new SimpleResult();
         try{
+            List<FAdmin> list = fAdminService.selectByExample(null);
             PageHelper.startPage(page,rows);
             FAdmin fAdmin = (FAdmin)session.getAttribute("admin");
             if(null==fAdmin){
@@ -46,7 +47,6 @@ public class AdminController {
                 result.setErrMsg("登录失效，请重新登录");
             }
             fAdminService.updateAdminForLoginTime();
-            List<FAdmin> list = fAdminService.selectByExample(null);
             PageInfo<FAdmin> info = new PageInfo<FAdmin>();
             model.addAttribute("admin",list);
         }catch (Exception e) {
@@ -80,9 +80,6 @@ public class AdminController {
             e.printStackTrace();
         }
         List<FAdmin> list = fAdminService.selectAdminByStatus(map);
-        for (FAdmin fAdmin: list) {
-            System.out.println(fAdmin.getLoginName());
-        }
         simpleResult.setData(list);
         model.addAttribute("admin",list);
         return simpleResult;
@@ -110,6 +107,40 @@ public class AdminController {
                     result.setSuccess(false);
                     result.setErrMsg("添加失败,请重新添加");
                 }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    @RequestMapping(value = "/selectAdminByAdminNo",method = RequestMethod.GET)
+    public String selectAdminByAdminNo(@RequestParam(name = "adminNo")String adminNo){
+        return "admin-edit";
+    }
+
+    /**
+     * 根据编号删除会员
+     * @param adminNo
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = "/deleteAdmin",method = RequestMethod.POST)
+    @ResponseBody
+    public SimpleResult deleteAdminByAdminNo(@RequestParam(name = "adminNo")String adminNo,HttpSession session){
+        SimpleResult result = new SimpleResult();
+        try{
+            FAdmin fAdmin = (FAdmin) session.getAttribute("admin");
+            if(null==fAdmin){
+                result.setErrCode("1");
+                result.setErrMsg("登录信息失效,请重新登录");
+            }
+            int flag = fAdminService.deleteAdminByAdminNo(adminNo);
+            if(flag<1){
+                result.setErrCode("1");
+                result.setErrMsg("删除失败,请重新删除");
+            }else{
+                result.setSuccess(true);
             }
         }catch (Exception e){
             e.printStackTrace();

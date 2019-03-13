@@ -45,7 +45,6 @@ public class FAdminImpl implements FAdminService{
 		try{
 			HttpSession session = request.getSession();
 			FAdmin fAdmin = (FAdmin)session.getAttribute("admin");
-			System.out.println(fAdmin.getAdminNo());
 			Date date = new Date();
 			map.put("loginTime",date);
 			map.put("adminNo",fAdmin.getAdminNo());
@@ -72,6 +71,16 @@ public class FAdminImpl implements FAdminService{
 		fAdmin.setSalt(fAdmin.getLoginName());
 		int flag = fAdminMapper.insert(fAdmin);
 		return flag;
+	}
+
+	@Override
+	public int deleteByPrimaryKey(String adminNo) {
+		return fAdminMapper.deleteByPrimaryKey(adminNo);
+	}
+
+	@Override
+	public int deleteAdminByAdminNo(String adminNo) {
+		return fAdminMapper.deleteAdminByAdminNo(adminNo);
 	}
 
 }

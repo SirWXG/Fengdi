@@ -30,26 +30,6 @@
       <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" href="javascript:location.replace(location.href);" title="刷新">
         <i class="layui-icon" style="line-height:30px">ဂ</i></a>
     </div>
-    
-    <script type="text/javascript">
-      $(function () {
-          $("#query").click(function () {
-              $.ajax({
-                  url:"/admin/selectAdminByStatus",
-                  type:"post",
-                  data:{
-                      loginTime:$("input[name='start']").val(),
-                      loginName:$("input[name='username']").val()
-                  },
-                  success:function (data) {
-                      if (data.success==true){
-                          alert(data.data);
-                      }
-                  }
-              });
-          });
-      })
-    </script>
     <div class="x-body">
       <div class="layui-row">
         <form class="layui-form layui-col-md12 x-so">
@@ -97,10 +77,10 @@
               <a onclick="member_stop(this,'10001')" href="javascript:;"  title="启用">
                 <i class="layui-icon">&#xe601;</i>
               </a>
-              <a title="编辑"  onclick="x_admin_show('编辑','admin-edit.html')" href="javascript:;">
+              <a title="编辑"  onclick="x_admin_show('编辑','/view/admin-edit')" href="javascript:;">
                 <i class="layui-icon">&#xe642;</i>
               </a>
-              <a title="删除" onclick="member_del(this,'要删除的id')" href="javascript:;">
+              <a title="删除" th:onclick="'javascript:member_del(\''+${admin.adminNo}+'\');'" href="javascript:;">
                 <i class="layui-icon">&#xe640;</i>
               </a>
             </td>
@@ -120,7 +100,46 @@
 
     </div>
     <script>
-      layui.use('laydate', function(){
+        $(function () {
+            $("#query").click(function () {
+                $.ajax({
+                    url:"/admin/selectAdminByStatus",
+                    type:"post",
+                    data:{
+                        loginTime:$("input[name='start']").val(),
+                        loginName:$("input[name='username']").val()
+                    },
+                    success:function (data) {
+                        if (data.success==true){
+                            alert(data.data);
+                        }
+                    }
+                });
+            });
+        })
+        function member_del(adminNo){
+            layer.confirm('确认要删除吗？',function(index){
+                //发异步删除数据
+                $.ajax({
+                    url:"/admin/deleteAdmin",
+                    type:"post",
+                    data:{
+                        adminNo:adminNo
+                    },
+                    success:function (data) {
+                        if (data.success){
+                            $(this).parents("tr").remove();
+                            layer.msg('已删除!',{icon:1,time:1000});
+                            window.location.reload();
+                        }else{
+                            layer.msg('删除失败',{icon:1,time:1000});
+                        }
+                    }
+                });
+            });
+        }
+
+        layui.use('laydate', function(){
         var laydate = layui.laydate;
         
         //执行一个laydate实例
@@ -159,13 +178,6 @@
       }
 
       /*用户-删除*/
-      function member_del(obj,id){
-          layer.confirm('确认要删除吗？',function(index){
-              //发异步删除数据
-              $(obj).parents("tr").remove();
-              layer.msg('已删除!',{icon:1,time:1000});
-          });
-      }
 
 
 

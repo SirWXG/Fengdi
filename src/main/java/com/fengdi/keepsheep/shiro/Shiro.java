@@ -1,21 +1,16 @@
 package com.fengdi.keepsheep.shiro;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import com.fengdi.keepsheep.bean.FAdmin;
-import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.AuthenticationInfo;
-import org.apache.shiro.authc.AuthenticationToken;
-import org.apache.shiro.authc.SimpleAuthenticationInfo;
-import org.apache.shiro.authc.UsernamePasswordToken;
+import com.fengdi.keepsheep.service.FAdminService;
+import org.apache.shiro.authc.*;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.realm.AuthenticatingRealm;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.fengdi.keepsheep.service.FAdminService;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class Shiro extends AuthenticatingRealm{
 
@@ -32,7 +27,6 @@ public class Shiro extends AuthenticatingRealm{
 		map.put("loginName", username);
 		map.put("password", ToMD5(username,pass));
 		List<FAdmin> list = fAdminService.checkLogin(map);
-		System.out.println(list.get(0).getLoginName()+"  "+list.get(0).getPwd());
 		SimpleAuthenticationInfo simpleAuthenticationInfo = new SimpleAuthenticationInfo(list.get(0).getLoginName(),
 				list.get(0).getPwd(), ByteSource.Util.bytes(username), getName());
 		return simpleAuthenticationInfo;
