@@ -9,4 +9,8 @@ public interface FAnnouncementService {
 	List<FAnnouncement> selectByExample();
 	
 	int insert(FAnnouncement record);
+
+    FAnnouncement selectByPrimaryKey(String announcementNo);
+
+	int deleteByPrimaryKey(String announcementNo);
 }

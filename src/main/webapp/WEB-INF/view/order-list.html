@@ -95,13 +95,13 @@
           <td th:text="${s.announcementName}"></td>
           <td th:text="${s.groupCnname}"></td>
           <td th:text="${s.adminGroupNo}"></td>
-          <td th:text="${#dates.format(s.createTime,'yyyy-MM-dd')}"</td>
+          <td th:text="${#dates.format(s.createTime,'yyyy-MM-dd')}"></td>
           <td th:text="${#dates.format(s.updateTime,'yyyy-MM-dd')}"></td>
-            <td class="td-manage">
-              <a title="查看"  onclick="x_admin_show('编辑','order-view.html')" href="javascript:;">
+          <td class="td-manage">
+              <a title="查看"  th:onclick="'javascript:member_getNo(\''+${s.announcementNo}+'\');'" href="javascript:;">
                 <i class="layui-icon">&#xe63c;</i>
               </a>
-              <a title="删除" onclick="member_del(this,'要删除的id')" href="javascript:;">
+              <a title="删除" th:onclick="'javascript:member_del(\''+${s.announcementNo}+'\');'" href="javascript:;">
                 <i class="layui-icon">&#xe640;</i>
               </a>
             </td>
@@ -121,6 +121,46 @@
 
     </div>
     <script>
+
+        function member_del(announcementNo){
+            layer.confirm('确认要删除吗？',function(index){
+                //发异步删除数据
+                $.ajax({
+                    url:"/fannouncementService/delannouncementNo",
+                    type:"post",
+                    data:{
+                        announcementNo:announcementNo
+                    },
+                    success:function (data) {
+                        if (data.success){
+                            $(this).parents("tr").remove();
+                            layer.msg('已删除!',{icon:1,time:5000});
+                            window.location.reload();
+                        }else{
+                            layer.msg('删除失败',{icon:1,time:1000});
+                        }
+                    }
+                });
+            });
+        }
+
+        function member_getNo(announcementNo){
+                $.ajax({
+                    url:"/fannouncementService/getannouncementNo",
+                    type:"post",
+                    data:{
+                        announcementNo:announcementNo
+                    },
+                    success:function (data) {
+                        if (data.success){
+                            x_admin_show('编辑','/view/order-view');
+                        }else{
+                            layer.msg('删除失败',{icon:1,time:1000});
+                        }
+                    }
+                });
+        }
+
       layui.use('laydate', function(){
         var laydate = layui.laydate;
         
@@ -159,14 +199,7 @@
           });
       }
 
-      /*用户-删除*/
-      function member_del(obj,id){
-          layer.confirm('确认要删除吗？',function(index){
-              //发异步删除数据
-              $(obj).parents("tr").remove();
-              layer.msg('已删除!',{icon:1,time:1000});
-          });
-      }
+
 
 
 

@@ -28,6 +28,16 @@ public class FAnnouncementImpl implements FAnnouncementService {
 		record.setAnnouncementNo(Random2Utils.buildSn("SHP"));
 		return fannouncementMapper.insert(record);
 	}
-	
-	
+
+	@Override
+	public FAnnouncement selectByPrimaryKey(String announcementNo) {
+		return fannouncementMapper.selectByPrimaryKey(announcementNo);
+	}
+
+	@Override
+	public int deleteByPrimaryKey(String announcementNo) {
+		return fannouncementMapper.deleteByPrimaryKey(announcementNo);
+	}
+
+
 }
