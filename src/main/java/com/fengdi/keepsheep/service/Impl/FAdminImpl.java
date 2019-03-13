@@ -83,4 +83,9 @@ public class FAdminImpl implements FAdminService{
 		return fAdminMapper.deleteAdminByAdminNo(adminNo);
 	}
 
+	@Override
+	public int updateAdminStatus(Map<String, String> map) {
+		return fAdminMapper.updateAdminStatus(map);
+	}
+
 }

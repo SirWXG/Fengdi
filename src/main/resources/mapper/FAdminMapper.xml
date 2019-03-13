@@ -503,8 +503,13 @@
     </where>
   </select>
 
+  <!--通过编号删除用户-->
   <delete id="deleteAdminByAdminNo" parameterType="string">
     DELETE FROM f_admin WHERE admin_no=#{adminNo}
   </delete>
+  <!--更新用户状态-->
+  <update id="updateAdminStatus" parameterType="map">
+    UPDATE f_admin SET status=#{status} WHERE admin_no=#{adminNo}
+  </update>
 
 </mapper>

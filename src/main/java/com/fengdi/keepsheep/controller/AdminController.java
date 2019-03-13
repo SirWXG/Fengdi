@@ -36,7 +36,7 @@ public class AdminController {
      */
     @RequestMapping(value = "/selectAllAdmin")
     public String selectAllAdmin(@RequestParam(name = "page",defaultValue = "1")Integer page,
-                                 @RequestParam(name = "rows",defaultValue = "10")Integer rows,HttpSession session, Model model){
+                                 @RequestParam(name = "rows",defaultValue = "2")Integer rows,HttpSession session, Model model){
         SimpleResult result = new SimpleResult();
         try{
             List<FAdmin> list = fAdminService.selectByExample(null);
@@ -46,9 +46,9 @@ public class AdminController {
                 result.setErrCode("1");
                 result.setErrMsg("登录失效，请重新登录");
             }
+            PageInfo<FAdmin> info = new PageInfo<FAdmin>(list,4);
             fAdminService.updateAdminForLoginTime();
-            PageInfo<FAdmin> info = new PageInfo<FAdmin>();
-            model.addAttribute("admin",list);
+            model.addAttribute("admin",info);
         }catch (Exception e) {
             e.printStackTrace();
         }
@@ -148,9 +148,31 @@ public class AdminController {
         return result;
     }
 
-    @RequestMapping(value = "/updateAdminStatus")
-    public SimpleResult updateAdminStatus(){
-        return null;
+    @RequestMapping(value = "/updateAdminStatus",method = RequestMethod.POST)
+    @ResponseBody
+    public SimpleResult updateAdminStatus(@RequestParam(name = "adminNo")String adminNo,@RequestParam(name = "status")String status,HttpSession session){
+        SimpleResult result = new SimpleResult();
+        try{
+           FAdmin fAdmin = (FAdmin)session.getAttribute("admin");
+           if(null==fAdmin){
+               result.setErrCode("1");
+               result.setErrMsg("登录信息失效,请重新登录");
+           }else{
+               Map<String,String> map = new HashMap<String, String>();
+               map.put("adminNo",adminNo);
+               map.put("status",status);
+               int flag = fAdminService.updateAdminStatus(map);
+               if(flag<1){
+                   result.setErrCode("1");
+                   result.setErrMsg("更新失败,请重新操作");
+               }else{
+                   result.setSuccess(true);
+               }
+           }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return result;
     }
 
 }

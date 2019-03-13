@@ -49,4 +49,12 @@ public interface FAdminService {
 	 * @return
 	 */
 	int deleteAdminByAdminNo(String adminNo);
+
+
+	/**
+	 * 更改会员状态
+	 * @param map
+	 * @return
+	 */
+	int updateAdminStatus(Map<String,String>map);
 }

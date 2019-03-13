@@ -60,7 +60,7 @@
             <th>操作</th>
         </thead>
         <tbody>
-          <tr th:each="admin:${admin}">
+          <tr th:each="admin:${admin.list}">
             <td>
               <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='2'><i class="layui-icon">&#xe605;</i></div>
             </td>
@@ -80,10 +80,10 @@
               <a th:onclick="'javascript:member_stop(this,\''+${admin.adminNo}+'\')'" href="javascript:;"  title="启用">
                 <i class="layui-icon">&#xe601;</i>
               </a>
-              <a title="编辑"  onclick="x_admin_show('编辑','/view/admin-edit')" href="javascript:;">
+              <a title="编辑"  th:onclick="'javascript:x_admin_show(编辑,\''+'/view/admin-edit'+'\')'" href="javascript:;">
                 <i class="layui-icon">&#xe642;</i>
               </a>
-              <a title="删除" th:onclick="'javascript:member_del(\''+${admin.adminNo}+'\');'" href="javascript:;">
+              <a title="删除" th:onclick="'javascript:member_del(this,\''+${admin.adminNo}+'\');'" href="javascript:;">
                 <i class="layui-icon">&#xe640;</i>
               </a>
             </td>
@@ -121,7 +121,7 @@
                 });
             });
         })
-        function member_del(adminNo){
+        function member_del(obj,adminNo){
             layer.confirm('确认要删除吗？',function(index){
                 //发异步删除数据
                 $.ajax({
@@ -132,9 +132,8 @@
                     },
                     success:function (data) {
                         if (data.success){
-                            $(this).parents("tr").remove();
-                            layer.msg('已删除!',{icon:1,time:5000});
-                            window.location.reload();
+                            $(obj).parents("tr").remove();
+                            layer.msg('已删除!',{icon:1,time:1000});
                         }else{
                             layer.msg('删除失败',{icon:1,time:1000});
                         }
@@ -191,7 +190,7 @@
                           if (data.success){
                               $(obj).attr('title','启用')
                               $(obj).find('i').html('&#xe601;');
-                              $(obj).parents("tr").find(".td-status").find('span').removeClass('layui-btn-disabled').html('正常');
+                              $(obj).parents("tr").find(".td-status").find('span').removeClass('layui-btn-disabled').addClass("layui-btn-normal layui-btn-mini").html('正常');
                               layer.msg('正常!',{icon: 5,time:1000});
                           }else{
                               layer.msg('操作失败',{icon:5,time:1000});
