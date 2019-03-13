@@ -93,12 +93,10 @@
 
       <div  class="page">
         <div>
-          <a class="prev" href="">&lt;&lt;</a>
-          <a class="num" href="">1</a>
-          <span class="current">2</span>
-          <a class="num" href="">3</a>
-          <a class="num" href="">489</a>
-          <a class="next" href="">&gt;&gt;</a>
+          <a class="prev" th:href="@{'/admin/selectAllAdmin?page='+${admin.isFirstPage?1:admin.prePage}}">&lt;&lt;</a>
+          <a th:each="arrays:${admin.navigatepageNums}" th:class="${arrays==pageNum?'layui-btn-normal':''}"
+             th:text="${arrays}" th:href="@{'/admin/selectAllAdmin?page='+${arrays}}">1</a>
+          <a class="next" th:href="@{'/admin/selectAllAdmin?page='+${admin.isLastPage?admin.pages:admin.nextPage}}">&gt;&gt;</a>
         </div>
       </div>
 
