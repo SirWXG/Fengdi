@@ -23,6 +23,15 @@
   <body>
     <div class="x-body">
         <form class="layui-form">
+            <div class="layui-form-item">
+                <label for="username" class="layui-form-label">
+                    <span class="x-red">*</span>真实姓名
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" id="adminName" name="adminName" required="" lay-verify="required"
+                           autocomplete="off" class="layui-input">
+                </div>
+            </div>
           <div class="layui-form-item">
               <label for="username" class="layui-form-label">
                   <span class="x-red">*</span>登录名
@@ -97,6 +106,11 @@
                 var phone =$("input[name='mobileNo']").val();
                 var email = $("input[name='email']").val();
                 var password = $("input[name='pwd']").val();
+                var adminName = $("input[name='adminName']").val();
+                if(adminName==null||name.trim()<1){
+                    alert("真实姓名不能为空");
+                    return false;
+                }
                 if (name==null||name.trim()<1){
                     alert("登录名不能为空");
                     return false;
@@ -117,6 +131,7 @@
                     url:"/admin/addAdmin",
                     type:"post",
                     data:{
+                        adminName:adminName,
                         loginName:name,
                         mobileNo:phone,
                         email:email,
@@ -129,6 +144,7 @@
                                 var index = parent.layer.getFrameIndex(window.name);
                                 //关闭当前frame
                                 parent.layer.close(index);
+                                parent.window.location.href="/admin/selectAllAdmin";
                             });
                         }else{
                             alert("添加失败,请重新添加");

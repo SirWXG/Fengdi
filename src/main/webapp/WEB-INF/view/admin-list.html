@@ -72,9 +72,12 @@
             <td th:text="${#dates.format(admin.loginTime,'yyyy-MM-dd hh:mm:ss')}"></td>
             <td th:text="${#dates.format(admin.createTime,'yyyy-MM-dd hh:mm:ss')}"></td>
             <td class="td-status">
-              <span class="layui-btn layui-btn-normal layui-btn-mini">已启用</span></td>
+              <span th:class="${admin.status=='common'?'layui-btn layui-btn-normal layui-btn-mini':'layui-btn layui-btn-disabled'}"
+               th:text="${admin.status=='common'}?'正常':'冻结'">
+              </span>
+            </td>
             <td class="td-manage">
-              <a onclick="member_stop(this,'10001')" href="javascript:;"  title="启用">
+              <a th:onclick="'javascript:member_stop(this,\''+${admin.adminNo}+'\')'" href="javascript:;"  title="启用">
                 <i class="layui-icon">&#xe601;</i>
               </a>
               <a title="编辑"  onclick="x_admin_show('编辑','/view/admin-edit')" href="javascript:;">
@@ -87,6 +90,7 @@
           </tr>
         </tbody>
       </table>
+
       <div class="page">
         <div>
           <a class="prev" href="">&lt;&lt;</a>
@@ -129,7 +133,7 @@
                     success:function (data) {
                         if (data.success){
                             $(this).parents("tr").remove();
-                            layer.msg('已删除!',{icon:1,time:1000});
+                            layer.msg('已删除!',{icon:1,time:5000});
                             window.location.reload();
                         }else{
                             layer.msg('删除失败',{icon:1,time:1000});
@@ -155,23 +159,46 @@
 
        /*用户-停用*/
       function member_stop(obj,id){
-          layer.confirm('确认要停用吗？',function(index){
-
+          layer.confirm('确认要操作吗？',function(index){
               if($(obj).attr('title')=='启用'){
-
-                //发异步把用户状态进行更改
-                $(obj).attr('title','停用')
-                $(obj).find('i').html('&#xe62f;');
-
-                $(obj).parents("tr").find(".td-status").find('span').addClass('layui-btn-disabled').html('已停用');
-                layer.msg('已停用!',{icon: 5,time:1000});
-
+                  $.ajax({
+                      url:"/admin/updateAdminStatus",
+                      type:"post",
+                      data:{
+                          adminNo:id,
+                          status:"break"
+                      },
+                      success:function (data) {
+                          if (data.success){
+                              $(obj).attr('title','停用')
+                              $(obj).find('i').html('&#xe62f;');
+                              $(obj).parents("tr").find(".td-status").find('span').addClass('layui-btn-disabled').html('冻结');
+                              layer.msg('冻结!',{icon: 5,time:1000});
+                          }else{
+                              layer.msg('冻结失败,请重新操作',{icon:5,time:1000});
+                          }
+                      }
+                  });
               }else{
-                $(obj).attr('title','启用')
-                $(obj).find('i').html('&#xe601;');
+                  $.ajax({
+                      url:"/admin/updateAdminStatus",
+                      type:"post",
+                      data:{
+                          adminNo:id,
+                          status:"common"
+                      },
+                      success:function (data) {
+                          if (data.success){
+                              $(obj).attr('title','启用')
+                              $(obj).find('i').html('&#xe601;');
+                              $(obj).parents("tr").find(".td-status").find('span').removeClass('layui-btn-disabled').html('正常');
+                              layer.msg('正常!',{icon: 5,time:1000});
+                          }else{
+                              layer.msg('操作失败',{icon:5,time:1000});
+                          }
+                      }
 
-                $(obj).parents("tr").find(".td-status").find('span').removeClass('layui-btn-disabled').html('已启用');
-                layer.msg('已启用!',{icon: 5,time:1000});
+                  });
               }
               
           });

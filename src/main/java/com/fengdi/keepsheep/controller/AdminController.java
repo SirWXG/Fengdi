@@ -148,4 +148,9 @@ public class AdminController {
         return result;
     }
 
+    @RequestMapping(value = "/updateAdminStatus")
+    public SimpleResult updateAdminStatus(){
+        return null;
+    }
+
 }
