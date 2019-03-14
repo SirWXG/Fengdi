@@ -222,4 +222,32 @@ public class FAdmin {
     public void setScore(Double score) {
         this.score = score;
     }
+
+    @Override
+    public String toString() {
+        return "FAdmin{" +
+                "adminNo='" + adminNo + '\'' +
+                ", id=" + id +
+                ", nickname='" + nickname + '\'' +
+                ", adminName='" + adminName + '\'' +
+                ", cardid='" + cardid + '\'' +
+                ", loginName='" + loginName + '\'' +
+                ", pwd='" + pwd + '\'' +
+                ", salt='" + salt + '\'' +
+                ", mobileNo='" + mobileNo + '\'' +
+                ", isLoginMobile=" + isLoginMobile +
+                ", adminLevel=" + adminLevel +
+                ", email='" + email + '\'' +
+                ", loginIp='" + loginIp + '\'' +
+                ", loginTime=" + loginTime +
+                ", status='" + status + '\'' +
+                ", parentAdminNo='" + parentAdminNo + '\'' +
+                ", groupNo='" + groupNo + '\'' +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                ", merchantNo='" + merchantNo + '\'' +
+                ", foundName='" + foundName + '\'' +
+                ", score=" + score +
+                '}';
+    }
 }

@@ -80,7 +80,7 @@
               <a th:onclick="'javascript:member_stop(this,\''+${admin.adminNo}+'\')'" href="javascript:;"  th:title="${admin.status=='common'?'启用':'停用'}">
                 <i class="layui-icon">&#xe601;</i>
               </a>
-              <a title="编辑"  th:onclick="'javascript:x_admin_show(编辑,\''+'/view/admin-edit'+'\')'" href="javascript:;">
+              <a title="编辑"  th:onclick="'javascript:member_getNo(\''+${admin.adminNo}+'\');'" href="javascript:;">
                 <i class="layui-icon">&#xe642;</i>
               </a>
               <a title="删除" th:onclick="'javascript:member_del(this,\''+${admin.adminNo}+'\');'" href="javascript:;">
@@ -205,6 +205,23 @@
                         }
                     }
                 });
+            });
+        }
+
+        function member_getNo(adminNo){
+            $.ajax({
+                url:"/admin/selectAdminByAdminNo",
+                type:"post",
+                data:{
+                    adminNo:adminNo
+                },
+                success:function (data) {
+                    if (data.success){
+                        x_admin_show('编辑','/view/admin-edit');
+                    }else{
+                        layer.msg('查询失败',{icon:1,time:1000});
+                    }
+                }
             });
         }
 

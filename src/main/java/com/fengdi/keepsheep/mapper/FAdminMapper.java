@@ -39,4 +39,6 @@ public interface FAdminMapper {
     int deleteAdminByAdminNo(String adminNo);
 
     int updateAdminStatus(Map<String,String>map);
+
+    List<FAdmin> selectAdminByAdminNo(String adminNo);
 }
