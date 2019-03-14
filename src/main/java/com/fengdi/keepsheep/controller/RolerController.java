@@ -1,8 +1,8 @@
 package com.fengdi.keepsheep.controller;
 
 import com.fengdi.keepsheep.bean.FAdmin;
-import com.fengdi.keepsheep.bean.FAdminGroup;
 import com.fengdi.keepsheep.service.FAdminGroupService;
+import com.fengdi.keepsheep.util.AuthorizeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,8 +34,8 @@ public class RolerController {
     public String selectAllRoler(HttpSession session, Model model){
         try{
             FAdmin fAdmin = (FAdmin)session.getAttribute("admin");
-            List<FAdminGroup> list = fAdminGroupService.selectAllRoler();
-            System.out.println("111");
+            List<AuthorizeUtils> list = fAdminGroupService.selectAllRoler();
+            model.addAttribute("auth",list);
         }catch (Exception e){
             e.printStackTrace();
         }

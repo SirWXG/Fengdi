@@ -62,27 +62,22 @@ public class AdminController {
      */
     @RequestMapping(value ="/selectAdminByStatus",method = RequestMethod.POST)
     @ResponseBody
-    public SimpleResult selectAdmin(@RequestParam(name = "loginTime")String loginTime,
-                                    @RequestParam(name = "loginName")String loginName,Model model,HttpSession session){
-        SimpleResult simpleResult = new SimpleResult();
+    public PageInfo<FAdmin> selectAdmin(@RequestParam(name = "realName",defaultValue = "")String realName,
+                                    @RequestParam(name = "loginName",defaultValue = "")String loginName,
+                                    @RequestParam(name = "page",defaultValue = "1")Integer page,
+                                    @RequestParam(name = "rows",defaultValue = "10")Integer rows,Model model,HttpSession session){
         Map<String,Object> map = new HashMap<String, Object>();
         try{
             FAdmin fAdmin = (FAdmin)session.getAttribute("admin");
-            if(null==fAdmin){
-                simpleResult.setErrCode("1");
-                simpleResult.setErrMsg("登录信息失效，请重新登录");
-                simpleResult.setSuccess(false);
-            }else{
-                simpleResult.setSuccess(true);
-            }
             map.put("loginName",loginName);
+            map.put("adminName",realName);
         }catch (Exception e){
             e.printStackTrace();
         }
+        PageHelper.startPage(page,rows);
         List<FAdmin> list = fAdminService.selectAdminByStatus(map);
-        simpleResult.setData(list);
-        model.addAttribute("admin",list);
-        return simpleResult;
+        PageInfo<FAdmin> info = new PageInfo<FAdmin>(list,4);
+        return info;
     }
 
     /**

@@ -34,8 +34,8 @@
     <div class="x-body">
       <div class="layui-row">
         <form class="layui-form layui-col-md12 x-so">
-          <input class="layui-input" placeholder="登录日期" name="start" id="start">
-          <input type="text" name="username"  placeholder="请输入用户名" autocomplete="off" class="layui-input">
+          <input type="text" name="realName"  placeholder="请输入真实姓名" autocomplete="off" class="layui-input">
+          <input type="text" name="loginName"  placeholder="请输入用户名" autocomplete="off" class="layui-input">
           <button class="layui-btn" id="query"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
         </form>
       </div>
@@ -59,7 +59,7 @@
             <th>状态</th>
             <th>操作</th>
         </thead>
-        <tbody>
+        <tbody id="tbodys">
           <tr th:each="admin:${admin.list}">
             <td>
               <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='2'><i class="layui-icon">&#xe605;</i></div>
@@ -90,7 +90,7 @@
           </tr>
         </tbody>
       </table>
-      <div align="center">
+      <div id="divPage" align="center">
       <nav aria-label="Page navigation">
         <ul class="pagination">
           <li>
@@ -108,25 +108,85 @@
         </ul>
       </nav>
       </div>
+      <div class="page">
+      </div>
     </div>
     <script>
         $(function () {
             $("#query").click(function () {
-                $.ajax({
-                    url:"/admin/selectAdminByStatus",
-                    type:"post",
-                    data:{
-                        loginTime:$("input[name='start']").val(),
-                        loginName:$("input[name='username']").val()
-                    },
-                    success:function (data) {
-                        if (data.success==true){
-                            alert(data.data);
-                        }
-                    }
-                });
+                getAjax(1);
+                return false;
             });
         })
+
+        function getAjax(data) {
+            $.ajax({
+                url:"/admin/selectAdminByStatus",
+                type:"post",
+                data:{
+                    page:data,
+                    realName:$("input[name='realName']").val(),
+                    loginName:$("input[name='loginName']").val()
+                },
+                success:function (data) {
+                    eachData(data.list);
+                    eachPage(data);
+                }
+            });
+        }
+
+        function eachPage(data) {
+            $("#divPage").empty();
+            $(".page").empty();
+
+            var $prev = $("<a>").addClass("prev").attr("href","/admin/selectAdminByStatus?page="+data.isFirstPage?1:data.prePage+"&&realName="+$("input[name='realName']").val()+"&&loginName="+$("input[name='loginName']").val()).html("&lt;&lt;");
+            var $next = $("<a>").addClass("next").attr("href","/admin/selectAdminByStatus?page="+data.isNextPage?data.pages:data.nextPage+"&&realName="+$("input[name='realName']").val()+"&&loginName="+$("input[name='loginName']").val()).html("&gt;&gt;");
+            var $divc = $("<div>").append($prev);
+            $.each(data.navigatepageNums,function (index,items) {
+                if (items==data.pageNum){
+                    var $spans = $("<span>").addClass("current").html(items);
+                    $divc.append($spans);
+                }else{
+                    var $as = $("<a>").addClass("num").attr("href","/admin/selectAdminByStatus?page="+items+"&&realName="+$("input[name='realName']").val()+"&&loginName="+$("input[name='loginName']").val()).html(items);
+                    $divc.append($as)
+                }
+            })
+            $divc.append($next);
+            $(".page").append($divc);
+        }
+
+        function eachData(result) {
+            $("#tbodys").empty();
+            $.each(result,function (index,items) {
+                var $divs = $("<div>").addClass("layui-unselect layui-form-checkbox").attr("lay-skin","primary").attr("data-id","2");
+                var $i = $("<i>").addClass("layui-icon").html("&#xe605;");
+                var $tdd = $("<td>").append($divs.append($i));
+                <!-- 遍历数据 -->
+                var $adminNo = $("<td>").html(items.adminNo);
+                var $adminName = $("<td>").html(items.adminName);
+                var $loginName = $("<td>").html(items.loginName);
+                var $mobileNo = $("<td>").html(items.mobileNo);
+                var $loginIp = $("<td>").html(items.loginIp);
+                var $loginTime = $("<td>").html(items.loginTime);
+                var $createTime = $("<td>").html(items.createTime);
+                <!--状态栏-->
+                var $status = $("<span>").addClass(items.status=='common'?'layui-btn layui-btn-normal layui-btn-mini':'layui-btn layui-btn-disabled').html(items.status=='common'?'正常':'冻结');
+                var $td_status = $("<td>").addClass("td-status").append($status);
+                <!--操作栏-->
+                var $a1 = $("<a>").attr("onclick","member_stop(this,'"+items.adminNo+"')").attr("href","javascript:;").attr("title",items.status=='common'?'启用':'停用');
+                var $i1 = $("<i>").addClass("layui-icon").html("&#xe601;");
+                var $a2 = $("<a>").attr("title","编辑").attr("onclick","x_admin_show(编辑,'/view/admin-edit')").attr("href","javascript:;");
+                var $i2 = $("<i>").addClass("layui-icon").html("&#xe642;");
+                var $a3 = $("<a>").attr("title","删除").attr("onclick","member_del(this,'"+result.adminNo+"')").attr("href","javascript:;");
+                var $i3 = $("<i>").addClass("layui-icon").html("&#xe640;");
+                var $td_manage = $("<td>").addClass("td-manage").append($a1.append($i1)).append($a2.append($i2)).append($a3.append($i3));
+                var $tr = $("<tr>").append($tdd).append($adminNo).append($adminName).
+                append($loginName).append($mobileNo).append($loginIp).
+                append($loginTime).append($createTime).append($td_status).append($td_manage);
+                $("#tbodys").append($tr);
+            })
+        }
+
         function member_del(obj,adminNo){
             layer.confirm('确认要删除吗？',function(index){
                 //发异步删除数据

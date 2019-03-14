@@ -1,6 +1,6 @@
 package com.fengdi.keepsheep.service;
 
-import com.fengdi.keepsheep.bean.FAdminGroup;
+import com.fengdi.keepsheep.util.AuthorizeUtils;
 
 import java.util.List;
 
@@ -13,5 +13,5 @@ public interface FAdminGroupService {
      * 查询所有角色
      * @return
      */
-    List<FAdminGroup> selectAllRoler();
+    List<AuthorizeUtils> selectAllRoler();
 }
