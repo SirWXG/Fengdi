@@ -49,5 +49,15 @@ public class FAnnouncementImpl implements FAnnouncementService {
 		return fannouncementMapper.updatestauts(announcementNo,status);
 	}
 
+	@Override
+	public int countByExample() {
+		return fannouncementMapper.countByExample(new FAnnouncementExample());
+	}
+
+	@Override
+	public List<FAnnouncement> selectByMhcx(String announcementName) {
+		return fannouncementMapper.selectByMhcx(announcementName);
+	}
+
 
 }

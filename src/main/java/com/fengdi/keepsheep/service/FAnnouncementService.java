@@ -1,6 +1,7 @@
 package com.fengdi.keepsheep.service;
 
 import com.fengdi.keepsheep.bean.FAnnouncement;
+import com.fengdi.keepsheep.bean.FAnnouncementExample;
 
 import java.util.List;
 
@@ -17,4 +18,8 @@ public interface FAnnouncementService {
 	int updateByPrimaryKeySelective(FAnnouncement record);
 
 	int updatestauts(String announcementNo,String status);
+
+	int countByExample();
+
+	List<FAnnouncement> selectByMhcx(String announcementName);
 }

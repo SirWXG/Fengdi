@@ -29,4 +29,6 @@ public interface FAnnouncementMapper {
     int updateByPrimaryKey(FAnnouncement record);
 
     int updatestauts(@Param("announcementNo")String announcementNo,@Param("status")String status);
+
+    List<FAnnouncement> selectByMhcx(String announcementName);
 }

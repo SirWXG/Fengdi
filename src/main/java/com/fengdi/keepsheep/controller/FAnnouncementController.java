@@ -10,6 +10,8 @@ import javax.servlet.http.HttpSession;
 
 import com.fengdi.keepsheep.bean.FAdmin;
 import com.fengdi.keepsheep.bean.FAnnouncement;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -22,11 +24,16 @@ import com.fengdi.keepsheep.util.SimpleResult;
 public class FAnnouncementController {
 	@Resource
 	private FAnnouncementService fannouncementService;
-	
+
 	@RequestMapping("/getall")
-	public String getallFAnnouncement(Model model){
+	public String getallFAnnouncement(@RequestParam(name = "page",defaultValue = "1")Integer page,
+                                      @RequestParam(name = "rows",defaultValue = "10")Integer rows,Model model){
+        PageHelper.startPage(page,rows);
 		List<FAnnouncement> selectByExample = fannouncementService.selectByExample();
-		model.addAttribute("selectByExample", selectByExample);
+        int i = fannouncementService.countByExample();
+        PageInfo<FAnnouncement> info = new PageInfo<FAnnouncement>(selectByExample,4);
+		model.addAttribute("selectByExample", info);
+		model.addAttribute("i",i);
 		return "order-list";
 		
 	}
@@ -73,5 +80,16 @@ public class FAnnouncementController {
     public @ResponseBody SimpleResult stop(String announcementNo,String status){
         int insert = fannouncementService.updatestauts(announcementNo,status);
         return new SimpleResult(insert>0?true:false);
+    }
+
+    @RequestMapping("/selectByMhcx")
+    public String selectByMhcx(@RequestParam(name = "page",defaultValue = "1")Integer page,
+                                      @RequestParam(name = "rows",defaultValue = "10")Integer rows,Model model,String announcementName){
+        PageHelper.startPage(page,rows);
+        List<FAnnouncement> selectByMhcx = fannouncementService.selectByMhcx(announcementName);
+        PageInfo<FAnnouncement> info = new PageInfo<FAnnouncement>(selectByMhcx,4);
+        model.addAttribute("selectByExample", info);
+        return "order-list";
+
     }
 }
