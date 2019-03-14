@@ -4,21 +4,23 @@ import com.fengdi.keepsheep.bean.FService;
 
 import java.util.List;
 
-public interface Fservice {
+public interface Fsservice {
 
     List<FService> selectByExample();
 
-    int insert(Fservice record);
+    int insert(FService record);
 
-    Fservice selectByPrimaryKey(String announcementNo);
+    FService selectByPrimaryKey(String announcementNo);
 
     int deleteByPrimaryKey(String announcementNo);
 
-    int updateByPrimaryKeySelective(Fservice record);
+    int updateByPrimaryKeySelective(FService record);
 
     int updatestauts(String announcementNo,String status);
 
     int countByExample();
 
-    List<Fservice> selectByMhcx(String announcementName);
+    List<FService> selectByMhcx(String announcementName);
+
+    List<FService> selectByservicelevel();
 }

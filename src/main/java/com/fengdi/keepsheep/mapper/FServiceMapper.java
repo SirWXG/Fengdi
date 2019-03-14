@@ -1,8 +1,9 @@
 package com.fengdi.keepsheep.mapper;
 
+import java.util.List;
+
 import com.fengdi.keepsheep.bean.FService;
 import com.fengdi.keepsheep.bean.FServiceExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 public interface FServiceMapper {
@@ -20,7 +21,7 @@ public interface FServiceMapper {
 
     List<FService> selectByExample(FServiceExample example);
 
-    FService selectByPrimaryKey(Integer serviceNo);
+    FService selectByPrimaryKey(String serviceNo);
 
     int updateByExampleSelective(@Param("record") FService record, @Param("example") FServiceExample example);
 
@@ -33,4 +34,6 @@ public interface FServiceMapper {
     int updateByPrimaryKeyWithBLOBs(FService record);
 
     int updateByPrimaryKey(FService record);
+
+    List<FService> selectByservicelevel();
 }

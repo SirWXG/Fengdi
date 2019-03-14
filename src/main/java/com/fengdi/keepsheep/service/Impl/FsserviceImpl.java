@@ -4,7 +4,7 @@ package com.fengdi.keepsheep.service.Impl;
 import com.fengdi.keepsheep.bean.FService;
 import com.fengdi.keepsheep.bean.FServiceExample;
 import com.fengdi.keepsheep.mapper.FServiceMapper;
-import com.fengdi.keepsheep.service.Fservice;
+import com.fengdi.keepsheep.service.Fsservice;
 import com.fengdi.keepsheep.util.Random2Utils;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +12,7 @@ import javax.annotation.Resource;
 import java.util.List;
 
 @Service
-public class FserviceImpl implements Fservice {
+public class FsserviceImpl implements Fsservice {
 
     @Resource
     private FServiceMapper fserviceMapper;
@@ -23,12 +23,13 @@ public class FserviceImpl implements Fservice {
     }
 
     @Override
-    public int insert(Fservice record) {
-        return 0;
+    public int insert(FService record) {
+        record.setServiceNo(Random2Utils.buildSn("SHP"));
+        return fserviceMapper.insert(record);
     }
 
     @Override
-    public Fservice selectByPrimaryKey(String announcementNo) {
+    public FService selectByPrimaryKey(String announcementNo) {
         return null;
     }
 
@@ -38,7 +39,7 @@ public class FserviceImpl implements Fservice {
     }
 
     @Override
-    public int updateByPrimaryKeySelective(Fservice record) {
+    public int updateByPrimaryKeySelective(FService record) {
         return 0;
     }
 
@@ -53,7 +54,12 @@ public class FserviceImpl implements Fservice {
     }
 
     @Override
-    public List<Fservice> selectByMhcx(String announcementName) {
+    public List<FService> selectByMhcx(String announcementName) {
         return null;
+    }
+
+    @Override
+    public List<FService> selectByservicelevel() {
+        return fserviceMapper.selectByservicelevel();
     }
 }
