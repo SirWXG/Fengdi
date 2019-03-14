@@ -266,4 +266,11 @@
    </set>
     where announcement_no = #{announcementNo,jdbcType=VARCHAR}
   </update>
+
+  <select id="selectByMhcx" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from f_announcement
+    where announcement_name like CONCAT('%',#{announcementName},'%')
+  </select>
 </mapper>
