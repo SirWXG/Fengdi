@@ -44,5 +44,10 @@ public class FAnnouncementImpl implements FAnnouncementService {
 		return fannouncementMapper.updateByPrimaryKeySelective(record);
 	}
 
+	@Override
+	public int updatestauts(String announcementNo, String status) {
+		return fannouncementMapper.updatestauts(announcementNo,status);
+	}
+
 
 }
