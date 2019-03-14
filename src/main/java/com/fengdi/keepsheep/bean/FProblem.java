@@ -19,6 +19,15 @@ public class FProblem {
 
     private Date updateTime;
 
+    public FProblem(String problemNo, Long id, String problemAnswers, String status) {
+        this.problemNo = problemNo;
+        this.id = id;
+        this.problemAnswers = problemAnswers;
+        this.status = status;
+    }
+
+    public FProblem(){}
+
     public String getProblemNo() {
         return problemNo;
     }

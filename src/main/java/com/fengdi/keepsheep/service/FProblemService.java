@@ -2,6 +2,7 @@ package com.fengdi.keepsheep.service;
 
 import com.fengdi.keepsheep.bean.FProblem;
 import com.fengdi.keepsheep.bean.FProblemExample;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -14,5 +15,9 @@ public interface FProblemService {
 	public int insert(FProblem problem);
 
 	public boolean updateByStatus(Integer id,String status);
+
+	public FProblem selectById(Integer id);
+
+	public boolean updateById(FProblem fProblem);
 
 }

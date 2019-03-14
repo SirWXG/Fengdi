@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
@@ -23,13 +23,14 @@
 <body>
 <div class="x-body">
     <form class="layui-form">
+        <input type="hidden" name="id" th:value="${session.fProblem.getId()}">
         <div class="layui-form-item">
             <label for="username" class="layui-form-label">
                 <span class="x-red">*</span>问题标题
             </label>
             <div class="layui-input-inline">
                 <input type="text" id="problem_no" name="problem_no" required="" lay-verify="required"
-                       autocomplete="off" class="layui-input">
+                       autocomplete="off" class="layui-input" th:value="${session.fProblem.getProblemNo()}">
             </div>
 
         </div>
@@ -39,7 +40,7 @@
             </label>
             <div class="layui-input-inline">
                 <input type="text" id="problem_answers" name="problem_answers" required="" lay-verify="phone"
-                       autocomplete="off" class="layui-input">
+                       autocomplete="off" class="layui-input" th:value="${session.fProblem.getProblemAnswers()}">
             </div>
 
         </div>
@@ -48,9 +49,9 @@
                 <span class="x-red">*</span>状态
             </label>
             <div class="layui-input-inline">
-                <select id="status">
-                    <option value="1">已展示</option>
-                    <option value="0">未展示</option>
+                <select th:filed="${session.fProblem.getStatus()}" th:value="${session.fProblem.getStatus()}" name="status" id="status" lay-verify="required">
+                    <option th:selected="${session.fProblem.getStatus()=='1'}" value="1">已启用</option>
+                    <option th:selected="${session.fProblem.getStatus()=='0'}" value="0">未启用</option>
                 </select>
             </div>
 
@@ -58,15 +59,52 @@
 
         <div class="layui-form-item">
 
-            <button id="addProblem"  class="layui-btn" lay-filter="add" lay-submit="">
+            <button id="upProblem"  class="layui-btn" lay-filter="add" lay-submit="">
                 修改
             </button>
         </div>
     </form>
 </div>
-<script>
-</script>
-
 </body>
+<script>
+
+    $(function () {
+        $("#upProblem").click(function () {
+            var id = $("input[name='id']").val();
+            var problem_no = $("input[name='problem_no']").val();
+            var problem_answers = $("input[name='problem_answers']").val();
+            var status = $('#status option:selected').val();
+            $.ajax({
+                url:"/problem/updateById",
+                type:"post",
+                data:{
+                    id:id,
+                    problemNo:problem_no,
+                    problemAnswers:problem_answers,
+                    status:status
+                },
+                success:function (data) {
+                    if (data.success){
+                        layer.alert("修改成功", {icon: 6},function () {
+                            // 获得frame索引
+                            var index = parent.layer.getFrameIndex(window.name);
+                            //关闭当前frame
+                            parent.window.location.href="/problem/selectAllProblem";
+                        });
+                    }else{
+                        alert("修改失败,请重新修改");
+                    }
+                }
+            });
+            return false;
+        });
+    })
+
+    layui.use(['form','layer'], function(){
+        $ = layui.jquery;
+        var form = layui.form
+            ,layer = layui.layer;
+    });
+</script>
 
 </html>

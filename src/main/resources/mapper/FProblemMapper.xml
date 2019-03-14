@@ -260,7 +260,16 @@
   <delete id="deleteById">
     delete from f_problem where id=#{id}
   </delete>
+
   <update id="updateByStatus">
     update f_problem set status=#{status} where id=#{id}
+  </update>
+
+  <select id="selectById" resultMap="BaseResultMap">
+    SELECT id,problem_no,problem_answers,status FROM f_problem  WHERE id=#{id};
+  </select>
+  
+  <update id="updateById">
+    UPDATE f_problem SET problem_no=#{problemNo},problem_answers=#{problemAnswers},status=#{status} WHERE id=#{id};
   </update>
 </mapper>
