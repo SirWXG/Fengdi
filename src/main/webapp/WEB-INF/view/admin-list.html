@@ -176,7 +176,7 @@
                 <!--操作栏-->
                 var $a1 = $("<a>").attr("onclick","member_stop(this,'"+items.adminNo+"')").attr("href","javascript:;").attr("title",items.status=='common'?'启用':'停用');
                 var $i1 = $("<i>").addClass("layui-icon").html("&#xe601;");
-                var $a2 = $("<a>").attr("title","编辑").attr("onclick","x_admin_show(编辑,'/view/admin-edit')").attr("href","javascript:;");
+                var $a2 = $("<a>").attr("title","编辑").attr("onclick","member_getNo('"+items.adminNo+"')").attr("href","javascript:;");
                 var $i2 = $("<i>").addClass("layui-icon").html("&#xe642;");
                 var $a3 = $("<a>").attr("title","删除").attr("onclick","member_del(this,'"+result.adminNo+"')").attr("href","javascript:;");
                 var $i3 = $("<i>").addClass("layui-icon").html("&#xe640;");
