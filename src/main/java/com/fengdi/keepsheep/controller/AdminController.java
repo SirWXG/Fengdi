@@ -60,7 +60,7 @@ public class AdminController {
      * @param model
      * @return
      */
-    @RequestMapping(value ="/selectAdminByStatus",method = RequestMethod.POST)
+    @RequestMapping(value ="/selectAdminByStatus",method = RequestMethod.GET)
     @ResponseBody
     public PageInfo<FAdmin> selectAdmin(@RequestParam(name = "realName",defaultValue = "")String realName,
                                     @RequestParam(name = "loginName",defaultValue = "")String loginName,
