@@ -112,4 +112,21 @@ public class FAdminGroup {
     public void setAuthorizeList(String authorizeList) {
         this.authorizeList = authorizeList == null ? null : authorizeList.trim();
     }
+
+    @Override
+    public String toString() {
+        return "FAdminGroup{" +
+                "adminGroupNo='" + adminGroupNo + '\'' +
+                ", id=" + id +
+                ", groupName='" + groupName + '\'' +
+                ", groupCnname='" + groupCnname + '\'' +
+                ", adminNo='" + adminNo + '\'' +
+                ", founder='" + founder + '\'' +
+                ", delstatus='" + delstatus + '\'' +
+                ", editFlag=" + editFlag +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                ", authorizeList='" + authorizeList + '\'' +
+                '}';
+    }
 }
