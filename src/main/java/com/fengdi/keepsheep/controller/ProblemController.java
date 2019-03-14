@@ -11,17 +11,15 @@ import com.fengdi.keepsheep.bean.FAdmin;
 import com.fengdi.keepsheep.bean.FProblem;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.apache.shiro.session.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import com.fengdi.keepsheep.service.FProblemService;
 import com.fengdi.keepsheep.util.SimpleResult;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @RequestMapping(value="/problem")
@@ -124,5 +122,28 @@ public class ProblemController {
 			e.printStackTrace();
 		}
 		return result;
+	}
+	/**
+	 * 根据ID查询问题列表
+	 * @return
+	 */
+	@RequestMapping(value = "/selectById",method = RequestMethod.POST)
+	@ResponseBody
+	public SimpleResult selectById(Integer id, HttpSession session){
+		FProblem fProblem = fProblemService.selectById(id);
+		session.setAttribute("fProblem",fProblem);
+		return new SimpleResult(fProblem!=null?true:false);
+	}
+	/**
+	 * 修改
+	 * @return
+	 */
+	@RequestMapping(value = "/updateById",method = RequestMethod.POST)
+	@ResponseBody
+	public SimpleResult updateById(FProblem fProblem){
+		System.out.println(fProblem.getProblemNo());
+		FProblem fProblem1=new FProblem(fProblem.getProblemNo(),fProblem.getId(),fProblem.getProblemAnswers(),fProblem.getStatus());
+		boolean result = fProblemService.updateById(fProblem1);
+		return new SimpleResult(result);
 	}
 }

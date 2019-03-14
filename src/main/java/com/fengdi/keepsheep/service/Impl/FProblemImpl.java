@@ -64,6 +64,20 @@ public class FProblemImpl implements FProblemService{
 		boolean stu = fProblemMapper.updateByStatus(id, status);
 		return stu;
 	}
+	/**
+	 * 根据ID查询问题列表
+	 */
+	public FProblem selectById(Integer id) {
+        FProblem fProblem = fProblemMapper.selectById(id);
+        return fProblem;
+	}
+    /**
+     * 编辑
+     */
+    public boolean updateById(FProblem fProblem) {
+        boolean result = fProblemMapper.updateById(fProblem);
+        return result;
+    }
 
 
 }
