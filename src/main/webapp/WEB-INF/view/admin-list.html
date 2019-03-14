@@ -77,7 +77,7 @@
               </span>
             </td>
             <td class="td-manage">
-              <a th:onclick="'javascript:member_stop(this,\''+${admin.adminNo}+'\')'" href="javascript:;"  title="启用">
+              <a th:onclick="'javascript:member_stop(this,\''+${admin.adminNo}+'\')'" href="javascript:;"  th:title="${admin.status=='common'?'启用':'停用'}">
                 <i class="layui-icon">&#xe601;</i>
               </a>
               <a title="编辑"  th:onclick="'javascript:x_admin_show(编辑,\''+'/view/admin-edit'+'\')'" href="javascript:;">
