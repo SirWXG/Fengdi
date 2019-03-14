@@ -12,9 +12,10 @@
     <result column="admin_group_no" property="adminGroupNo" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="service_url" property="serviceUrl" jdbcType="VARCHAR"/>
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.fengdi.keepsheep.bean.FService" extends="BaseResultMap" >
-    <result column="service_url" property="serviceUrl" jdbcType="LONGVARCHAR" />
+
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -76,10 +77,9 @@
   </sql>
   <sql id="Base_Column_List" >
     service_no, id, super_service_no, service_name, service_level, status, group_cnname, 
-    admin_group_no, create_time, update_time
+    admin_group_no, create_time, update_time,service_url
   </sql>
   <sql id="Blob_Column_List" >
-    service_url
   </sql>
   <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.fengdi.keepsheep.bean.FServiceExample" >
     select
