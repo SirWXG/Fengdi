@@ -139,15 +139,15 @@
             $("#divPage").empty();
             $(".page").empty();
 
-            var $prev = $("<a>").addClass("prev").attr("href","/admin/selectAdminByStatus?page="+data.isFirstPage?1:data.prePage+"&&realName="+$("input[name='realName']").val()+"&&loginName="+$("input[name='loginName']").val()).html("&lt;&lt;");
-            var $next = $("<a>").addClass("next").attr("href","/admin/selectAdminByStatus?page="+data.isNextPage?data.pages:data.nextPage+"&&realName="+$("input[name='realName']").val()+"&&loginName="+$("input[name='loginName']").val()).html("&gt;&gt;");
+            var $prev = $("<a>").addClass("prev").attr("onclick","return false").attr("href","/admin/selectAdminByStatus?page="+data.isFirstPage?1:data.prePage+"&&realName="+$("input[name='realName']").val()+"&&loginName="+$("input[name='loginName']").val()).html("&lt;&lt;");
+            var $next = $("<a>").addClass("next").attr("onclick","return false").attr("href","/admin/selectAdminByStatus?page="+data.isNextPage?data.pages:data.nextPage+"&&realName="+$("input[name='realName']").val()+"&&loginName="+$("input[name='loginName']").val()).html("&gt;&gt;");
             var $divc = $("<div>").append($prev);
             $.each(data.navigatepageNums,function (index,items) {
                 if (items==data.pageNum){
                     var $spans = $("<span>").addClass("current").html(items);
                     $divc.append($spans);
                 }else{
-                    var $as = $("<a>").addClass("num").attr("href","/admin/selectAdminByStatus?page="+items+"&&realName="+$("input[name='realName']").val()+"&&loginName="+$("input[name='loginName']").val()).html(items);
+                    var $as = $("<a>").addClass("num").attr("onclick","return false").attr("href","/admin/selectAdminByStatus?page="+items+"&&realName="+$("input[name='realName']").val()+"&&loginName="+$("input[name='loginName']").val()).html(items);
                     $divc.append($as)
                 }
             })
