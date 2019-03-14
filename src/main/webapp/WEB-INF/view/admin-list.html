@@ -80,7 +80,7 @@
               <a th:onclick="'javascript:member_stop(this,\''+${admin.adminNo}+'\')'" href="javascript:;"  th:title="${admin.status=='common'?'启用':'停用'}">
                 <i class="layui-icon">&#xe601;</i>
               </a>
-              <a title="编辑"  th:onclick="'javascript:x_admin_show(编辑,\''+'/view/admin-edit'+'\')'" href="javascript:;">
+              <a title="编辑"  th:onclick="'javascript:member_getNo(\''+${admin.adminNo}+'\');'" href="javascript:;">
                 <i class="layui-icon">&#xe642;</i>
               </a>
               <a title="删除" th:onclick="'javascript:member_del(this,\''+${admin.adminNo}+'\');'" href="javascript:;">
@@ -122,7 +122,7 @@
         function getAjax(data) {
             $.ajax({
                 url:"/admin/selectAdminByStatus",
-                type:"post",
+                type:"get",
                 data:{
                     page:data,
                     realName:$("input[name='realName']").val(),
@@ -133,21 +133,22 @@
                     eachPage(data);
                 }
             });
+            return false;
         }
 
         function eachPage(data) {
             $("#divPage").empty();
             $(".page").empty();
 
-            var $prev = $("<a>").addClass("prev").attr("onclick","return false").attr("href","/admin/selectAdminByStatus?page="+data.isFirstPage?1:data.prePage+"&&realName="+$("input[name='realName']").val()+"&&loginName="+$("input[name='loginName']").val()).html("&lt;&lt;");
-            var $next = $("<a>").addClass("next").attr("onclick","return false").attr("href","/admin/selectAdminByStatus?page="+data.isNextPage?data.pages:data.nextPage+"&&realName="+$("input[name='realName']").val()+"&&loginName="+$("input[name='loginName']").val()).html("&gt;&gt;");
+            var $prev = $("<a>").addClass("prev").attr("href","javascript:getAjax("+(data.isFirstPage?1:data.prePage)+")").html("&lt;&lt;");
+            var $next = $("<a>").addClass("next").attr("href","javascript:getAjax("+(data.isLastPage?data.pages:data.nextPage)+")").html("&gt;&gt;");
             var $divc = $("<div>").append($prev);
             $.each(data.navigatepageNums,function (index,items) {
                 if (items==data.pageNum){
                     var $spans = $("<span>").addClass("current").html(items);
                     $divc.append($spans);
                 }else{
-                    var $as = $("<a>").addClass("num").attr("onclick","return false").attr("href","/admin/selectAdminByStatus?page="+items+"&&realName="+$("input[name='realName']").val()+"&&loginName="+$("input[name='loginName']").val()).html(items);
+                    var $as = $("<a>").addClass("num").attr("href","javascript:getAjax("+items+")").html(items);
                     $divc.append($as)
                 }
             })
@@ -175,7 +176,7 @@
                 <!--操作栏-->
                 var $a1 = $("<a>").attr("onclick","member_stop(this,'"+items.adminNo+"')").attr("href","javascript:;").attr("title",items.status=='common'?'启用':'停用');
                 var $i1 = $("<i>").addClass("layui-icon").html("&#xe601;");
-                var $a2 = $("<a>").attr("title","编辑").attr("onclick","x_admin_show(编辑,'/view/admin-edit')").attr("href","javascript:;");
+                var $a2 = $("<a>").attr("title","编辑").attr("onclick","member_getNo('"+items.adminNo+"')").attr("href","javascript:;");
                 var $i2 = $("<i>").addClass("layui-icon").html("&#xe642;");
                 var $a3 = $("<a>").attr("title","删除").attr("onclick","member_del(this,'"+result.adminNo+"')").attr("href","javascript:;");
                 var $i3 = $("<i>").addClass("layui-icon").html("&#xe640;");
@@ -205,6 +206,23 @@
                         }
                     }
                 });
+            });
+        }
+
+        function member_getNo(adminNo){
+            $.ajax({
+                url:"/admin/selectAdminByAdminNo",
+                type:"post",
+                data:{
+                    adminNo:adminNo
+                },
+                success:function (data) {
+                    if (data.success){
+                        x_admin_show('编辑','/view/admin-edit');
+                    }else{
+                        layer.msg('查询失败',{icon:1,time:1000});
+                    }
+                }
             });
         }
 

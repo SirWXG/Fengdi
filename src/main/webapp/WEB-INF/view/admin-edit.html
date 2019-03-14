@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
   
   <head>
     <meta charset="UTF-8">
@@ -23,13 +23,22 @@
   <body>
     <div class="x-body">
         <form class="layui-form">
+            <div class="layui-form-item">
+                <label for="username" class="layui-form-label">
+                    <span class="x-red">*</span>真实姓名
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" id="adminName" name="adminName" required="" lay-verify="required"
+                           autocomplete="off" class="layui-input" th:value="${session.fAdmin.adminName}">
+                </div>
+            </div>
           <div class="layui-form-item">
               <label for="username" class="layui-form-label">
                   <span class="x-red">*</span>登录名
               </label>
               <div class="layui-input-inline">
-                  <input type="text" id="username" name="username" required="" lay-verify="required"
-                  autocomplete="off" value="admin" class="layui-input">
+                  <input type="text" id="username" name="loginName" required="" lay-verify="required"
+                  autocomplete="off" class="layui-input" th:value="${session.fAdmin.loginName}">
               </div>
               <div class="layui-form-mid layui-word-aux">
                   <span class="x-red">*</span>将会成为您唯一的登入名
@@ -40,8 +49,8 @@
                   <span class="x-red">*</span>手机
               </label>
               <div class="layui-input-inline">
-                  <input type="text" value="18925139194" id="phone" name="phone" required="" lay-verify="phone"
-                  autocomplete="off" class="layui-input">
+                  <input type="text" id="phone" name="mobileNo" required="" lay-verify="phone"
+                  autocomplete="off" class="layui-input" th:value="${session.fAdmin.mobileNo}">
               </div>
               <div class="layui-form-mid layui-word-aux">
                   <span class="x-red">*</span>将会成为您唯一的登入名
@@ -52,7 +61,7 @@
                   <span class="x-red">*</span>邮箱
               </label>
               <div class="layui-input-inline">
-                  <input type="text" value="113664000@qq.com" id="L_email" name="email" required="" lay-verify="email"
+                  <input type="text" th:value="${session.fAdmin.email}" id="L_email" name="email" required="" lay-verify="email"
                   autocomplete="off" class="layui-input">
               </div>
               <div class="layui-form-mid layui-word-aux">
@@ -60,32 +69,15 @@
               </div>
           </div>
           <div class="layui-form-item">
-              <label class="layui-form-label"><span class="x-red">*</span>角色</label>
-              <div class="layui-input-block">
-                <input type="checkbox" name="like1[write]" lay-skin="primary" title="超级管理员" checked="">
-                <input type="checkbox" name="like1[read]" lay-skin="primary" title="编辑人员">
-                <input type="checkbox" name="like1[write]" lay-skin="primary" title="宣传人员" >
-              </div>
-          </div>
-          <div class="layui-form-item">
               <label for="L_pass" class="layui-form-label">
                   <span class="x-red">*</span>密码
               </label>
               <div class="layui-input-inline">
-                  <input type="password" id="L_pass" name="pass" required="" lay-verify="pass"
-                  autocomplete="off" class="layui-input">
+                  <input type="password" id="L_pass" name="pwd" required="" lay-verify="pass"
+                  autocomplete="off" class="layui-input" th:value="${session.fAdmin.pwd}">
               </div>
               <div class="layui-form-mid layui-word-aux">
                   6到16个字符
-              </div>
-          </div>
-          <div class="layui-form-item">
-              <label for="L_repass" class="layui-form-label">
-                  <span class="x-red">*</span>确认密码
-              </label>
-              <div class="layui-input-inline">
-                  <input type="password" id="L_repass" name="repass" required="" lay-verify="repass"
-                  autocomplete="off" class="layui-input">
               </div>
           </div>
           <div class="layui-form-item">
@@ -105,29 +97,51 @@
         
           //自定义验证规则
           form.verify({
-            nikename: function(value){
-              if(value.length < 5){
-                return '昵称至少得5个字符啊';
+              adminName: function(value){
+                 if(value.length < 1){
+                   return '昵称不能为空';
+                 }
               }
-            }
-            ,pass: [/(.+){6,12}$/, '密码必须6到12位']
-            ,repass: function(value){
-                if($('#L_pass').val()!=$('#L_repass').val()){
-                    return '两次密码不一致';
-                }
-            }
+              ,loginName:function (value) {
+                  if (value.length<3){
+                      return '登录名最少为三位';
+                  }
+              }
+              ,phone:[/^1[0-9]{10}$/,'手机格式错误']
+              ,email:function (value) {
+                  if (value==null||value.trim()<1||((/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(\.[a-zA-Z0-9_-])+&/).test(value))){
+                      return '邮箱格式有误,请重新输入';
+                  }
+              }
+              ,pwd: [/^(.+){6,12}$/, '密码必须6到12位']
           });
 
           //监听提交
           form.on('submit(add)', function(data){
-            console.log(data);
-            //发异步，把数据提交给php
-            layer.alert("增加成功", {icon: 6},function () {
-                // 获得frame索引
-                var index = parent.layer.getFrameIndex(window.name);
-                //关闭当前frame
-                parent.layer.close(index);
-            });
+            $.ajax({
+                url:"/admin/updateAdmin",
+                type:"post",
+                data:{
+                    adminName:$("input[name='adminName']").val(),
+                    loginName:$("input[name='loginName']").val(),
+                    mobileNo:$("input[name='mobileNo']").val(),
+                    email:$("input[name='email']").val(),
+                    pwd:$("input[name='pwd']").val()
+                },
+                success:function (data) {
+                    if(data.success){
+                        layer.alert("增加成功", {icon: 6},function () {
+                            // 获得frame索引
+                            var index = parent.layer.getFrameIndex(window.name);
+                            //关闭当前frame
+                            parent.layer.close(index);
+                            parent.window.location.href="/admin/selectAllAdmin";
+                        });
+                    }else{
+                        layer.alert("修改失败",{icon:6});
+                    }
+                }
+            })
             return false;
           });
           

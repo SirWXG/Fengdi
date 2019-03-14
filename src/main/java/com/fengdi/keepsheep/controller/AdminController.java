@@ -60,7 +60,7 @@ public class AdminController {
      * @param model
      * @return
      */
-    @RequestMapping(value ="/selectAdminByStatus",method = RequestMethod.POST)
+    @RequestMapping(value ="/selectAdminByStatus",method = RequestMethod.GET)
     @ResponseBody
     public PageInfo<FAdmin> selectAdmin(@RequestParam(name = "realName",defaultValue = "")String realName,
                                     @RequestParam(name = "loginName",defaultValue = "")String loginName,
@@ -143,6 +143,14 @@ public class AdminController {
         return result;
     }
 
+
+    /**
+     * 限制用户登录
+     * @param adminNo
+     * @param status
+     * @param session
+     * @return
+     */
     @RequestMapping(value = "/updateAdminStatus",method = RequestMethod.POST)
     @ResponseBody
     public SimpleResult updateAdminStatus(@RequestParam(name = "adminNo")String adminNo,@RequestParam(name = "status")String status,HttpSession session){
@@ -164,6 +172,60 @@ public class AdminController {
                    result.setSuccess(true);
                }
            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    /**
+     * 根据编号查询管理员
+     * @param adminNo
+     * @param session
+     * @return
+     */
+    @RequestMapping(value = "/selectAdminByAdminNo",method = RequestMethod.POST)
+    @ResponseBody
+    public SimpleResult selectAdminByAdminNo(@RequestParam(name = "adminNo")String adminNo,HttpSession session){
+        SimpleResult result = new SimpleResult();
+        try{
+            FAdmin admin = (FAdmin) session.getAttribute("admin");
+            if(null==admin){
+                result.setErrCode("1");
+                result.setMessage("登录信息失效，请重新登录");
+            }else{
+                List<FAdmin> fAdmin = fAdminService.selectAdminByAdminNo(adminNo);
+                if(fAdmin==null){
+                    result.setErrMsg("查询失败,请重新查询");
+                }else{
+                    result.setSuccess(true);
+                    session.setAttribute("fAdmin",fAdmin.get(0));
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    @RequestMapping(value = "/updateAdmin",method = RequestMethod.POST)
+    @ResponseBody
+    public SimpleResult updateAdmin(FAdmin fAdmin,HttpSession session){
+        SimpleResult result = new SimpleResult();
+        try{
+            FAdmin admin = (FAdmin)session.getAttribute("fAdmin");
+            if(null==session.getAttribute("admin")){
+                result.setErrMsg("登录信息失效,请重新登录");
+                result.setErrCode("1");
+            }else{
+                fAdmin.setAdminNo(admin.getAdminNo());
+                int flag = fAdminService.updateByPrimaryKeySelective(fAdmin);
+                if(flag<1){
+                    result.setErrMsg("更新失败,请重新操作");
+                }else{
+                    result.setSuccess(true);
+                }
+            }
         }catch (Exception e){
             e.printStackTrace();
         }

@@ -88,4 +88,13 @@ public class FAdminImpl implements FAdminService{
 		return fAdminMapper.updateAdminStatus(map);
 	}
 
+	public List<FAdmin> selectAdminByAdminNo(String adminNo) {
+		return fAdminMapper.selectAdminByAdminNo(adminNo);
+	}
+
+	@Override
+	public int updateByPrimaryKeySelective(FAdmin record) {
+		return fAdminMapper.updateByPrimaryKeySelective(record);
+	}
+
 }

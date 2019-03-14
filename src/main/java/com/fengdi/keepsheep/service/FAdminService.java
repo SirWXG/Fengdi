@@ -57,4 +57,18 @@ public interface FAdminService {
 	 * @return
 	 */
 	int updateAdminStatus(Map<String,String>map);
+
+	/**
+	 * 根据编号查询会员
+	 * @param adminNo
+	 * @return
+	 */
+	List<FAdmin> selectAdminByAdminNo(String adminNo);
+
+	/**
+	 * 更新会员信息
+	 * @param record
+	 * @return
+	 */
+	int updateByPrimaryKeySelective(FAdmin record);
 }
