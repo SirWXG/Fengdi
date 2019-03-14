@@ -2,8 +2,9 @@ package com.fengdi.keepsheep.mapper;
 
 import com.fengdi.keepsheep.bean.FAdminGroup;
 import com.fengdi.keepsheep.bean.FAdminGroupExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface FAdminGroupMapper {
     int countByExample(FAdminGroupExample example);
@@ -33,4 +34,6 @@ public interface FAdminGroupMapper {
     int updateByPrimaryKeyWithBLOBs(FAdminGroup record);
 
     int updateByPrimaryKey(FAdminGroup record);
+
+    List<FAdminGroup> selectAllRoler();
 }

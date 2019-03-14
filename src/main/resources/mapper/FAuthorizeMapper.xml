@@ -303,4 +303,15 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where authorize_no = #{authorizeNo,jdbcType=BIGINT}
   </update>
+
+  <select id="selectList" parameterType="java.util.List" resultMap="BaseResultMap">
+    SELECT  <include refid="Base_Column_List" />
+    FROM f_authorize
+    WHERE authorize_no IN
+    <foreach collection="array" index="index" item="item"
+             open="(" separator="," close=")">
+      #{item}
+    </foreach>
+  </select>
+
 </mapper>

@@ -2,8 +2,9 @@ package com.fengdi.keepsheep.mapper;
 
 import com.fengdi.keepsheep.bean.FAuthorize;
 import com.fengdi.keepsheep.bean.FAuthorizeExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface FAuthorizeMapper {
     int countByExample(FAuthorizeExample example);
@@ -27,4 +28,6 @@ public interface FAuthorizeMapper {
     int updateByPrimaryKeySelective(FAuthorize record);
 
     int updateByPrimaryKey(FAuthorize record);
+
+    List<FAuthorize> selectList(String array[]);
 }
