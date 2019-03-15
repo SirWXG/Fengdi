@@ -272,4 +272,17 @@
   <update id="updateById">
     UPDATE f_problem SET problem_no=#{problemNo},problem_answers=#{problemAnswers},status=#{status} WHERE id=#{id};
   </update>
+
+  <select id="selectNoAndCname" resultMap="BaseResultMap" parameterType="map">
+    select <include refid="Base_Column_List" />
+    from f_problem
+    <where>
+      <if test="problemNo!=null">
+        problem_no LIKE CONCAT('%',#{problemNo},'%')
+      </if>
+      <if test="groupCnname!=null">
+        AND group_cnname LIKE CONCAT('%',#{groupCnname},'%')
+      </if>
+    </where>
+  </select>
 </mapper>

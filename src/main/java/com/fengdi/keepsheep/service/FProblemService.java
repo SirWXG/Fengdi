@@ -5,6 +5,7 @@ import com.fengdi.keepsheep.bean.FProblemExample;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 public interface FProblemService {
 
@@ -19,5 +20,8 @@ public interface FProblemService {
 	public FProblem selectById(Integer id);
 
 	public boolean updateById(FProblem fProblem);
+
+	public List<FProblem> selectNoAndCname(Map<String,Object> map);
+
 
 }

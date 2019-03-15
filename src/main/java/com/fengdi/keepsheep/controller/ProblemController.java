@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 import com.alibaba.fastjson.JSONArray;
 import com.fengdi.keepsheep.bean.FAdmin;
 import com.fengdi.keepsheep.bean.FProblem;
+import com.fengdi.keepsheep.bean.FProblemExample;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.apache.shiro.session.Session;
@@ -35,7 +36,7 @@ public class ProblemController {
 	 */
 	@RequestMapping(value="/selectAllProblem")
 	public String selectAllProblem(@RequestParam(name = "page",defaultValue = "1")Integer page,
-								   @RequestParam(name = "rows",defaultValue = "10")Integer rows,HttpSession session,Model model) {
+								   @RequestParam(name = "rows",defaultValue = "10")Integer rows, HttpSession session, Model model, FProblemExample example) {
 		SimpleResult simpleResult = new SimpleResult();
 		try {
 			PageHelper.startPage(page,rows);
@@ -46,7 +47,7 @@ public class ProblemController {
 		    	simpleResult.setErrMsg("登录失效，请重新登录");
 		    }
 			PageInfo<FProblem> info = new PageInfo<FProblem>(list,4);
-		    model.addAttribute("problem",info);
+			model.addAttribute("problem",info);
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -146,4 +147,22 @@ public class ProblemController {
 		boolean result = fProblemService.updateById(fProblem1);
 		return new SimpleResult(result);
 	}
+	/**
+	 * 模糊查
+	 * @return
+	 */
+	@RequestMapping(value = "/selectNoAndCn",method = RequestMethod.GET)
+	@ResponseBody
+	public PageInfo<FProblem> selectNoAndCn(@RequestParam(name = "problemNo",defaultValue = "")String problemNo,@RequestParam(name = "groupCnname",defaultValue = "")String group_name,
+											@RequestParam(name = "page",defaultValue = "1")Integer page,
+											@RequestParam(name = "rows",defaultValue = "10")Integer rows){
+		Map<String,Object> map=new HashMap<String, Object>();
+		map.put("problemNo",problemNo);
+		map.put("groupCnname",group_name);
+		PageHelper.startPage(page,rows);
+		List<FProblem> list = fProblemService.selectNoAndCname(map);
+		PageInfo<FProblem> info=new PageInfo<FProblem>(list,4);
+		return info;
+	}
+
 }

@@ -35,13 +35,13 @@
         <form class="layui-form layui-col-md12 x-so">
             <input type="text" name="problemNo"  placeholder="请输入用戶标题" autocomplete="off" class="layui-input">
           <input type="text" name="group_name"  placeholder="请输入创建成员" autocomplete="off" class="layui-input">
-          <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
+          <button class="layui-btn"  lay-submit="" lay-filter="sreach" id="query"><i class="layui-icon">&#xe615;</i></button>
         </form>
       </div>
       <xblock>
 
         <button class="layui-btn" onclick="x_admin_show('添加问题','/view/question-add')"><i class="layui-icon"></i>添加</button>
-        <span class="x-right" style="line-height:40px">共有数据：88 条</span>
+          <span class="x-right" th:text="'共有数据:'+${problem.total}+'条'" style="line-height:40px">共有数据： 条</span>
       </xblock>
       <table class="layui-table">
         <thead>
@@ -56,7 +56,7 @@
             <th>状态</th>
             <th>操作</th>
         </thead>
-        <tbody>
+        <tbody id="tbodys">
           <tr th:each="question:${problem.list}">
             <td th:text="${question.id}"></td>
             <td th:text="${question.problemNo}"></td>
@@ -82,7 +82,7 @@
           </tr>
         </tbody>
       </table>
-        <div align="center">
+        <div align="center" id="divPage">
             <nav aria-label="Page navigation">
                 <ul class="pagination">
                     <li>
@@ -101,9 +101,82 @@
             </nav>
         </div>
     </div>
-
+    <div class="page">
+    </div>
     </div>
     <script>
+        $(function () {
+            $("#query").click(function () {
+                getAjax(1);
+                return false;
+            });
+        })
+
+        function getAjax(data) {
+            $.ajax({
+                url:"/problem/selectNoAndCn",
+                type:"get",
+                data:{
+                    page:data,
+                    problemNo:$("input[name='problemNo']").val(),
+                    groupCnname:$("input[name='group_name']").val()
+                },
+                success:function (data) {
+                    eachData(data.list);
+                    eachPage(data);
+                    $(".x-right").html("共有数据："+ data.total+" 条");
+                }
+            });
+            return false;
+        }
+        function eachPage(data) {
+            $("#divPage").empty();
+            $(".page").empty();
+
+            var $prev = $("<a>").addClass("prev").attr("href","javascript:getAjax("+(data.isFirstPage?1:data.prePage)+")").html("&lt;&lt;");
+            var $next = $("<a>").addClass("next").attr("href","javascript:getAjax("+(data.isLastPage?data.pages:data.nextPage)+")").html("&gt;&gt;");
+            var $divc = $("<div>").append($prev);
+            $.each(data.navigatepageNums,function (index,items) {
+                if (items==data.pageNum){
+                    var $spans = $("<span>").addClass("current").html(items);
+                    $divc.append($spans);
+                }else{
+                    var $as = $("<a>").addClass("num").attr("href","javascript:getAjax("+items+")").html(items);
+                    $divc.append($as)
+                }
+            })
+            $divc.append($next);
+            $(".page").append($divc);
+        }
+
+        function eachData(result) {
+            $("#tbodys").empty();
+            $.each(result,function (index,items) {
+                <!-- 遍历数据 -->
+                var $id = $("<td>").html(items.id);
+                var $problemNo = $("<td>").html(items.problemNo);
+                var $problemAnswers = $("<td>").html(items.problemAnswers);
+                var $groupCnname = $("<td>").html(items.groupCnname);
+                var $createTime = $("<td>").html(items.createTime);
+                var $updateTime = $("<td>").html(items.updateTime);
+
+                <!--状态栏-->
+                var $status = $("<span>").addClass(items.status=='1'?'layui-btn layui-btn-normal layui-btn-mini':'layui-btn layui-btn-disabled').html(items.status=='1'?'已展示':'未展示');
+                var $td_status = $("<td>").addClass("td-status").append($status);
+                <!--操作栏-->
+                var $a1 = $("<a>").attr("onclick","member_stop(this,'"+items.id+"')").attr("href","javascript:;").attr("title",items.status=='1'?'停用':'启用');
+                var $i1 = $("<i>").addClass("layui-icon").html("&#xe601;");
+                var $a2 = $("<a>").attr("title","编辑").attr("onclick","member_getNo('"+items.id+"')").attr("href","javascript:;");
+                var $i2 = $("<i>").addClass("layui-icon").html("&#xe642;");
+                var $a3 = $("<a>").attr("title","删除").attr("onclick","member_del(this,'"+result.id+"')").attr("href","javascript:;");
+                var $i3 = $("<i>").addClass("layui-icon").html("&#xe640;");
+                var $td_manage = $("<td>").addClass("td-manage").append($a1.append($i1)).append($a2.append($i2)).append($a3.append($i3));
+                var $tr = $("<tr>").append($id).append($problemNo).
+                append($problemAnswers).append($groupCnname).append($createTime).
+                append($updateTime).append($td_status).append($td_manage);
+                $("#tbodys").append($tr);
+            })
+        }
     
       layui.use('laydate', function(){
         var laydate = layui.laydate;

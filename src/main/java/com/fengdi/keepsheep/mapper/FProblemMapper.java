@@ -38,4 +38,6 @@ public interface FProblemMapper {
     boolean updateById(FProblem fProblem);
 
     List<FProblem> selectNoAndCname(Map<String,Object> map);
+
+    int selectCount();
 }

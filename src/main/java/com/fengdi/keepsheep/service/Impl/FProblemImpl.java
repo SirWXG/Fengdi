@@ -2,6 +2,7 @@ package com.fengdi.keepsheep.service.Impl;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import com.fengdi.keepsheep.bean.FAdmin;
 import com.fengdi.keepsheep.bean.FProblem;
@@ -78,6 +79,14 @@ public class FProblemImpl implements FProblemService{
         boolean result = fProblemMapper.updateById(fProblem);
         return result;
     }
+	/**
+	 * 模糊查
+	 */
+	public List<FProblem> selectNoAndCname(Map<String,Object> map){
+		List<FProblem> list = fProblemMapper.selectNoAndCname(map);
+		return list;
+	}
+
 
 
 }
