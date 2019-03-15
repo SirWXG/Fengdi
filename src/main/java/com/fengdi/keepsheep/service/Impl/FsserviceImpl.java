@@ -29,23 +29,28 @@ public class FsserviceImpl implements Fsservice {
     }
 
     @Override
-    public FService selectByPrimaryKey(String announcementNo) {
-        return null;
+    public FService selectByPrimaryKey(String ServiceNo) {
+        return fserviceMapper.selectByPrimaryKey(ServiceNo);
     }
 
     @Override
-    public int deleteByPrimaryKey(String announcementNo) {
-        return 0;
+    public int deleteByPrimaryKey(String ServiceNo) {
+        return fserviceMapper.deleteByPrimaryKey(ServiceNo);
     }
 
     @Override
     public int updateByPrimaryKeySelective(FService record) {
-        return 0;
+        return fserviceMapper.updateByPrimaryKeySelective(record);
     }
 
     @Override
-    public int updatestauts(String announcementNo, String status) {
-        return 0;
+    public int updatestauts(String serviceNo, String status) {
+        return fserviceMapper.updatestauts(serviceNo,status);
+    }
+
+    @Override
+    public int updatestauts2(String superServiceNo, String status) {
+        return fserviceMapper.updatestauts2(superServiceNo,status);
     }
 
     @Override
@@ -61,5 +66,10 @@ public class FsserviceImpl implements Fsservice {
     @Override
     public List<FService> selectByservicelevel() {
         return fserviceMapper.selectByservicelevel();
+    }
+
+    @Override
+    public int deleteBysuperServiceNo(String ServiceNo) {
+        return fserviceMapper.deleteBysuperServiceNo(ServiceNo);
     }
 }

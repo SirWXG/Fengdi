@@ -12,9 +12,9 @@
     <result column="admin_group_no" property="adminGroupNo" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+      <result column="service_url" property="serviceUrl" jdbcType="VARCHAR" />
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.fengdi.keepsheep.bean.FService" extends="BaseResultMap" >
-    <result column="service_url" property="serviceUrl" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -75,11 +75,10 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    service_no, id, super_service_no, service_name, service_level, status, group_cnname, 
-    admin_group_no, create_time, update_time
+    service_no, id, super_service_no, service_name,service_level, status, group_cnname,
+    admin_group_no, create_time, update_time,service_url
   </sql>
   <sql id="Blob_Column_List" >
-    service_url
   </sql>
   <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.fengdi.keepsheep.bean.FServiceExample" >
     select
@@ -111,17 +110,19 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
     from f_service
     where service_no = #{serviceNo,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from f_service
     where service_no = #{serviceNo,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteBysuperServiceNo" parameterType="java.lang.String" >
+    delete from f_service
+    where super_service_no = #{superServiceNo,jdbcType=VARCHAR}
   </delete>
   <delete id="deleteByExample" parameterType="com.fengdi.keepsheep.bean.FServiceExample" >
     delete from f_service
@@ -361,4 +362,23 @@
     from f_service
     where service_level = 0
   </select>
+
+  <update id="updatestauts"  parameterType="com.fengdi.keepsheep.bean.FService" >
+    update f_service
+    <set >
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where service_no = #{serviceNo,jdbcType=VARCHAR}
+  </update>
+  <update id="updatestauts2"  parameterType="com.fengdi.keepsheep.bean.FService" >
+    update f_service
+    <set >
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where super_service_no = #{superServiceNo,jdbcType=VARCHAR}
+  </update>
 </mapper>

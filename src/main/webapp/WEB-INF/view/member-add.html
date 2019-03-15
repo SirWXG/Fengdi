@@ -70,7 +70,7 @@
                 var serviceUrl = $("input[name='serviceUrl']").val();
                 var status = $('#status option:selected').val();
                 if (serviceName==null||serviceName.trim()<1){
-                    alert("标题内容不能为空");
+                    layer.msg('标题名称不能为空',{icon:2,time:1000});
                     return false;
                 }
                 $.ajax({

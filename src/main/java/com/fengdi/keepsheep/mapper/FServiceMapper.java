@@ -11,7 +11,7 @@ public interface FServiceMapper {
 
     int deleteByExample(FServiceExample example);
 
-    int deleteByPrimaryKey(Integer serviceNo);
+    int deleteByPrimaryKey(String serviceNo);
 
     int insert(FService record);
 
@@ -36,4 +36,10 @@ public interface FServiceMapper {
     int updateByPrimaryKey(FService record);
 
     List<FService> selectByservicelevel();
+
+    int deleteBysuperServiceNo(String ServiceNo);
+
+    int updatestauts(@Param("serviceNo")String serviceNo,@Param("status")String status);
+
+    int updatestauts2(@Param("superServiceNo")String superServiceNo,@Param("status")String status);
 }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="UTF-8">
@@ -28,8 +28,10 @@
                 <span class="x-red">*</span>一级标题名称
             </label>
             <div class="layui-input-inline">
-                <input type="text" id="superServiceNO" name="superServiceNO" required="" lay-verify="required"
-                       autocomplete="off" class="layui-input">
+                <select id="superServiceNo">
+                    <option value="">请选择一级标题</option>
+                    <option th:each="n:${session.fService}"th:value="${n.serviceNo}" th:text="${n.serviceName}" name="superServiceNo"></option>
+                </select>
             </div>
             <div class="layui-form-mid layui-word-aux">
                 <span class="x-red">*</span>
@@ -37,7 +39,7 @@
         </div>
         <div class="layui-form-item">
             <label for="serviceName" class="layui-form-label">
-                <span class="x-red">*</span>标题名称
+                <span class="x-red">*</span>二级标题名称
             </label>
             <div class="layui-input-inline">
                 <input type="text" id="serviceName" name="serviceName" required="" lay-verify="required"
@@ -80,17 +82,23 @@
 
     $(function () {
         $("#add").click(function () {
+            var superServiceNo = $('#superServiceNo option:selected').val();
             var serviceName = $("input[name='serviceName']").val();
             var serviceUrl = $("input[name='serviceUrl']").val();
             var status = $('#status option:selected').val();
+            if (superServiceNo==""||superServiceNo.trim()<1){
+                layer.msg('一级标题不能为空',{icon:2,time:1000});
+                return false;
+            }
             if (serviceName==null||serviceName.trim()<1){
-                alert("标题内容不能为空");
+                layer.msg('二级标题名称不能为空',{icon:2,time:1000});
                 return false;
             }
             $.ajax({
-                url:"/FserviceController/getadd",
+                url:"/FserviceController/getadd2",
                 type:"post",
                 data:{
+                    superServiceNo:superServiceNo,
                     serviceName:serviceName,
                     serviceUrl:serviceUrl,
                     status:status
