@@ -32,7 +32,6 @@ public class BeforeController {
         //前台轮播图片
         model.addAttribute("_before_lunbo",fPictureService.selectPicByLBANDPTLB());
 
-
         return null;
     }
 }
