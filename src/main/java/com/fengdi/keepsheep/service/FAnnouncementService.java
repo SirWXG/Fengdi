@@ -22,4 +22,6 @@ public interface FAnnouncementService {
 	int countByExample();
 
 	List<FAnnouncement> selectByMhcx(String announcementName);
+
+	List<FAnnouncement> selectStauts(String status);
 }

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
+import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -134,19 +135,53 @@ public class FserviceController {
     }
 
     @RequestMapping(value = "/stop")
-    public @ResponseBody SimpleResult stop(String serviceNo,String status){
+    public @ResponseBody SimpleResult stop(String serviceNo,String status) {
         FService fService = fsservice.selectByPrimaryKey(serviceNo);
-        if(fService.getServiceLevel()==0&&status.equals("0")){
-            int insert = fsservice.updatestauts(serviceNo,status);
+        if (fService.getServiceLevel() == 0 && status.equals("0")) {
+            int insert = fsservice.updatestauts(serviceNo, status);
             int i = fsservice.updatestauts2(serviceNo, status);
-            return new SimpleResult(insert>0?true:false);
-        }else if(status.equals("1")){
-            int i = fsservice.updatestauts(fService.getSuperServiceNo(),status);
+            return new SimpleResult(insert > 0 ? true : false);
+        } else if (fService.getServiceLevel() == 0 && status.equals("1")) {
+            List<FService> A = fsservice.selectStauts(status);
+            int size = A.size();
+            if (size > 4) {
+                return new SimpleResult(false);
+            } else {
+                int insert = fsservice.updatestauts(serviceNo, status);
+                return new SimpleResult(insert > 0 ? true : false);
+            }
+        } else if (fService.getServiceLevel() == 1 && status.equals("1")) {
+            List<FService> ff = fsservice.selectStauts2(fService.getSuperServiceNo());
+            int size = ff.size();
+            if(size>4){
+                return new SimpleResult(false);
+            }else{
+                int i = fsservice.updatestauts(fService.getSuperServiceNo(), status);
+                int insert = fsservice.updatestauts(serviceNo, status);
+                return new SimpleResult(insert > 0 ? true : false);
+            }
+        } else {
             int insert = fsservice.updatestauts(serviceNo, status);
-            return new SimpleResult(insert>0?true:false);
-        }else{
-            int insert = fsservice.updatestauts(serviceNo, status);
-            return new SimpleResult(insert>0?true:false);
+            return new SimpleResult(insert > 0 ? true : false);
         }
+
     }
+
+    @RequestMapping(value = "/selectByMhcx")
+    @ResponseBody
+    public PageInfo<FService> selectByMhcx(@RequestParam(name = "page",defaultValue = "1")Integer page,
+                                                @RequestParam(name = "rows",defaultValue = "10")Integer rows, Model model,FService record) throws UnsupportedEncodingException {
+        String serviceName = record.getServiceName();
+        serviceName = new String(serviceName.getBytes("iso-8859-1"),"utf-8");
+        record.setServiceName(serviceName);
+        PageHelper.startPage(page,rows);
+        List<FService> selectByMhcx = fsservice.selectByMhcx(record);
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+        PageInfo<FService> info = new PageInfo<FService>(selectByMhcx,4);
+        model.addAttribute("selectByExample", info);
+        return info;
+
+    }
+
+
 }

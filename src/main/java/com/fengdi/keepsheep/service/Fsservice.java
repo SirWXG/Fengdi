@@ -23,10 +23,14 @@ public interface Fsservice {
 
     int countByExample();
 
-    List<FService> selectByMhcx(String announcementName);
-
     List<FService> selectByservicelevel();
 
     int deleteBysuperServiceNo(String ServiceNo);
+
+    List<FService> selectByMhcx(FService record);
+
+    List<FService> selectStauts(String status);
+
+    List<FService> selectStauts2(String status);
 
 }
