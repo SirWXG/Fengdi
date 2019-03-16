@@ -1,5 +1,6 @@
 package com.fengdi.keepsheep.controller;
 
+import java.io.UnsupportedEncodingException;
 import java.sql.SQLOutput;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -82,14 +83,20 @@ public class FAnnouncementController {
         return new SimpleResult(insert>0?true:false);
     }
 
-    @RequestMapping("/selectByMhcx")
-    public String selectByMhcx(@RequestParam(name = "page",defaultValue = "1")Integer page,
-                                      @RequestParam(name = "rows",defaultValue = "10")Integer rows,Model model,String announcementName){
-        PageHelper.startPage(page,rows);
+    @RequestMapping(value = "/selectByMhcx")
+    @ResponseBody
+    public PageInfo<FAnnouncement> selectByMhcx(@RequestParam(name = "announcementName",defaultValue = "")String announcementName,
+                                                @RequestParam(name = "page",defaultValue = "1")Integer page,
+                                                @RequestParam(name = "rows",defaultValue = "10")Integer rows, Model model) throws UnsupportedEncodingException {
+        announcementName = new String(announcementName.getBytes("iso-8859-1"),"utf-8");
+	    PageHelper.startPage(page,rows);
         List<FAnnouncement> selectByMhcx = fannouncementService.selectByMhcx(announcementName);
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
         PageInfo<FAnnouncement> info = new PageInfo<FAnnouncement>(selectByMhcx,4);
+
+
         model.addAttribute("selectByExample", info);
-        return "order-list";
+        return info;
 
     }
 }
