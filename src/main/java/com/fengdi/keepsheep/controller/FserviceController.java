@@ -134,6 +134,9 @@ public class FserviceController {
         }
     }
 
+    /*
+    * 页面展示或未展示
+    * */
     @RequestMapping(value = "/stop")
     public @ResponseBody SimpleResult stop(String serviceNo,String status) {
         FService fService = fsservice.selectByPrimaryKey(serviceNo);
@@ -167,6 +170,9 @@ public class FserviceController {
 
     }
 
+    /*
+    * 模糊查询
+    * */
     @RequestMapping(value = "/selectByMhcx")
     @ResponseBody
     public PageInfo<FService> selectByMhcx(@RequestParam(name = "page",defaultValue = "1")Integer page,

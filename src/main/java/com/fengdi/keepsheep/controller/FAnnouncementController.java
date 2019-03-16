@@ -26,6 +26,9 @@ public class FAnnouncementController {
 	@Resource
 	private FAnnouncementService fannouncementService;
 
+    /*
+    * 查所有
+    * */
 	@RequestMapping("/getall")
 	public String getallFAnnouncement(@RequestParam(name = "page",defaultValue = "1")Integer page,
                                       @RequestParam(name = "rows",defaultValue = "10")Integer rows,Model model){
@@ -38,6 +41,10 @@ public class FAnnouncementController {
 		return "order-list";
 		
 	}
+
+	/*
+	* 页面添加
+	* */
 	@RequestMapping(value = "/getadd",method=RequestMethod.POST)
 	public @ResponseBody SimpleResult getallFAnnouncement(String text,String status, FAnnouncement fannouncement, HttpSession session){
         FAdmin fAdmin =  (FAdmin)session.getAttribute("admin");
@@ -52,6 +59,9 @@ public class FAnnouncementController {
 		return new SimpleResult(insert>0?true:false);
 	}
 
+	/*
+	* 根据主键查单个至页面修改
+	* */
     @RequestMapping(value = "/getannouncementNo")
     @ResponseBody
     public SimpleResult getannouncementNo(Model model,String announcementNo,HttpSession session ){
@@ -60,12 +70,18 @@ public class FAnnouncementController {
         return new SimpleResult(fAnnouncement!=null?true:false);
     }
 
+    /*
+    *数据删除
+    * */
     @RequestMapping(value = "/delannouncementNo")
     public @ResponseBody SimpleResult delannouncementNo(@RequestParam("announcementNo") String announcementNo){
         int i = fannouncementService.deleteByPrimaryKey(announcementNo);
         return new SimpleResult(i>0?true:false);
     }
 
+    /*
+    * 页面修改
+    * */
     @RequestMapping(value = "/upd")
     public @ResponseBody SimpleResult upd(FAnnouncement fannouncement, HttpSession session){
         FAdmin fAdmin =  (FAdmin)session.getAttribute("admin");
@@ -77,6 +93,9 @@ public class FAnnouncementController {
         return new SimpleResult(insert>0?true:false);
     }
 
+    /*
+    * 页面展示或未展示
+    * */
     @RequestMapping(value = "/stop")
     public @ResponseBody SimpleResult stop(String announcementNo,String status){
 	    if(status.equals("1")){
@@ -95,7 +114,9 @@ public class FAnnouncementController {
 
 
     }
-
+    /*
+    * 模糊查询
+    * */
     @RequestMapping(value = "/selectByMhcx")
     @ResponseBody
     public PageInfo<FAnnouncement> selectByMhcx(@RequestParam(name = "announcementName",defaultValue = "")String announcementName,
