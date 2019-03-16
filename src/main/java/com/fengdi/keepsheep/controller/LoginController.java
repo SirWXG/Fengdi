@@ -80,6 +80,6 @@ public class LoginController {
 	public String doLogout(HttpSession session) {
 		session.removeAttribute("admin");
 		SecurityUtils.getSubject().logout();
-		return "redirect:/login/login";
+		return "redirect:/dologin/login";
 	}
 }
