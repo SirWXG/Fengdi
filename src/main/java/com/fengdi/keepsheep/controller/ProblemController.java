@@ -153,7 +153,8 @@ public class ProblemController {
 	 */
 	@RequestMapping(value = "/selectNoAndCn",method = RequestMethod.GET)
 	@ResponseBody
-	public PageInfo<FProblem> selectNoAndCn(@RequestParam(name = "problemNo",defaultValue = "")String problemNo,@RequestParam(name = "groupCnname",defaultValue = "")String group_name,
+	public PageInfo<FProblem> selectNoAndCn(@RequestParam(name = "problemNo",defaultValue = "")String problemNo,
+											@RequestParam(name = "groupCnname",defaultValue = "")String group_name,
 											@RequestParam(name = "page",defaultValue = "1")Integer page,
 											@RequestParam(name = "rows",defaultValue = "10")Integer rows){
 		Map<String,Object> map=new HashMap<String, Object>();

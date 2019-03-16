@@ -1,11 +1,11 @@
 $(".delProblem").on("click", function() {
     var obj = $(this);
-    if (confirm("你确定要删除ID为【" + obj.attr("proID") + "】及其所有的信息吗？")) {
+    if (confirm("你确定要删除ID为【" + obj.attr("proid") + "】及其所有的信息吗？")) {
         $.ajax( {
             type : "GET",
             url : "delProblem.json",
             data : {
-                id : obj.attr("proID")
+                id : obj.attr("proid")
             },
             dataType : "json",
             success : function(data) {

@@ -1,8 +1,9 @@
 package com.fengdi.keepsheep.bean;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class FProblem {
+public class FProblem implements Serializable {
     private String problemNo;
 
     private Long id;

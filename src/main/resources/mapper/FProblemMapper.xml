@@ -274,13 +274,14 @@
   </update>
 
   <select id="selectNoAndCname" resultMap="BaseResultMap" parameterType="map">
-    select <include refid="Base_Column_List" />
+    select *
     from f_problem
     <where>
-      <if test="problemNo!=null">
-        problem_no LIKE CONCAT('%',#{problemNo},'%')
+      1=1
+      <if test="problemNo!=null and problemNo!=''">
+         and problem_no LIKE CONCAT('%',#{problemNo},'%')
       </if>
-      <if test="groupCnname!=null">
+      <if test="groupCnname!=null and groupCnname!=''">
         AND group_cnname LIKE CONCAT('%',#{groupCnname},'%')
       </if>
     </where>
