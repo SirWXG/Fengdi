@@ -40,10 +40,9 @@
 	<mvc:annotation-driven />
 
 	<!-- 配置静态资源 -->
-	<mvc:resources location="/static/css/" mapping="/css/**"></mvc:resources>
-	<mvc:resources location="/static/images/" mapping="/images/**"></mvc:resources>
-	<mvc:resources location="/static/js/" mapping="/js/**"></mvc:resources>
-	<mvc:resources location="/static/datepicker" mapping="/datepicker/**"></mvc:resources>
+	<mvc:resources location="/css/" mapping="/css/**"></mvc:resources>
+	<mvc:resources location="/images/" mapping="/images/**"></mvc:resources>
+	<mvc:resources location="/js/" mapping="/js/**"></mvc:resources>
 
 
 </beans>

@@ -47,4 +47,6 @@ public interface FPictureMapper {
     List<FPicture> selectPictureByPno(String pictureNo);
 
     int checkPicNum(FPicture fPicture);
+
+    int updatePic(FPicture fPicture);
 }

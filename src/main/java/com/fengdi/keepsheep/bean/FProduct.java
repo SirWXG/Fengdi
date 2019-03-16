@@ -3,7 +3,7 @@ package com.fengdi.keepsheep.bean;
 import java.util.Date;
 
 public class FProduct {
-    private Integer productNo;
+    private String productNo;
 
     private Long id;
 
@@ -23,11 +23,11 @@ public class FProduct {
 
     private String productImg;
 
-    public Integer getProductNo() {
+    public String getProductNo() {
         return productNo;
     }
 
-    public void setProductNo(Integer productNo) {
+    public void setProductNo(String productNo) {
         this.productNo = productNo;
     }
 

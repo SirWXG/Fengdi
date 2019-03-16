@@ -2,15 +2,17 @@ package com.fengdi.keepsheep.mapper;
 
 import com.fengdi.keepsheep.bean.FProduct;
 import com.fengdi.keepsheep.bean.FProductExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
+import java.util.Map;
 
 public interface FProductMapper {
     int countByExample(FProductExample example);
 
     int deleteByExample(FProductExample example);
 
-    int deleteByPrimaryKey(Integer productNo);
+    int deleteByPrimaryKey(String productNo);
 
     int insert(FProduct record);
 
@@ -33,4 +35,14 @@ public interface FProductMapper {
     int updateByPrimaryKeyWithBLOBs(FProduct record);
 
     int updateByPrimaryKey(FProduct record);
+
+    List<FProduct> selectAllProduct(@Param("productName") String productName);
+
+    int updateProductStatus(Map<String,Object> map);
+
+    int checkProductImg();
+
+    List<FProduct> selectProductByPno(@Param("productNo") String productNo);
+
+    int updateProduct(Map<String,Object>map);
 }

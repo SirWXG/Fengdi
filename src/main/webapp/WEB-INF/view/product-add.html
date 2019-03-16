@@ -20,24 +20,21 @@
 <div class="x-body">
     <form class="layui-form" enctype="multipart/form-data" method="post">
         <div class="layui-form-item">
-            <label for="pictureName" class="layui-form-label">
-                <span class="x-red">*</span>图片标题
+            <label for="productName" class="layui-form-label">
+                <span class="x-red">*</span>产品名称
             </label>
             <div class="layui-input-inline">
-                <input type="text" id="pictureName" name="pictureName" required="" lay-verify="required"
+                <input type="text" id="productName" name="productName" required="" lay-verify="required"
                        autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
-            <label for="pictureText" class="layui-form-label">
-                <span class="x-red">*</span>图片文案描述
+            <label for="productInfo" class="layui-form-label">
+                <span class="x-red">*</span>产品介绍
             </label>
             <div class="layui-input-inline">
-                <input type="text" id="pictureText" name="pictureText" required="" lay-verify="required"
+                <input type="text" id="productInfo" name="productInfo" required="" lay-verify="required"
                        autocomplete="off" class="layui-input">
-            </div>
-            <div class="layui-form-mid layui-word-aux">
-                <span class="x-red">*</span>将在图片周围展示的文案
             </div>
         </div>
         <div class="layui-form-item">
@@ -54,41 +51,7 @@
             </div>
         </div>
         <div class="layui-form-item">
-            <label for="L_email" class="layui-form-label">
-                <span class="x-red">*</span>展示区域
-            </label>
-            <div class="layui-input-inline">
-                <select name="pictureType" id="L_email" required="" class="layui-input">
-                    <option value="0">请选择图片类型</option>
-                    <option value="轮播图">轮播图</option>
-                    <option value="平台图片">平台图片</option>
-                </select>
-            </div>
-            <div class="layui-form-mid layui-word-aux">
-                <span class="x-red">*</span>
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label for="Lemail" class="layui-form-label">
-                <span class="x-red">*</span>展示区域
-            </label>
-            <div class="layui-input-inline">
-                <select name="pictureArea" id="Lemail" required="" class="layui-input">
-                    <option value="0">请选择展示区域</option>
-                    <option value="顶部图片">顶部图片</option>
-                    <option value="产品轮播图片">产品轮播图片</option>
-                    <option value="平台介绍图片">平台介绍图片</option>
-                    <option value="问题展示图片">问题展示图片</option>
-                    <option value="5"></option>
-                    <option value="6"></option>
-                </select>
-            </div>
-            <div class="layui-form-mid layui-word-aux">
-                <span class="x-red">*</span>
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label for="L_repass" class="layui-form-label">
+            <label for="addImg" class="layui-form-label">
             </label>
             <button id="addImg" class="layui-btn" lay-filter="add" lay-submit="">
                 增加
@@ -117,7 +80,7 @@
 
     $("#addImg").click(function () {
         $.ajax({
-            url:"/picture/addPicture",
+            url:"/product/addProduct",
             type:"post",
             cache:false,
             data:new FormData($('.layui-form')[0]),
@@ -130,7 +93,7 @@
                         var index = parent.layer.getFrameIndex(window.name);
                         //关闭当前frame
                         parent.layer.close(index);
-                        parent.window.location.href="/view/cate";
+                        parent.window.location.href="/view/product-list";
                     });
                 }else{
                     alert("增加失败");
@@ -147,15 +110,14 @@
 
         //自定义验证规则
         form.verify({
-            nikename: function(value){
-                if(value.length < 5){
-                    return '昵称至少得5个字符啊';
+            productName: function(value){
+                if(value.length < 1){
+                    return '产品名称不能为空';
                 }
             }
-            ,pass: [/(.+){6,12}$/, '密码必须6到12位']
-            ,repass: function(value){
-                if($('#L_pass').val()!=$('#L_repass').val()){
-                    return '两次密码不一致';
+            ,productInfo: function(value){
+                if(value.length < 1){
+                    return '产品名称不能为空';
                 }
             }
         });

@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="../css/font.css">
+    <link rel="stylesheet" href="../css/xadmin.css">
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="../lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../js/xadmin.js"></script>
+    <link rel="stylesheet" href="../lib/layui/css/layui.css"/>
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+<div class="x-nav">
+      <span class="layui-breadcrumb">
+        <a href="">首页</a>
+        <a href="">演示</a>
+        <a>
+          <cite>导航元素</cite></a>
+      </span>
+    <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" href="javascript:location.replace(location.href);" title="刷新">
+        <i class="layui-icon" style="line-height:30px">ဂ</i></a>
+</div>
+<div class="x-body">
+    <div class="layui-row">
+        <form class="layui-form layui-col-md12 x-so">
+            <input type="text" name="productName"  placeholder="请输入产品名称" autocomplete="off" class="layui-input">
+            <button class="layui-btn" id="query"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
+        </form>
+    </div>
+    <div class="layui-row">
+        <button class="layui-btn" onclick="x_admin_show('添加','/view/product-add')"><i class="layui-icon"></i>添加</button>
+    </div>
+    <xblock>
+        <span class="x-right" style="line-height:40px">共有数据：88 条</span>
+    </xblock>
+    <table class="layui-table layui-form">
+        <thead>
+        <tr>
+            <th>产品编号</th>
+            <th>产品名称</th>
+            <th>产品介绍</th>
+            <th>产品图片</th>
+            <th>创建管理员</th>
+            <th>管理员编号</th>
+            <th>创建时间</th>
+            <th width="50">状态</th>
+            <th width="50">操作</th>
+        </thead>
+        <tbody id="tbodys">
+
+        </tbody>
+    </table>
+    <div class="page">
+    </div>
+</div>
+<script>
+    $(function () {
+        getAjax(1);
+        $("#query").click(function () {
+            getAjax(1);
+            return false;
+        });
+    })
+
+    function getAjax(data) {
+        $.ajax({
+            url:"/product/selectAllProduct",
+            type:"get",
+            data:{
+                page:data,
+                productName:$("input[name='productName']").val()
+            },
+            success:function (data) {
+                eachData(data.list);
+                eachPage(data);
+            }
+        });
+        return false;
+    }
+
+    function eachPage(data) {
+        $("#divPage").empty();
+        $(".page").empty();
+
+        var $prev = $("<a>").addClass("prev").attr("href","javascript:getAjax("+(data.isFirstPage?1:data.prePage)+")").html("&lt;&lt;");
+        var $next = $("<a>").addClass("next").attr("href","javascript:getAjax("+(data.isLastPage?data.pages:data.nextPage)+")").html("&gt;&gt;");
+        var $divc = $("<div>").append($prev);
+        $.each(data.navigatepageNums,function (index,items) {
+            if (items==data.pageNum){
+                var $spans = $("<span>").addClass("current").html(items);
+                $divc.append($spans);
+            }else{
+                var $as = $("<a>").addClass("num").attr("href","javascript:getAjax("+items+")").html(items);
+                $divc.append($as)
+            }
+        })
+        $divc.append($next);
+        $(".page").append($divc);
+    }
+
+    function eachData(result) {
+        $("#tbodys").empty();
+        $.each(result,function (index,items) {
+            <!-- 遍历数据 -->
+            var $pictureNo = $("<td>").html(items.productNo);
+            var $pictureName = $("<td>").html(items.productName);
+            var $pictureText = $("<td>").html(items.productIntroduction);
+            var $pictureImg = $("<td>").append($("<img>").attr("src",items.productImg).attr("style","width:100px;height:60px"));
+            var $pictureType = $("<td>").html(items.groupCnname);
+            var $groupName = $("<td>").html(items.adminGroupNo);
+            var $createTime = $("<td>").html(items.createTime);
+            <!--状态栏-->
+            var $status = $("<span>").addClass(items.status=='yes'?'layui-btn layui-btn-normal layui-btn-mini':'layui-btn layui-btn-disabled').html(items.status=='yes'?'已展示':'未展示');
+            var $td_status = $("<td>").addClass("td-status").append($status);
+            <!--操作栏-->
+            var $a1 = $("<a>").attr("onclick","member_stop(this,'"+items.productNo+"')").attr("href","javascript:;").attr("title",items.status=='yes'?'启用':'停用');
+            var $i1 = $("<i>").addClass("layui-icon").html("&#xe601;");
+            var $a2 = $("<a>").attr("title","编辑").attr("onclick","member_getNo('"+items.productNo+"')").attr("href","javascript:;");
+            var $i2 = $("<i>").addClass("layui-icon").html("&#xe642;");
+            var $a3 = $("<a>").attr("title","删除").attr("onclick","member_del(this,'"+items.productNo+"')").attr("href","javascript:;");
+            var $i3 = $("<i>").addClass("layui-icon").html("&#xe640;");
+            var $td_manage = $("<td>").addClass("td-manage").append($a1.append($i1)).append($a2.append($i2)).append($a3.append($i3));
+            var $tr = $("<tr>").append($pictureNo).append($pictureName).
+            append($pictureText).append($pictureImg).
+            append($pictureType).append($groupName).append($createTime).append($td_status).append($td_manage);
+            $("#tbodys").append($tr);
+        })
+    }
+    layui.use(['form'], function(){
+        form = layui.form;
+    });
+    /*用户-删除*/
+    function member_del(obj,id){
+        layer.confirm('确认要删除吗？',function(index){
+            //发异步删除数据
+            $.ajax({
+                url:"/product/delProduct",
+                type:"post",
+                data:{
+                    productNo:id
+                },
+                success:function (data) {
+                    if (data.success){
+                        $(obj).parents("tr").remove();
+                        layer.msg('已删除!',{icon:1,time:1000});
+                    }else{
+                        layer.msg(data.errMsg);
+                    }
+                }
+            });
+        });
+    }
+
+    function member_getNo(productNo){
+        $.ajax({
+            url:"/product/selectProduct",
+            type:"post",
+            data:{
+                productNo:productNo
+            },
+            success:function (data) {
+                if (data.success){
+                    x_admin_show('编辑','/view/product-edit');
+                }
+            }
+        });
+    }
+
+    function member_stop(obj,id){
+        layer.confirm('确认要操作吗？',function(index){
+            if($(obj).attr('title')=='启用'){
+                $.ajax({
+                    url:"/product/updateProductStatus",
+                    type:"post",
+                    data:{
+                        productNo:id,
+                        status:"no"
+                    },
+                    success:function (data) {
+                        if (data.success){
+                            $(obj).attr('title','停用')
+                            $(obj).find('i').html('&#xe62f;');
+                            $(obj).parents("tr").find(".td-status").find('span').addClass('layui-btn-disabled').html('未展示');
+                            layer.msg('关闭启用!',{icon: 1,time:1000});
+                        }else{
+                            layer.msg(data.errMsg,{icon:5,time:1000});
+                        }
+                    }
+                });
+            }else{
+                $.ajax({
+                    url:"/product/updateProductStatus",
+                    type:"post",
+                    data:{
+                        productNo:id,
+                        status:"yes"
+                    },
+                    success:function (data) {
+                        if (data.success){
+                            $(obj).attr('title','启用')
+                            $(obj).find('i').html('&#xe601;');
+                            $(obj).parents("tr").find(".td-status").find('span').removeClass('layui-btn-disabled').addClass("layui-btn-normal layui-btn-mini").html('已显示');
+                            layer.msg('正常!',{icon: 1,time:1000});
+                        }else{
+                            layer.msg(data.errMsg,{icon:5,time:1000});
+                        }
+                    }
+
+                });
+            }
+
+        });
+    }
+
+    function delAll (argument) {
+        var data = tableCheck.getData();
+        layer.confirm('确认要删除吗？'+data,function(index){
+            //捉到所有被选中的，发异步进行删除
+            layer.msg('删除成功', {icon: 1});
+            $(".layui-form-checked").not('.header').parents('tr').remove();
+        });
+    }
+</script>
+
+</body>
+</html>

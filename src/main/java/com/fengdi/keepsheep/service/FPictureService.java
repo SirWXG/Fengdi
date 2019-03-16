@@ -23,4 +23,6 @@ public interface FPictureService {
     List<FPicture> selectPictureByPno(String pictureNo);
 
     int checkPicNum(FPicture fPicture);
+
+    int updatePic(FPicture fPicture);
 }

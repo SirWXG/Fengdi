@@ -16,7 +16,6 @@ public class ImgUtils {
         try {
             //上传后的地址，注意("/upload")是表示文件上传后的目标文件夹
             String realPath = request.getSession().getServletContext().getRealPath("/images");
-            System.out.println("打印文件上传的路径" + realPath);
             //获取文件名
             String filename = file.getOriginalFilename();
             //获取文件后缀名
@@ -28,7 +27,7 @@ public class ImgUtils {
             if (!dir.exists()) {//如果dir代表的文件不存在，则创建它，
                 dir.mkdirs();//
             }
-            filePath = realPath+"\\"+newFilename;
+            filePath = "/images/"+newFilename;
             //如果存在则直接执行下面操作
             file.transferTo(dir);//将上传的实体文件复制到指定目录upload下
         }catch (Exception e){

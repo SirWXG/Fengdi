@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.fengdi.keepsheep.mapper.FProductMapper" >
   <resultMap id="BaseResultMap" type="com.fengdi.keepsheep.bean.FProduct" >
-    <id column="product_no" property="productNo" jdbcType="INTEGER" />
+    <id column="product_no" property="productNo" jdbcType="VARCHAR" />
     <result column="id" property="id" jdbcType="BIGINT" />
     <result column="product_name" property="productName" jdbcType="VARCHAR" />
     <result column="product_introduction" property="productIntroduction" jdbcType="VARCHAR" />
@@ -11,331 +11,59 @@
     <result column="admin_group_no" property="adminGroupNo" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="product_img" property="productImg" jdbcType="VARCHAR" />
   </resultMap>
-  <resultMap id="ResultMapWithBLOBs" type="com.fengdi.keepsheep.bean.FProduct" extends="BaseResultMap" >
-    <result column="product_img" property="productImg" jdbcType="LONGVARCHAR" />
-  </resultMap>
-  <sql id="Example_Where_Clause" >
-    <where >
-      <foreach collection="oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue" >
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue" >
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue" >
-                  and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
-            </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Update_By_Example_Where_Clause" >
-    <where >
-      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue" >
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue" >
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue" >
-                  and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
-            </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
   <sql id="Base_Column_List" >
     product_no, id, product_name, product_introduction, status, group_cnname, admin_group_no, 
-    create_time, update_time
+    create_time, update_time,product_img
   </sql>
-  <sql id="Blob_Column_List" >
-    product_img
-  </sql>
-  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.fengdi.keepsheep.bean.FProductExample" >
-    select
-    <if test="distinct" >
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from f_product
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null" >
-      order by ${orderByClause}
-    </if>
-  </select>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.fengdi.keepsheep.bean.FProductExample" >
-    select
-    <if test="distinct" >
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    from f_product
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null" >
-      order by ${orderByClause}
-    </if>
-  </select>
-  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
-    select 
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from f_product
-    where product_no = #{productNo,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from f_product
-    where product_no = #{productNo,jdbcType=INTEGER}
-  </delete>
-  <delete id="deleteByExample" parameterType="com.fengdi.keepsheep.bean.FProductExample" >
-    delete from f_product
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
+    where product_no = #{productNo,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.fengdi.keepsheep.bean.FProduct" >
     insert into f_product (product_no, id, product_name, 
       product_introduction, status, group_cnname, 
       admin_group_no, create_time, update_time, 
       product_img)
-    values (#{productNo,jdbcType=INTEGER}, #{id,jdbcType=BIGINT}, #{productName,jdbcType=VARCHAR}, 
+    values (#{productNo,jdbcType=VARCHAR}, #{id,jdbcType=BIGINT}, #{productName,jdbcType=VARCHAR},
       #{productIntroduction,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{groupCnname,jdbcType=VARCHAR}, 
       #{adminGroupNo,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{productImg,jdbcType=LONGVARCHAR})
+      #{productImg,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.fengdi.keepsheep.bean.FProduct" >
-    insert into f_product
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="productNo != null" >
-        product_no,
+
+  <select id="selectAllProduct" resultMap="BaseResultMap" parameterType="java.lang.String">
+    SELECT <include refid="Base_Column_List" />
+    FROM f_product
+    <where>
+      <if test="productName!=null">
+        product_name LIKE CONCAT ('%',#{productName},'%')
       </if>
-      <if test="id != null" >
-        id,
-      </if>
-      <if test="productName != null" >
-        product_name,
-      </if>
-      <if test="productIntroduction != null" >
-        product_introduction,
-      </if>
-      <if test="status != null" >
-        status,
-      </if>
-      <if test="groupCnname != null" >
-        group_cnname,
-      </if>
-      <if test="adminGroupNo != null" >
-        admin_group_no,
-      </if>
-      <if test="createTime != null" >
-        create_time,
-      </if>
-      <if test="updateTime != null" >
-        update_time,
-      </if>
-      <if test="productImg != null" >
-        product_img,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="productNo != null" >
-        #{productNo,jdbcType=INTEGER},
-      </if>
-      <if test="id != null" >
-        #{id,jdbcType=BIGINT},
-      </if>
-      <if test="productName != null" >
-        #{productName,jdbcType=VARCHAR},
-      </if>
-      <if test="productIntroduction != null" >
-        #{productIntroduction,jdbcType=VARCHAR},
-      </if>
-      <if test="status != null" >
-        #{status,jdbcType=VARCHAR},
-      </if>
-      <if test="groupCnname != null" >
-        #{groupCnname,jdbcType=VARCHAR},
-      </if>
-      <if test="adminGroupNo != null" >
-        #{adminGroupNo,jdbcType=VARCHAR},
-      </if>
-      <if test="createTime != null" >
-        #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updateTime != null" >
-        #{updateTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="productImg != null" >
-        #{productImg,jdbcType=LONGVARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <select id="countByExample" parameterType="com.fengdi.keepsheep.bean.FProductExample" resultType="java.lang.Integer" >
-    select count(*) from f_product
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
+    </where>
   </select>
-  <update id="updateByExampleSelective" parameterType="map" >
-    update f_product
-    <set >
-      <if test="record.productNo != null" >
-        product_no = #{record.productNo,jdbcType=INTEGER},
-      </if>
-      <if test="record.id != null" >
-        id = #{record.id,jdbcType=BIGINT},
-      </if>
-      <if test="record.productName != null" >
-        product_name = #{record.productName,jdbcType=VARCHAR},
-      </if>
-      <if test="record.productIntroduction != null" >
-        product_introduction = #{record.productIntroduction,jdbcType=VARCHAR},
-      </if>
-      <if test="record.status != null" >
-        status = #{record.status,jdbcType=VARCHAR},
-      </if>
-      <if test="record.groupCnname != null" >
-        group_cnname = #{record.groupCnname,jdbcType=VARCHAR},
-      </if>
-      <if test="record.adminGroupNo != null" >
-        admin_group_no = #{record.adminGroupNo,jdbcType=VARCHAR},
-      </if>
-      <if test="record.createTime != null" >
-        create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.updateTime != null" >
-        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.productImg != null" >
-        product_img = #{record.productImg,jdbcType=LONGVARCHAR},
-      </if>
-    </set>
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
+
+  <select id="checkProductImg" resultType="int">
+    SELECT COUNT(*) FROM f_product WHERE status='yes'
+  </select>
+
+  <update id="updateProductStatus" parameterType="map">
+    UPDATE f_product
+    SET status=#{status}
+    WHERE product_no=#{productNo}
   </update>
-  <update id="updateByExampleWithBLOBs" parameterType="map" >
-    update f_product
-    set product_no = #{record.productNo,jdbcType=INTEGER},
-      id = #{record.id,jdbcType=BIGINT},
-      product_name = #{record.productName,jdbcType=VARCHAR},
-      product_introduction = #{record.productIntroduction,jdbcType=VARCHAR},
-      status = #{record.status,jdbcType=VARCHAR},
-      group_cnname = #{record.groupCnname,jdbcType=VARCHAR},
-      admin_group_no = #{record.adminGroupNo,jdbcType=VARCHAR},
-      create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
-      product_img = #{record.productImg,jdbcType=LONGVARCHAR}
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
+
+  <select id="selectProductByPno" parameterType="string" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List" />
+    FROM f_product
+    WHERE product_no=#{productNo}
+  </select>
+
+  <update id="updateProduct" parameterType="map">
+      UPDATE f_product SET
+      product_name=#{productName},
+      product_introduction=#{productIntroduction},
+      product_img=#{productImg}
+      WHERE product_no=#{productNo}
   </update>
-  <update id="updateByExample" parameterType="map" >
-    update f_product
-    set product_no = #{record.productNo,jdbcType=INTEGER},
-      id = #{record.id,jdbcType=BIGINT},
-      product_name = #{record.productName,jdbcType=VARCHAR},
-      product_introduction = #{record.productIntroduction,jdbcType=VARCHAR},
-      status = #{record.status,jdbcType=VARCHAR},
-      group_cnname = #{record.groupCnname,jdbcType=VARCHAR},
-      admin_group_no = #{record.adminGroupNo,jdbcType=VARCHAR},
-      create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      update_time = #{record.updateTime,jdbcType=TIMESTAMP}
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.fengdi.keepsheep.bean.FProduct" >
-    update f_product
-    <set >
-      <if test="id != null" >
-        id = #{id,jdbcType=BIGINT},
-      </if>
-      <if test="productName != null" >
-        product_name = #{productName,jdbcType=VARCHAR},
-      </if>
-      <if test="productIntroduction != null" >
-        product_introduction = #{productIntroduction,jdbcType=VARCHAR},
-      </if>
-      <if test="status != null" >
-        status = #{status,jdbcType=VARCHAR},
-      </if>
-      <if test="groupCnname != null" >
-        group_cnname = #{groupCnname,jdbcType=VARCHAR},
-      </if>
-      <if test="adminGroupNo != null" >
-        admin_group_no = #{adminGroupNo,jdbcType=VARCHAR},
-      </if>
-      <if test="createTime != null" >
-        create_time = #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updateTime != null" >
-        update_time = #{updateTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="productImg != null" >
-        product_img = #{productImg,jdbcType=LONGVARCHAR},
-      </if>
-    </set>
-    where product_no = #{productNo,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.fengdi.keepsheep.bean.FProduct" >
-    update f_product
-    set id = #{id,jdbcType=BIGINT},
-      product_name = #{productName,jdbcType=VARCHAR},
-      product_introduction = #{productIntroduction,jdbcType=VARCHAR},
-      status = #{status,jdbcType=VARCHAR},
-      group_cnname = #{groupCnname,jdbcType=VARCHAR},
-      admin_group_no = #{adminGroupNo,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      update_time = #{updateTime,jdbcType=TIMESTAMP},
-      product_img = #{productImg,jdbcType=LONGVARCHAR}
-    where product_no = #{productNo,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.fengdi.keepsheep.bean.FProduct" >
-    update f_product
-    set id = #{id,jdbcType=BIGINT},
-      product_name = #{productName,jdbcType=VARCHAR},
-      product_introduction = #{productIntroduction,jdbcType=VARCHAR},
-      status = #{status,jdbcType=VARCHAR},
-      group_cnname = #{groupCnname,jdbcType=VARCHAR},
-      admin_group_no = #{adminGroupNo,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      update_time = #{updateTime,jdbcType=TIMESTAMP}
-    where product_no = #{productNo,jdbcType=INTEGER}
-  </update>
+
 </mapper>

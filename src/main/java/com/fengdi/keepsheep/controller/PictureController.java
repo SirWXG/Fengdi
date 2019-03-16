@@ -38,7 +38,6 @@ public class PictureController {
      * @param page
      * @param rows
      * @param pictureArea
-     * @param session
      * @return
      * @throws UnsupportedEncodingException
      */
@@ -46,9 +45,8 @@ public class PictureController {
     @ResponseBody
     public PageInfo<FPicture> selectPic(@RequestParam(name = "page",defaultValue = "1")Integer page,
                                         @RequestParam(name = "rows",defaultValue = "10")Integer rows,
-                                        @RequestParam(name = "pictureArea",defaultValue = "")String pictureArea, HttpSession session) throws UnsupportedEncodingException {
+                                        @RequestParam(name = "pictureArea",defaultValue = "")String pictureArea) throws UnsupportedEncodingException {
         pictureArea = new String(pictureArea.getBytes("iso-8859-1"),"utf-8");
-        System.out.println(pictureArea);
         PageHelper.startPage(page,rows);
         List<FPicture> list = fPictureService.selectPic(pictureArea);
         PageInfo<FPicture> info = new PageInfo<FPicture>(list,4);
@@ -183,6 +181,59 @@ public class PictureController {
             }
         }catch (Exception e){
             e.printStackTrace();
+        }
+        return result;
+    }
+
+    @RequestMapping(value = "/selectPicture",method = RequestMethod.POST)
+    @ResponseBody
+    public SimpleResult selectPictureByNo(@RequestParam(name = "pictureNo")String picNo,HttpSession session){
+        SimpleResult result = new SimpleResult();
+        try{
+            List<FPicture> list = fPictureService.selectPictureByPno(picNo);
+            if(list.size()<1){
+                result.setErrCode("1");
+                result.setErrMsg("查询错误");
+            }else{
+                result.setSuccess(true);
+                session.setAttribute("f_picture",list.get(0));
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+
+    @RequestMapping(value = "/updatePicture",method = RequestMethod.POST)
+    @ResponseBody
+    public SimpleResult updatePicture(@RequestParam(name = "pictureText",defaultValue = "")String pictureText,
+                                      @RequestParam(name = "pictureArea",defaultValue = "")String pictureArea,
+                                      @RequestParam(name = "img")CommonsMultipartFile file,
+                                      @RequestParam(name = "pictureType",defaultValue = "")String pictureType,
+                                      @RequestParam(name = "pictureName",defaultValue = "")String pictureName,
+                                      HttpServletRequest request,HttpSession session){
+        SimpleResult result = new SimpleResult();
+        try{
+            FPicture fPicture =(FPicture)session.getAttribute("f_picture");
+            String picNo = fPicture.getPictureNo();
+            String filePath = ImgUtils.getImgs(request,file);
+            FPicture fp = new FPicture();
+            fp.setPictureImg(filePath);
+            fp.setPictureNo(picNo);
+            fp.setPictureText(pictureText);
+            fp.setPictureName(pictureName);
+            fp.setPictureArea(pictureArea);
+            fp.setPictureType(pictureType);
+            int flag = fPictureService.updatePic(fp);
+            if(flag<1){
+                result.setErrCode("1");
+                result.setErrMsg("更新失败");
+            }else{
+                result.setSuccess(true);
+            }
+        }catch (Exception e){
+         e.printStackTrace();
         }
         return result;
     }

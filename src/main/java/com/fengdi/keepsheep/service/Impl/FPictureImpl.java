@@ -69,4 +69,9 @@ public class FPictureImpl implements FPictureService {
         return fPictureMapper.checkPicNum(fPicture);
     }
 
+    @Override
+    public int updatePic(FPicture fPicture) {
+        return fPictureMapper.updatePic(fPicture);
+    }
+
 }

@@ -2,6 +2,7 @@ package com.fengdi.keepsheep.controller;
 
 import com.fengdi.keepsheep.bean.FAdmin;
 import com.fengdi.keepsheep.service.FAdminService;
+import com.fengdi.keepsheep.shiro.Shiro;
 import com.fengdi.keepsheep.util.SimpleResult;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -65,7 +67,9 @@ public class AdminController {
     public PageInfo<FAdmin> selectAdmin(@RequestParam(name = "realName",defaultValue = "")String realName,
                                     @RequestParam(name = "loginName",defaultValue = "")String loginName,
                                     @RequestParam(name = "page",defaultValue = "1")Integer page,
-                                    @RequestParam(name = "rows",defaultValue = "10")Integer rows,Model model,HttpSession session){
+                                    @RequestParam(name = "rows",defaultValue = "10")Integer rows,Model model,HttpSession session) throws UnsupportedEncodingException {
+        realName = new String(realName.getBytes("iso-8859-1"),"utf-8");
+        loginName = new String(loginName.getBytes("iso-8859-1"),"utf-8");
         Map<String,Object> map = new HashMap<String, Object>();
         try{
             FAdmin fAdmin = (FAdmin)session.getAttribute("admin");
@@ -219,6 +223,7 @@ public class AdminController {
                 result.setErrCode("1");
             }else{
                 fAdmin.setAdminNo(admin.getAdminNo());
+                fAdmin.setPwd(Shiro.ToMD5(fAdmin.getLoginName(),fAdmin.getPwd()));
                 int flag = fAdminService.updateByPrimaryKeySelective(fAdmin);
                 if(flag<1){
                     result.setErrMsg("更新失败,请重新操作");
