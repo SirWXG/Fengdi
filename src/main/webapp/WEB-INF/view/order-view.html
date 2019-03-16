@@ -76,6 +76,10 @@
             var announcementNo = $("input[name='announcementNo']").val();
             var announcementName = $("textarea[name='announcementName']").val();
             var status = $('#status option:selected').val();
+            if (announcementName==null||announcementName.trim()<1){
+                layer.msg('公告内容不能为空"',{icon:2,time:1000});
+                return false;
+            }
             $.ajax({
                 url:"/fannouncementService/upd",
                 type:"post",

@@ -115,52 +115,62 @@ public class FServiceExample {
             return (Criteria) this;
         }
 
-        public Criteria andServiceNoEqualTo(Integer value) {
+        public Criteria andServiceNoEqualTo(String value) {
             addCriterion("service_no =", value, "serviceNo");
             return (Criteria) this;
         }
 
-        public Criteria andServiceNoNotEqualTo(Integer value) {
+        public Criteria andServiceNoNotEqualTo(String value) {
             addCriterion("service_no <>", value, "serviceNo");
             return (Criteria) this;
         }
 
-        public Criteria andServiceNoGreaterThan(Integer value) {
+        public Criteria andServiceNoGreaterThan(String value) {
             addCriterion("service_no >", value, "serviceNo");
             return (Criteria) this;
         }
 
-        public Criteria andServiceNoGreaterThanOrEqualTo(Integer value) {
+        public Criteria andServiceNoGreaterThanOrEqualTo(String value) {
             addCriterion("service_no >=", value, "serviceNo");
             return (Criteria) this;
         }
 
-        public Criteria andServiceNoLessThan(Integer value) {
+        public Criteria andServiceNoLessThan(String value) {
             addCriterion("service_no <", value, "serviceNo");
             return (Criteria) this;
         }
 
-        public Criteria andServiceNoLessThanOrEqualTo(Integer value) {
+        public Criteria andServiceNoLessThanOrEqualTo(String value) {
             addCriterion("service_no <=", value, "serviceNo");
             return (Criteria) this;
         }
 
-        public Criteria andServiceNoIn(List<Integer> values) {
+        public Criteria andServiceNoLike(String value) {
+            addCriterion("service_no like", value, "serviceNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andServiceNoNotLike(String value) {
+            addCriterion("service_no not like", value, "serviceNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andServiceNoIn(List<String> values) {
             addCriterion("service_no in", values, "serviceNo");
             return (Criteria) this;
         }
 
-        public Criteria andServiceNoNotIn(List<Integer> values) {
+        public Criteria andServiceNoNotIn(List<String> values) {
             addCriterion("service_no not in", values, "serviceNo");
             return (Criteria) this;
         }
 
-        public Criteria andServiceNoBetween(Integer value1, Integer value2) {
+        public Criteria andServiceNoBetween(String value1, String value2) {
             addCriterion("service_no between", value1, value2, "serviceNo");
             return (Criteria) this;
         }
 
-        public Criteria andServiceNoNotBetween(Integer value1, Integer value2) {
+        public Criteria andServiceNoNotBetween(String value1, String value2) {
             addCriterion("service_no not between", value1, value2, "serviceNo");
             return (Criteria) this;
         }
@@ -235,52 +245,62 @@ public class FServiceExample {
             return (Criteria) this;
         }
 
-        public Criteria andSuperServiceNoEqualTo(Integer value) {
+        public Criteria andSuperServiceNoEqualTo(String value) {
             addCriterion("super_service_no =", value, "superServiceNo");
             return (Criteria) this;
         }
 
-        public Criteria andSuperServiceNoNotEqualTo(Integer value) {
+        public Criteria andSuperServiceNoNotEqualTo(String value) {
             addCriterion("super_service_no <>", value, "superServiceNo");
             return (Criteria) this;
         }
 
-        public Criteria andSuperServiceNoGreaterThan(Integer value) {
+        public Criteria andSuperServiceNoGreaterThan(String value) {
             addCriterion("super_service_no >", value, "superServiceNo");
             return (Criteria) this;
         }
 
-        public Criteria andSuperServiceNoGreaterThanOrEqualTo(Integer value) {
+        public Criteria andSuperServiceNoGreaterThanOrEqualTo(String value) {
             addCriterion("super_service_no >=", value, "superServiceNo");
             return (Criteria) this;
         }
 
-        public Criteria andSuperServiceNoLessThan(Integer value) {
+        public Criteria andSuperServiceNoLessThan(String value) {
             addCriterion("super_service_no <", value, "superServiceNo");
             return (Criteria) this;
         }
 
-        public Criteria andSuperServiceNoLessThanOrEqualTo(Integer value) {
+        public Criteria andSuperServiceNoLessThanOrEqualTo(String value) {
             addCriterion("super_service_no <=", value, "superServiceNo");
             return (Criteria) this;
         }
 
-        public Criteria andSuperServiceNoIn(List<Integer> values) {
+        public Criteria andSuperServiceNoLike(String value) {
+            addCriterion("super_service_no like", value, "superServiceNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andSuperServiceNoNotLike(String value) {
+            addCriterion("super_service_no not like", value, "superServiceNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andSuperServiceNoIn(List<String> values) {
             addCriterion("super_service_no in", values, "superServiceNo");
             return (Criteria) this;
         }
 
-        public Criteria andSuperServiceNoNotIn(List<Integer> values) {
+        public Criteria andSuperServiceNoNotIn(List<String> values) {
             addCriterion("super_service_no not in", values, "superServiceNo");
             return (Criteria) this;
         }
 
-        public Criteria andSuperServiceNoBetween(Integer value1, Integer value2) {
+        public Criteria andSuperServiceNoBetween(String value1, String value2) {
             addCriterion("super_service_no between", value1, value2, "superServiceNo");
             return (Criteria) this;
         }
 
-        public Criteria andSuperServiceNoNotBetween(Integer value1, Integer value2) {
+        public Criteria andSuperServiceNoNotBetween(String value1, String value2) {
             addCriterion("super_service_no not between", value1, value2, "superServiceNo");
             return (Criteria) this;
         }

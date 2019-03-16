@@ -3,11 +3,11 @@ package com.fengdi.keepsheep.bean;
 import java.util.Date;
 
 public class FService {
-    private Integer serviceNo;
+    private String serviceNo;
 
     private Integer id;
 
-    private Integer superServiceNo;
+    private String superServiceNo;
 
     private String serviceName;
 
@@ -25,12 +25,12 @@ public class FService {
 
     private String serviceUrl;
 
-    public Integer getServiceNo() {
+    public String getServiceNo() {
         return serviceNo;
     }
 
-    public void setServiceNo(Integer serviceNo) {
-        this.serviceNo = serviceNo;
+    public void setServiceNo(String serviceNo) {
+        this.serviceNo = serviceNo == null ? null : serviceNo.trim();
     }
 
     public Integer getId() {
@@ -41,12 +41,12 @@ public class FService {
         this.id = id;
     }
 
-    public Integer getSuperServiceNo() {
+    public String getSuperServiceNo() {
         return superServiceNo;
     }
 
-    public void setSuperServiceNo(Integer superServiceNo) {
-        this.superServiceNo = superServiceNo;
+    public void setSuperServiceNo(String superServiceNo) {
+        this.superServiceNo = superServiceNo == null ? null : superServiceNo.trim();
     }
 
     public String getServiceName() {

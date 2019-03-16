@@ -9,19 +9,18 @@ import javax.servlet.http.HttpSession;
 import com.alibaba.fastjson.JSONArray;
 import com.fengdi.keepsheep.bean.FAdmin;
 import com.fengdi.keepsheep.bean.FProblem;
+import com.fengdi.keepsheep.bean.FProblemExample;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.apache.shiro.session.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import com.fengdi.keepsheep.service.FProblemService;
 import com.fengdi.keepsheep.util.SimpleResult;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @RequestMapping(value="/problem")
@@ -37,7 +36,7 @@ public class ProblemController {
 	 */
 	@RequestMapping(value="/selectAllProblem")
 	public String selectAllProblem(@RequestParam(name = "page",defaultValue = "1")Integer page,
-								   @RequestParam(name = "rows",defaultValue = "10")Integer rows,HttpSession session,Model model) {
+								   @RequestParam(name = "rows",defaultValue = "10")Integer rows, HttpSession session, Model model, FProblemExample example) {
 		SimpleResult simpleResult = new SimpleResult();
 		try {
 			PageHelper.startPage(page,rows);
@@ -48,7 +47,7 @@ public class ProblemController {
 		    	simpleResult.setErrMsg("登录失效，请重新登录");
 		    }
 			PageInfo<FProblem> info = new PageInfo<FProblem>(list,4);
-		    model.addAttribute("problem",info);
+			model.addAttribute("problem",info);
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -125,4 +124,45 @@ public class ProblemController {
 		}
 		return result;
 	}
+	/**
+	 * 根据ID查询问题列表
+	 * @return
+	 */
+	@RequestMapping(value = "/selectById",method = RequestMethod.POST)
+	@ResponseBody
+	public SimpleResult selectById(Integer id, HttpSession session){
+		FProblem fProblem = fProblemService.selectById(id);
+		session.setAttribute("fProblem",fProblem);
+		return new SimpleResult(fProblem!=null?true:false);
+	}
+	/**
+	 * 修改
+	 * @return
+	 */
+	@RequestMapping(value = "/updateById",method = RequestMethod.POST)
+	@ResponseBody
+	public SimpleResult updateById(FProblem fProblem){
+		System.out.println(fProblem.getProblemNo());
+		FProblem fProblem1=new FProblem(fProblem.getProblemNo(),fProblem.getId(),fProblem.getProblemAnswers(),fProblem.getStatus());
+		boolean result = fProblemService.updateById(fProblem1);
+		return new SimpleResult(result);
+	}
+	/**
+	 * 模糊查
+	 * @return
+	 */
+	@RequestMapping(value = "/selectNoAndCn",method = RequestMethod.GET)
+	@ResponseBody
+	public PageInfo<FProblem> selectNoAndCn(@RequestParam(name = "problemNo",defaultValue = "")String problemNo,@RequestParam(name = "groupCnname",defaultValue = "")String group_name,
+											@RequestParam(name = "page",defaultValue = "1")Integer page,
+											@RequestParam(name = "rows",defaultValue = "10")Integer rows){
+		Map<String,Object> map=new HashMap<String, Object>();
+		map.put("problemNo",problemNo);
+		map.put("groupCnname",group_name);
+		PageHelper.startPage(page,rows);
+		List<FProblem> list = fProblemService.selectNoAndCname(map);
+		PageInfo<FProblem> info=new PageInfo<FProblem>(list,4);
+		return info;
+	}
+
 }

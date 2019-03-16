@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
   
   <head>
     <meta charset="UTF-8">
-    <title>欢迎页面-X-admin2.0</title>
+    <title></title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
@@ -23,58 +23,118 @@
   <body>
     <div class="x-body">
         <form class="layui-form">
-          <div class="layui-form-item">
-              <label for="L_email" class="layui-form-label">
-                  <span class="x-red">*</span>邮箱
-              </label>
-              <div class="layui-input-inline">
-                  <input type="text" id="L_email" name="email" required="" lay-verify="email"
-                  autocomplete="off" class="layui-input">
-              </div>
-              <div class="layui-form-mid layui-word-aux">
-                  <span class="x-red">*</span>将会成为您唯一的登入名
-              </div>
-          </div>
-          <div class="layui-form-item">
-              <label for="L_username" class="layui-form-label">
-                  <span class="x-red">*</span>昵称
-              </label>
-              <div class="layui-input-inline">
-                  <input type="text" id="L_username" name="username" required="" lay-verify="nikename"
-                  autocomplete="off" class="layui-input">
-              </div>
-          </div>
-          <div class="layui-form-item">
-              <label for="L_pass" class="layui-form-label">
-                  <span class="x-red">*</span>密码
-              </label>
-              <div class="layui-input-inline">
-                  <input type="password" id="L_pass" name="pass" required="" lay-verify="pass"
-                  autocomplete="off" class="layui-input">
-              </div>
-              <div class="layui-form-mid layui-word-aux">
-                  6到16个字符
-              </div>
-          </div>
-          <div class="layui-form-item">
-              <label for="L_repass" class="layui-form-label">
-                  <span class="x-red">*</span>确认密码
-              </label>
-              <div class="layui-input-inline">
-                  <input type="password" id="L_repass" name="repass" required="" lay-verify="repass"
-                  autocomplete="off" class="layui-input">
-              </div>
-          </div>
-          <div class="layui-form-item">
-              <label for="L_repass" class="layui-form-label">
-              </label>
-              <button  class="layui-btn" lay-filter="add" lay-submit="">
-                  增加
-              </button>
-          </div>
+            <table>
+                <tr th:if="${session.f.ServiceLevel==1}">
+                    <input type="text" id="ss" th:value="${session.f.serviceNo}" name="serviceNo" required="" lay-verify="nikename"
+                           autocomplete="off" class="layui-input">
+                    <div class="layui-form-item">
+                        <label for="superServiceNo" class="layui-form-label">
+                            <span class="x-red">*</span>一级标题名称
+                        </label>
+                        <div class="layui-input-inline">
+                            <select id="superServiceNo">
+                                <option th:value="${session.a.serviceNo}" th:text="${session.a.serviceName}" name="superServiceNo"></option>
+                                <option th:each="n:${session.s}"th:value="${n.serviceNo}" th:text="${n.serviceName}" name="superServiceNo"></option>
+                            </select>
+                        </div>
+                        <div class="layui-form-mid layui-word-aux">
+                            <span class="x-red">*</span>
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label for="serviceName" class="layui-form-label">
+                            <span class="x-red">*</span>二级标题名称
+                        </label>
+                        <div class="layui-input-inline">
+                            <input type="text" id="serviceName" th:value="${session.f.serviceName}" name="serviceName" required="" lay-verify="nikename"
+                                   autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </tr>
+                <tr th:if="${session.f.ServiceLevel==0}">
+                    <input type="text" id="s" th:value="${session.f.serviceNo}" name="serviceNo" required="" lay-verify="nikename"
+                           autocomplete="off" class="layui-input">
+                    <div class="layui-form-item">
+                        <label for="fserviceName" class="layui-form-label">
+                            <span class="x-red">*</span>一级标题名称
+                        </label>
+                        <div class="layui-input-inline">
+                            <input type="text" id="fserviceName" th:value="${session.f.serviceName}" name="serviceName" required="" lay-verify="nikename"
+                                   autocomplete="off" class="layui-input">
+                        </div>
+                        <div class="layui-form-mid layui-word-aux">
+                            <span class="x-red">*</span>
+                        </div>
+                    </div>
+                </tr>
+                <div class="layui-form-item">
+                    <label for="serviceUrl" class="layui-form-label">
+                        标题链接
+                    </label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="serviceUrl" th:value="${session.f.serviceUrl}" name="serviceUrl" required="" lay-verify=""
+                               autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label for="status" class="layui-form-label">
+                        状态
+                    </label>
+                    <div class="layui-input-inline">
+                        <select th:filed="${session.f.status}" th:value="${session.f.status}" name="status" id="status" lay-verify="required">
+                            <option th:selected="${session.f.status=='1'}" value="1">已启用</option>
+                            <option th:selected="${session.f.status=='0'}" value="0">未启用</option>
+                        </select>
+                    </div>
+                </div>
+                    <div class="layui-form-item">
+                        <button id="upd"  class="layui-btn" lay-filter="add" lay-submit="">
+                            增加
+                        </button>
+                    </div>
+            </table>
       </form>
     </div>
     <script>
+
+        $(function () {
+            $("#upd").click(function () {
+                var serviceNo = $("input[name='serviceNo']").val();
+                var superServiceNo = $('#superServiceNo option:selected').val();
+                var serviceName = $("input[name='serviceName']").val();
+                var serviceUrl = $("input[name='serviceUrl']").val();
+                var status = $('#status option:selected').val();
+                if (serviceName==null||serviceName.trim()<1){
+                    layer.msg('标题名称不能为空"',{icon:2,time:1000});
+                    return false;
+                }
+                $.ajax({
+                    url:"/FserviceController/upd",
+                    type:"post",
+                    data:{
+                        serviceNo:serviceNo,
+                        superServiceNo:superServiceNo,
+                        serviceName:serviceName,
+                        serviceUrl:serviceUrl,
+                        status:status
+                    },
+                    success:function (data) {
+                        if (data.success){
+                            layer.alert("修改成功", {icon: 6},function () {
+                                // 获得frame索引
+                                var index = parent.layer.getFrameIndex(window.name);
+                                //关闭当前frame
+                                parent.window.location.href="/FserviceController/getall";
+                            });
+                        }else{
+                            alert("添加失败,请重新添加");
+                        }
+                    }
+                });
+                return false;
+            });
+        })
+
       layui.use(['form','layer'], function(){
           $ = layui.jquery;
         var form = layui.form

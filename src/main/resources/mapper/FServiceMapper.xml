@@ -2,9 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.fengdi.keepsheep.mapper.FServiceMapper" >
   <resultMap id="BaseResultMap" type="com.fengdi.keepsheep.bean.FService" >
-    <id column="service_no" property="serviceNo" jdbcType="INTEGER" />
+    <id column="service_no" property="serviceNo" jdbcType="VARCHAR" />
     <result column="id" property="id" jdbcType="INTEGER" />
-    <result column="super_service_no" property="superServiceNo" jdbcType="INTEGER" />
+    <result column="super_service_no" property="superServiceNo" jdbcType="VARCHAR" />
     <result column="service_name" property="serviceName" jdbcType="VARCHAR" />
     <result column="service_level" property="serviceLevel" jdbcType="INTEGER" />
     <result column="status" property="status" jdbcType="VARCHAR" />
@@ -12,10 +12,9 @@
     <result column="admin_group_no" property="adminGroupNo" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
-    <result column="service_url" property="serviceUrl" jdbcType="VARCHAR"/>
+      <result column="service_url" property="serviceUrl" jdbcType="VARCHAR" />
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.fengdi.keepsheep.bean.FService" extends="BaseResultMap" >
-
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -76,7 +75,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    service_no, id, super_service_no, service_name, service_level, status, group_cnname, 
+    service_no, id, super_service_no, service_name,service_level, status, group_cnname,
     admin_group_no, create_time, update_time,service_url
   </sql>
   <sql id="Blob_Column_List" >
@@ -111,17 +110,19 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
     from f_service
-    where service_no = #{serviceNo,jdbcType=INTEGER}
+    where service_no = #{serviceNo,jdbcType=VARCHAR}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from f_service
-    where service_no = #{serviceNo,jdbcType=INTEGER}
+    where service_no = #{serviceNo,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteBysuperServiceNo" parameterType="java.lang.String" >
+    delete from f_service
+    where super_service_no = #{superServiceNo,jdbcType=VARCHAR}
   </delete>
   <delete id="deleteByExample" parameterType="com.fengdi.keepsheep.bean.FServiceExample" >
     delete from f_service
@@ -134,7 +135,7 @@
       service_name, service_level, status, 
       group_cnname, admin_group_no, create_time, 
       update_time, service_url)
-    values (#{serviceNo,jdbcType=INTEGER}, #{id,jdbcType=INTEGER}, #{superServiceNo,jdbcType=INTEGER}, 
+    values (#{serviceNo,jdbcType=VARCHAR}, #{id,jdbcType=INTEGER}, #{superServiceNo,jdbcType=VARCHAR}, 
       #{serviceName,jdbcType=VARCHAR}, #{serviceLevel,jdbcType=INTEGER}, #{status,jdbcType=VARCHAR}, 
       #{groupCnname,jdbcType=VARCHAR}, #{adminGroupNo,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
       #{updateTime,jdbcType=TIMESTAMP}, #{serviceUrl,jdbcType=LONGVARCHAR})
@@ -178,13 +179,13 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="serviceNo != null" >
-        #{serviceNo,jdbcType=INTEGER},
+        #{serviceNo,jdbcType=VARCHAR},
       </if>
       <if test="id != null" >
         #{id,jdbcType=INTEGER},
       </if>
       <if test="superServiceNo != null" >
-        #{superServiceNo,jdbcType=INTEGER},
+        #{superServiceNo,jdbcType=VARCHAR},
       </if>
       <if test="serviceName != null" >
         #{serviceName,jdbcType=VARCHAR},
@@ -222,13 +223,13 @@
     update f_service
     <set >
       <if test="record.serviceNo != null" >
-        service_no = #{record.serviceNo,jdbcType=INTEGER},
+        service_no = #{record.serviceNo,jdbcType=VARCHAR},
       </if>
       <if test="record.id != null" >
         id = #{record.id,jdbcType=INTEGER},
       </if>
       <if test="record.superServiceNo != null" >
-        super_service_no = #{record.superServiceNo,jdbcType=INTEGER},
+        super_service_no = #{record.superServiceNo,jdbcType=VARCHAR},
       </if>
       <if test="record.serviceName != null" >
         service_name = #{record.serviceName,jdbcType=VARCHAR},
@@ -261,9 +262,9 @@
   </update>
   <update id="updateByExampleWithBLOBs" parameterType="map" >
     update f_service
-    set service_no = #{record.serviceNo,jdbcType=INTEGER},
+    set service_no = #{record.serviceNo,jdbcType=VARCHAR},
       id = #{record.id,jdbcType=INTEGER},
-      super_service_no = #{record.superServiceNo,jdbcType=INTEGER},
+      super_service_no = #{record.superServiceNo,jdbcType=VARCHAR},
       service_name = #{record.serviceName,jdbcType=VARCHAR},
       service_level = #{record.serviceLevel,jdbcType=INTEGER},
       status = #{record.status,jdbcType=VARCHAR},
@@ -278,9 +279,9 @@
   </update>
   <update id="updateByExample" parameterType="map" >
     update f_service
-    set service_no = #{record.serviceNo,jdbcType=INTEGER},
+    set service_no = #{record.serviceNo,jdbcType=VARCHAR},
       id = #{record.id,jdbcType=INTEGER},
-      super_service_no = #{record.superServiceNo,jdbcType=INTEGER},
+      super_service_no = #{record.superServiceNo,jdbcType=VARCHAR},
       service_name = #{record.serviceName,jdbcType=VARCHAR},
       service_level = #{record.serviceLevel,jdbcType=INTEGER},
       status = #{record.status,jdbcType=VARCHAR},
@@ -299,7 +300,7 @@
         id = #{id,jdbcType=INTEGER},
       </if>
       <if test="superServiceNo != null" >
-        super_service_no = #{superServiceNo,jdbcType=INTEGER},
+        super_service_no = #{superServiceNo,jdbcType=VARCHAR},
       </if>
       <if test="serviceName != null" >
         service_name = #{serviceName,jdbcType=VARCHAR},
@@ -326,12 +327,12 @@
         service_url = #{serviceUrl,jdbcType=LONGVARCHAR},
       </if>
     </set>
-    where service_no = #{serviceNo,jdbcType=INTEGER}
+    where service_no = #{serviceNo,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.fengdi.keepsheep.bean.FService" >
     update f_service
     set id = #{id,jdbcType=INTEGER},
-      super_service_no = #{superServiceNo,jdbcType=INTEGER},
+      super_service_no = #{superServiceNo,jdbcType=VARCHAR},
       service_name = #{serviceName,jdbcType=VARCHAR},
       service_level = #{serviceLevel,jdbcType=INTEGER},
       status = #{status,jdbcType=VARCHAR},
@@ -340,12 +341,12 @@
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       service_url = #{serviceUrl,jdbcType=LONGVARCHAR}
-    where service_no = #{serviceNo,jdbcType=INTEGER}
+    where service_no = #{serviceNo,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.fengdi.keepsheep.bean.FService" >
     update f_service
     set id = #{id,jdbcType=INTEGER},
-      super_service_no = #{superServiceNo,jdbcType=INTEGER},
+      super_service_no = #{superServiceNo,jdbcType=VARCHAR},
       service_name = #{serviceName,jdbcType=VARCHAR},
       service_level = #{serviceLevel,jdbcType=INTEGER},
       status = #{status,jdbcType=VARCHAR},
@@ -353,6 +354,31 @@
       admin_group_no = #{adminGroupNo,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP}
-    where service_no = #{serviceNo,jdbcType=INTEGER}
+    where service_no = #{serviceNo,jdbcType=VARCHAR}
+  </update>
+  <select id="selectByservicelevel" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from f_service
+    where service_level = 0
+  </select>
+
+  <update id="updatestauts"  parameterType="com.fengdi.keepsheep.bean.FService" >
+    update f_service
+    <set >
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where service_no = #{serviceNo,jdbcType=VARCHAR}
+  </update>
+  <update id="updatestauts2"  parameterType="com.fengdi.keepsheep.bean.FService" >
+    update f_service
+    <set >
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where super_service_no = #{superServiceNo,jdbcType=VARCHAR}
   </update>
 </mapper>

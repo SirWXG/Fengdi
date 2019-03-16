@@ -33,15 +33,15 @@
     <div class="x-body">
       <div class="layui-row">
         <form class="layui-form layui-col-md12 x-so">
-          <input class="layui-input" placeholder="添加日期" name="start" id="start">
-          <input type="text" name="username"  placeholder="请输入用户名" autocomplete="off" class="layui-input">
-          <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
+            <input type="text" name="problemNo"  placeholder="请输入用戶标题" autocomplete="off" class="layui-input">
+          <input type="text" name="group_name"  placeholder="请输入创建成员" autocomplete="off" class="layui-input">
+          <button class="layui-btn"  lay-submit="" lay-filter="sreach" id="query"><i class="layui-icon">&#xe615;</i></button>
         </form>
       </div>
       <xblock>
 
         <button class="layui-btn" onclick="x_admin_show('添加问题','/view/question-add')"><i class="layui-icon"></i>添加</button>
-        <span class="x-right" style="line-height:40px">共有数据：88 条</span>
+          <span class="x-right" th:text="'共有数据:'+${problem.total}+'条'" style="line-height:40px">共有数据： 条</span>
       </xblock>
       <table class="layui-table">
         <thead>
@@ -56,7 +56,7 @@
             <th>状态</th>
             <th>操作</th>
         </thead>
-        <tbody>
+        <tbody id="tbodys">
           <tr th:each="question:${problem.list}">
             <td th:text="${question.id}"></td>
             <td th:text="${question.problemNo}"></td>
@@ -67,12 +67,12 @@
             <td class="td-status" th:if="${question.status=='1'}">
               <span class="layui-btn layui-btn-normal layui-btn-mini">已展示</span></td>
             <td class="td-status" th:if="${question.status=='0'}">
-              <span class="layui-btn layui-btn-normal layui-btn-mini">未展示</span></td>
+              <span class="layui-btn layui-btn-disabled">未展示</span></td>
             <td class="td-manage">
-              <a th:onclick="'javascript:member_stop(this,\''+${question.id}+'\')'" href="javascript:;"    title="启用">
+                  <a th:onclick="'javascript:member_stop(this,\''+${question.id}+'\')'" href="javascript:;"    th:title="${question.status=='1'?'停用':'启用'}">
                 <i class="layui-icon">&#xe601;</i>
               </a>
-              <a title="编辑"  onclick="x_admin_show('编辑','/view/question-edit')" href="javascript:;">
+              <a title="编辑"  th:onclick="'javascript:member_getNo(\''+${question.id}+'\');'" href="javascript:;">
                 <i class="layui-icon">&#xe642;</i>
               </a>
               <a title="删除" class="delProblem" th:proID="${question.id}">
@@ -82,7 +82,7 @@
           </tr>
         </tbody>
       </table>
-        <div align="center">
+        <div align="center" id="divPage">
             <nav aria-label="Page navigation">
                 <ul class="pagination">
                     <li>
@@ -101,9 +101,82 @@
             </nav>
         </div>
     </div>
-
+    <div class="page">
+    </div>
     </div>
     <script>
+        $(function () {
+            $("#query").click(function () {
+                getAjax(1);
+                return false;
+            });
+        })
+
+        function getAjax(data) {
+            $.ajax({
+                url:"/problem/selectNoAndCn",
+                type:"get",
+                data:{
+                    page:data,
+                    problemNo:$("input[name='problemNo']").val(),
+                    groupCnname:$("input[name='group_name']").val()
+                },
+                success:function (data) {
+                    eachData(data.list);
+                    eachPage(data);
+                    $(".x-right").html("共有数据："+ data.total+" 条");
+                }
+            });
+            return false;
+        }
+        function eachPage(data) {
+            $("#divPage").empty();
+            $(".page").empty();
+
+            var $prev = $("<a>").addClass("prev").attr("href","javascript:getAjax("+(data.isFirstPage?1:data.prePage)+")").html("&lt;&lt;");
+            var $next = $("<a>").addClass("next").attr("href","javascript:getAjax("+(data.isLastPage?data.pages:data.nextPage)+")").html("&gt;&gt;");
+            var $divc = $("<div>").append($prev);
+            $.each(data.navigatepageNums,function (index,items) {
+                if (items==data.pageNum){
+                    var $spans = $("<span>").addClass("current").html(items);
+                    $divc.append($spans);
+                }else{
+                    var $as = $("<a>").addClass("num").attr("href","javascript:getAjax("+items+")").html(items);
+                    $divc.append($as)
+                }
+            })
+            $divc.append($next);
+            $(".page").append($divc);
+        }
+
+        function eachData(result) {
+            $("#tbodys").empty();
+            $.each(result,function (index,items) {
+                <!-- 遍历数据 -->
+                var $id = $("<td>").html(items.id);
+                var $problemNo = $("<td>").html(items.problemNo);
+                var $problemAnswers = $("<td>").html(items.problemAnswers);
+                var $groupCnname = $("<td>").html(items.groupCnname);
+                var $createTime = $("<td>").html(items.createTime);
+                var $updateTime = $("<td>").html(items.updateTime);
+
+                <!--状态栏-->
+                var $status = $("<span>").addClass(items.status=='1'?'layui-btn layui-btn-normal layui-btn-mini':'layui-btn layui-btn-disabled').html(items.status=='1'?'已展示':'未展示');
+                var $td_status = $("<td>").addClass("td-status").append($status);
+                <!--操作栏-->
+                var $a1 = $("<a>").attr("onclick","member_stop(this,'"+items.id+"')").attr("href","javascript:;").attr("title",items.status=='1'?'停用':'启用');
+                var $i1 = $("<i>").addClass("layui-icon").html("&#xe601;");
+                var $a2 = $("<a>").attr("title","编辑").attr("onclick","member_getNo('"+items.id+"')").attr("href","javascript:;");
+                var $i2 = $("<i>").addClass("layui-icon").html("&#xe642;");
+                var $a3 = $("<a>").attr("title","删除").attr("onclick","member_del(this,'"+result.id+"')").attr("href","javascript:;");
+                var $i3 = $("<i>").addClass("layui-icon").html("&#xe640;");
+                var $td_manage = $("<td>").addClass("td-manage").append($a1.append($i1)).append($a2.append($i2)).append($a3.append($i3));
+                var $tr = $("<tr>").append($id).append($problemNo).
+                append($problemAnswers).append($groupCnname).append($createTime).
+                append($updateTime).append($td_status).append($td_manage);
+                $("#tbodys").append($tr);
+            })
+        }
     
       layui.use('laydate', function(){
         var laydate = layui.laydate;
@@ -128,16 +201,16 @@
                       type:"post",
                       data:{
                           id:id,
-                          status:"0"
+                          status:"1"
                       },
                       success:function (data) {
                           if (data.success){
                               $(obj).attr('title','停用')
                               $(obj).find('i').html('&#xe62f;');
-                              $(obj).parents("tr").find(".td-status").find('span').addClass('layui-btn-disabled').html('未展示');
-                              layer.msg('未展示!',{icon: 5,time:1000});
+                              $(obj).parents("tr").find(".td-status").find('span').removeClass('layui-btn-disabled').addClass("layui-btn-normal layui-btn-mini").html('已展示');
+                              layer.msg('上架成功!',{icon: 5,time:1000});
                           }else{
-                              layer.msg('未展示失败,请重新操作',{icon:5,time:1000});
+                              layer.msg('上架失败,请重新操作',{icon:5,time:1000});
                           }
                       }
                   });
@@ -147,14 +220,14 @@
                       type:"post",
                       data:{
                           id:id,
-                          status:"1"
+                          status:"0"
                       },
                       success:function (data) {
                           if (data.success){
                               $(obj).attr('title','启用')
                               $(obj).find('i').html('&#xe601;');
-                              $(obj).parents("tr").find(".td-status").find('span').removeClass('layui-btn-disabled').addClass("layui-btn-normal layui-btn-mini").html('已展示');
-                              layer.msg('已展示!',{icon: 5,time:1000});
+                              $(obj).parents("tr").find(".td-status").find('span').addClass('layui-btn-disabled').html('未展示');
+                              layer.msg('未展示!',{icon: 5,time:1000});
                           }else{
                               layer.msg('操作失败',{icon:5,time:1000});
                           }
@@ -175,18 +248,22 @@
           });
       }
 
-
-
-      function delAll (argument) {
-
-        var data = tableCheck.getData();
-  
-        layer.confirm('确认要删除吗？'+data,function(index){
-            //捉到所有被选中的，发异步进行删除
-            layer.msg('删除成功', {icon: 1});
-            $(".layui-form-checked").not('.header').parents('tr').remove();
-        });
+      function member_getNo(id){
+          $.ajax({
+              url:"/problem/selectById",
+              type:"post",
+              data:{
+                  id:id
+              },
+              success:function (data) {
+                  if (data.success){
+                      x_admin_show('编辑','/view/question-edit');
+                  }
+              }
+          });
       }
+
+
     </script>
     <script type="text/javascript" src="../js/problem.js"></script>
   </body>

@@ -21,44 +21,56 @@
 </head>
 
 <body>
-<div class="x-body">
+<div class="x-body layui-anim layui-anim-up">
     <form class="layui-form">
         <div class="layui-form-item">
-            <label for="username" class="layui-form-label">
-                <span class="x-red">*</span>问题标题
+            <label for="superServiceNO" class="layui-form-label">
+                <span class="x-red">*</span>一级标题名称
             </label>
             <div class="layui-input-inline">
-                <input type="text" id="problem_no" name="problem_no" required="" lay-verify="required"
-                       autocomplete="off" class="layui-input">
+                <select id="superServiceNo">
+                    <option value="">请选择一级标题</option>
+                    <option th:each="n:${session.fService}"th:value="${n.serviceNo}" th:text="${n.serviceName}" name="superServiceNo"></option>
+                </select>
             </div>
-
+            <div class="layui-form-mid layui-word-aux">
+                <span class="x-red">*</span>
+            </div>
         </div>
         <div class="layui-form-item">
-            <label for="phone" class="layui-form-label">
-                <span class="x-red">*</span>问题答案
+            <label for="serviceName" class="layui-form-label">
+                <span class="x-red">*</span>二级标题名称
             </label>
             <div class="layui-input-inline">
-                <input type="text" id="problem_answers" name="problem_answers" required="" lay-verify="phone"
+                <input type="text" id="serviceName" name="serviceName" required="" lay-verify="required"
                        autocomplete="off" class="layui-input">
             </div>
-
+            <div class="layui-form-mid layui-word-aux">
+                <span class="x-red">*</span>
+            </div>
         </div>
         <div class="layui-form-item">
-            <label for="L_pass" class="layui-form-label">
-                <span class="x-red">*</span>状态
+            <label for="serviceUrl" class="layui-form-label">
+                标题链接
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" id="serviceUrl" name="serviceUrl" required="" lay-verify=""
+                       autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="status" class="layui-form-label">
+                状态
             </label>
             <div class="layui-input-inline">
                 <select id="status">
-                    <option value="1">已展示</option>
-                    <option value="0">未展示</option>
+                    <option value="1">已启用</option>
+                    <option value="0">未启用</option>
                 </select>
             </div>
-
         </div>
-
         <div class="layui-form-item">
-
-            <button id="addProblem"  class="layui-btn" lay-filter="add" lay-submit="">
+            <button id="add" class="layui-btn" lay-filter="add" lay-submit="">
                 增加
             </button>
         </div>
@@ -66,26 +78,29 @@
 </div>
 <script>
 
-    $(function () {
-        $("#addProblem").click(function () {
-            var problem_no = $("input[name='problem_no']").val();
-            var problem_answers =$("input[name='problem_answers']").val();
-            var status = $('#status option:selected') .val();
-            if (problem_no==null||problem_no.trim()<1){
-                alert("问题标题不能为空");
-                return false;
-            }
-            if (problem_answers==null||problem_answers.trim()<1){
-                alert("问题答案不能为空");
-                return false;
-            }
 
+
+    $(function () {
+        $("#add").click(function () {
+            var superServiceNo = $('#superServiceNo option:selected').val();
+            var serviceName = $("input[name='serviceName']").val();
+            var serviceUrl = $("input[name='serviceUrl']").val();
+            var status = $('#status option:selected').val();
+            if (superServiceNo==""||superServiceNo.trim()<1){
+                layer.msg('一级标题不能为空',{icon:2,time:1000});
+                return false;
+            }
+            if (serviceName==null||serviceName.trim()<1){
+                layer.msg('二级标题名称不能为空',{icon:2,time:1000});
+                return false;
+            }
             $.ajax({
-                url:"/problem/addProblem",
+                url:"/FserviceController/getadd2",
                 type:"post",
                 data:{
-                    problemNo:problem_no,
-                    problemAnswers:problem_answers,
+                    superServiceNo:superServiceNo,
+                    serviceName:serviceName,
+                    serviceUrl:serviceUrl,
                     status:status
                 },
                 success:function (data) {
@@ -94,7 +109,7 @@
                             // 获得frame索引
                             var index = parent.layer.getFrameIndex(window.name);
                             //关闭当前frame
-                            parent.window.location.href="/problem/selectAllProblem";
+                            parent.window.location.href="/FserviceController/getall";
                         });
                     }else{
                         alert("添加失败,请重新添加");
@@ -124,6 +139,21 @@
                 }
             }
         });
+
+        /* //监听提交
+         form.on('submit(add)', function(data){
+           console.log(data);
+           //发异步，把数据提交给php
+           layer.alert("增加成功", {icon: 6},function () {
+               // 获得frame索引
+               var index = parent.layer.getFrameIndex(window.name);
+               //关闭当前frame
+               parent.layer.close(index);
+           });
+           return false;
+         });*/
+
+
     });
 </script>
 
