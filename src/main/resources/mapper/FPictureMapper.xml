@@ -36,7 +36,7 @@
     SELECT <include refid="Base_Column_List" />
     FROM f_picture
     <where>
-      <if test="pictureArea!=null">
+      <if test="pictureArea!=null and pictureArea!=''">
         picture_area LIKE CONCAT ('%',#{pictureArea},'%')
       </if>
     </where>
@@ -54,7 +54,19 @@
   </update>
 
   <select id="checkPic" resultType="int">
-    SELECT COUNT(*) FROM f_picture WHERE picture_type='平台图片' AND status='yes'
+    SELECT COUNT(*) FROM f_picture WHERE picture_type='平台轮播' AND status='yes'
+  </select>
+  <select id="checkPicForNote" resultType="int">
+    SELECT COUNT(*) FROM f_picture WHERE picture_type='新闻中心' AND status='yes'
+  </select>
+  <select id="checkPicForEmployee" resultType="int">
+  SELECT COUNT(*) FROM f_picture WHERE picture_type='公司平台展示' AND status='yes'
+  </select>
+  <select id="checkPicByProblem" resultType="int">
+    SELECT COUNT(*) FROM f_picture WHERE picture_type='问题展示' AND status='yes'
+  </select>
+  <select id="checkPicByHot" resultType="int">
+    SELECT COUNT(*) FROM f_picture WHERE picture_type='热门搜索' AND status='yes'
   </select>
 
   <select id="selectPictureByPno" parameterType="string" resultMap="BaseResultMap">
@@ -78,5 +90,23 @@
       picture_img = #{pictureImg}
     where picture_no = #{pictureNo}
   </update>
+  
+  <select id="selectPicByLBANDPTLB" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List"/>
+    FROM f_picture
+    WHERE picture_area='平台轮播' AND picture_type='轮播图' AND status='yes'
+  </select>
+
+  <select id="selectPicByHot" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List"/>
+    FROM f_picture
+    WHERE picture_area='热门推荐' AND picture_type='展示图片' AND status='yes'
+  </select>
+
+  <select id="selectPicByNote" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List"/>
+    FROM f_picture
+    WHERE picture_area='新闻中心' AND picture_type='展示图片' AND status='yes'
+  </select>
 
 </mapper>

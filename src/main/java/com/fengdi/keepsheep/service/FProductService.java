@@ -23,4 +23,6 @@ public interface FProductService {
     List<FProduct> selectProductByPno(String productNo);
 
     int updateProduct(Map<String,Object>map);
+
+    List<FProduct> selectProductForBefore();
 }

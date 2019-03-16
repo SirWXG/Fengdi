@@ -44,9 +44,15 @@ public interface FPictureMapper {
 
     int checkPic();
 
+    int checkPicForNote();
+
+    int checkPicForEmployee();
+
     List<FPicture> selectPictureByPno(String pictureNo);
 
     int checkPicNum(FPicture fPicture);
 
     int updatePic(FPicture fPicture);
+
+    List<FPicture> selectPicByLBANDPTLB();
 }

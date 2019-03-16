@@ -25,4 +25,6 @@ public interface FPictureService {
     int checkPicNum(FPicture fPicture);
 
     int updatePic(FPicture fPicture);
+
+    List<FPicture> selectPicByLBANDPTLB();
 }

@@ -36,7 +36,7 @@
     SELECT <include refid="Base_Column_List" />
     FROM f_product
     <where>
-      <if test="productName!=null">
+      <if test="productName!=null and productName!=''">
         product_name LIKE CONCAT ('%',#{productName},'%')
       </if>
     </where>
@@ -65,5 +65,11 @@
       product_img=#{productImg}
       WHERE product_no=#{productNo}
   </update>
+
+  <select id="selectProductForBefore" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List" />
+    FROM f_product
+    WHERE status='yes'
+  </select>
 
 </mapper>
