@@ -178,7 +178,7 @@
                 var $i1 = $("<i>").addClass("layui-icon").html("&#xe601;");
                 var $a2 = $("<a>").attr("title","编辑").attr("onclick","member_getNo('"+items.adminNo+"')").attr("href","javascript:;");
                 var $i2 = $("<i>").addClass("layui-icon").html("&#xe642;");
-                var $a3 = $("<a>").attr("title","删除").attr("onclick","member_del(this,'"+result.adminNo+"')").attr("href","javascript:;");
+                var $a3 = $("<a>").attr("title","删除").attr("onclick","member_del(this,'"+items.adminNo+"')").attr("href","javascript:;");
                 var $i3 = $("<i>").addClass("layui-icon").html("&#xe640;");
                 var $td_manage = $("<td>").addClass("td-manage").append($a1.append($i1)).append($a2.append($i2)).append($a3.append($i3));
                 var $tr = $("<tr>").append($tdd).append($adminNo).append($adminName).
