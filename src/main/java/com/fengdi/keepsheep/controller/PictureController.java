@@ -147,7 +147,12 @@ public class PictureController {
                 map.put("status",status);
                 map.put("pictureNo",picno);
                 if("平台轮播".equals(list.get(0).getPictureArea())){
-
+                    if(fPictureService.checkPic()>4&&status.equals("yes")){
+                        result.setErrMsg("平台轮播图片最多设置五张，请重新操作");
+                    }else{
+                        result.setSuccess(true);
+                        fPictureService.updatePicStatus(map);
+                    }
                 }
             }
         }catch (Exception e){
