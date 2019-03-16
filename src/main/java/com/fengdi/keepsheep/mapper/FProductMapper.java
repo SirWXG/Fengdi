@@ -45,4 +45,7 @@ public interface FProductMapper {
     List<FProduct> selectProductByPno(@Param("productNo") String productNo);
 
     int updateProduct(Map<String,Object>map);
+
+    List<FProduct> selectProductForBefore();
+
 }

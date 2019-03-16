@@ -146,37 +146,8 @@ public class PictureController {
                 Map<String,Object> map = new HashMap<String, Object>();
                 map.put("status",status);
                 map.put("pictureNo",picno);
-                if("轮播图".equals(list.get(0).getPictureType())){
-                    if(fPictureService.checkPicNum(list.get(0))>4&&status.equals("yes")){
-                        result.setErrMsg("轮播图最多设置五张，请重新设置");
-                    }else{
-                        int flag = fPictureService.updatePicStatus(map);
-                        if(flag<1){
-                            result.setErrMsg("更新信息失败，请重新操作");
-                        }else{
-                            result.setSuccess(true);
-                        }
-                    }
-                }else{
-                    if(status.equals("no")){
-                        int flag = fPictureService.updatePicStatus(map);
-                        if(flag<1){
-                            result.setErrMsg("更新信息失败，请重新操作");
-                        }else{
-                            result.setSuccess(true);
-                        }
-                    }else{
-                        if(fPictureService.checkPic()>0){
-                            result.setErrMsg("平台图片最多设置一张，请重新设置");
-                        }else{
-                            int flag = fPictureService.updatePicStatus(map);
-                            if(flag<1){
-                                result.setErrMsg("更新信息失败，请重新操作");
-                            }else{
-                                result.setSuccess(true);
-                            }
-                        }
-                    }
+                if("平台轮播".equals(list.get(0).getPictureArea())){
+
                 }
             }
         }catch (Exception e){
@@ -237,4 +208,5 @@ public class PictureController {
         }
         return result;
     }
+
 }
