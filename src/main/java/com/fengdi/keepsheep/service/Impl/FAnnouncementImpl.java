@@ -59,5 +59,10 @@ public class FAnnouncementImpl implements FAnnouncementService {
 		return fannouncementMapper.selectByMhcx(announcementName);
 	}
 
+	@Override
+	public List<FAnnouncement> selectStauts(String status) {
+		return fannouncementMapper.selectStauts(status);
+	}
+
 
 }

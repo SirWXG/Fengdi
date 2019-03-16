@@ -3,7 +3,7 @@
   
   <head>
     <meta charset="UTF-8">
-    <title>欢迎页面-X-admin2.0</title>
+    <title>全民养羊官网后台</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
@@ -48,6 +48,9 @@
       <table class="layui-table">
         <thead>
           <tr>
+            <th>
+              <div class="layui-unselect header layui-form-checkbox" lay-skin="primary"><i class="layui-icon">&#xe605;</i></div>
+            </th>
             <th>平台编号</th>
             <th>平台公告内容</th>
             <th>用户名称</th>
@@ -60,6 +63,9 @@
         </thead>
         <tbody id="tbodys">
         <tr th:each="s:${selectByExample.list}">
+          <td>
+            <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='2'><i class="layui-icon">&#xe605;</i></div>
+          </td>
           <td th:text="${s.announcementNo}"></td>
           <td th:text="${s.announcementName}"></td>
           <td th:text="${s.groupCnname}"></td>
@@ -78,7 +84,7 @@
               <a title="查看"  th:onclick="'javascript:member_getNo(\''+${s.announcementNo}+'\');'" href="javascript:;">
                 <i class="layui-icon">&#xe63c;</i>
               </a>
-              <a title="删除" th:onclick="'javascript:member_del(\''+${s.announcementNo}+'\');'" href="javascript:;">
+              <a title="删除" th:onclick="'javascript:member_del(this,\''+${s.announcementNo}+'\');'" href="javascript:;">
                 <i class="layui-icon">&#xe640;</i>
               </a>
             </td>
@@ -153,8 +159,8 @@
 
         function eachData(result) {
             $("#tbodys").empty();
-
             $.each(result,function (index,items) {
+
                 <!-- 遍历数据 -->
                 var $announcementNo = $("<td>").html(items.announcementNo);
                 var $announcementName = $("<td>").html(items.announcementName);
@@ -211,7 +217,7 @@
                     },
                     success:function (data) {
                         if (data.success){
-                            $(this).parents("tr").remove();
+                            $(obj).parents("tr").remove();
                             layer.msg('已删除!',{icon:1,time:5000});
                             window.location.reload();
                         }else{
@@ -271,7 +277,7 @@
                                 $(obj).parents("tr").find(".td-status").find('span').removeClass('layui-btn-disabled').addClass("layui-btn-normal layui-btn-mini").html('正常');
                                 layer.msg('正常!',{icon: 1,time:1000});
                             }else{
-                                layer.msg('冻结失败,请重新操作',{icon:5,time:1000});
+                                layer.msg('启用失败,显示标题已达到最大值',{icon:5,time:1000});
                             }
                         }
                     });

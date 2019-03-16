@@ -42,4 +42,10 @@ public interface FServiceMapper {
     int updatestauts(@Param("serviceNo")String serviceNo,@Param("status")String status);
 
     int updatestauts2(@Param("superServiceNo")String superServiceNo,@Param("status")String status);
+
+    List<FService> selectByMhcx(FService record);
+
+    List<FService> selectStauts(String status);
+
+    List<FService> selectStauts2(String status);
 }
