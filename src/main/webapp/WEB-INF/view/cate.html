@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
   
   <head>
     <meta charset="UTF-8">
@@ -13,6 +13,7 @@
     <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
     <script type="text/javascript" src="../lib/layui/layui.js" charset="utf-8"></script>
     <script type="text/javascript" src="../js/xadmin.js"></script>
+    <link rel="stylesheet" href="../lib/layui/css/layui.css"/>
     <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
     <!--[if lt IE 9]>
       <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
@@ -33,192 +34,189 @@
     </div>
     <div class="x-body">
       <div class="layui-row">
-        <form class="layui-form layui-col-md12 x-so layui-form-pane">
-          <input class="layui-input" placeholder="分类名" name="cate_name">
-          <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon"></i>增加</button>
+        <form class="layui-form layui-col-md12 x-so">
+          <input type="text" name="pictureArea"  placeholder="请输入展示区域" autocomplete="off" class="layui-input">
+          <button class="layui-btn" id="query"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
         </form>
       </div>
-      <blockquote class="layui-elem-quote">每个tr 上有两个属性 cate-id='1' 当前分类id fid='0' 父级id ,顶级分类为 0，有子分类的前面加收缩图标<i class="layui-icon x-show" status='true'>&#xe623;</i></blockquote>
+      <div class="layui-row">
+          <button class="layui-btn" onclick="x_admin_show('添加','/view/picture-add')"><i class="layui-icon"></i>添加</button>
+      </div>
       <xblock>
-        <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
         <span class="x-right" style="line-height:40px">共有数据：88 条</span>
       </xblock>
       <table class="layui-table layui-form">
         <thead>
           <tr>
-            <th width="20">
-              <div class="layui-unselect header layui-form-checkbox" lay-skin="primary"><i class="layui-icon">&#xe605;</i></div>
-            </th>
-            <th width="70">ID</th>
-            <th>栏目名</th>
-            <th width="50">排序</th>
+            <th>图片编号</th>
+            <th>图片标题</th>
+            <th>图片文案</th>
+            <th>图片地址</th>
+            <th>展示区域</th>
+            <th>图片类型</th>
+            <th>创建管理员</th>
+            <th>管理员编号</th>
+            <th>创建时间</th>
+            <th>更新时间</th>
             <th width="50">状态</th>
-            <th width="220">操作</th>
+            <th width="50">操作</th>
         </thead>
-        <tbody class="x-cate">
-          <tr cate-id='1' fid='0' >
-            <td>
-              <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='2'><i class="layui-icon">&#xe605;</i></div>
-            </td>
-            <td>1</td>
-            <td>
-              <i class="layui-icon x-show" status='true'>&#xe623;</i>
-              产品管理
-            </td>
-            <td><input type="text" class="layui-input x-sort" name="order" value="1"></td>
-            <td>
-              <input type="checkbox" name="switch"  lay-text="开启|停用"  checked="" lay-skin="switch">
-            </td>
-            <td class="td-manage">
-              <button class="layui-btn layui-btn layui-btn-xs"  onclick="x_admin_show('编辑','admin-edit.html')" ><i class="layui-icon">&#xe642;</i>编辑</button>
-              <button class="layui-btn layui-btn-warm layui-btn-xs"  onclick="x_admin_show('编辑','admin-edit.html')" ><i class="layui-icon">&#xe642;</i>添加子栏目</button>
-              <button class="layui-btn-danger layui-btn layui-btn-xs"  onclick="member_del(this,'要删除的id')" href="javascript:;" ><i class="layui-icon">&#xe640;</i>删除</button>
-            </td>
-          </tr>
-          <tr cate-id='2' fid='1' >
-            <td>
-              <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='2'><i class="layui-icon">&#xe605;</i></div>
-            </td>
-            <td>2</td>
-            <td>
-              &nbsp;&nbsp;&nbsp;&nbsp;
-              <i class="layui-icon x-show" status='true'>&#xe623;</i>
-              产品列表
-            </td>
-            <td><input type="text" class="layui-input x-sort" name="order" value="1"></td>
-            <td>
-              <input type="checkbox" name="switch"  lay-text="开启|停用"  checked="" lay-skin="switch">
-            </td>
-            <td class="td-manage">
-              <button class="layui-btn layui-btn layui-btn-xs"  onclick="x_admin_show('编辑','admin-edit.html')" ><i class="layui-icon">&#xe642;</i>编辑</button>
-              <button class="layui-btn layui-btn-warm layui-btn-xs"  onclick="x_admin_show('编辑','admin-edit.html')" ><i class="layui-icon">&#xe642;</i>添加子栏目</button>
-              <button class="layui-btn-danger layui-btn layui-btn-xs"  onclick="member_del(this,'要删除的id')" href="javascript:;" ><i class="layui-icon">&#xe640;</i>删除</button>
-            </td>
-          </tr>
-          <tr cate-id='3' fid='2' >
-            <td>
-              <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='2'><i class="layui-icon">&#xe605;</i></div>
-            </td>
-            <td>3</td>
-            <td>
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              ├产品列表
-            </td>
-            <td><input type="text" class="layui-input x-sort" name="order" value="1"></td>
-            <td>
-              <input type="checkbox" name="switch"  lay-text="开启|停用"  checked="" lay-skin="switch">
-            </td>
-            <td class="td-manage">
-              <button class="layui-btn layui-btn layui-btn-xs"  onclick="x_admin_show('编辑','admin-edit.html')" ><i class="layui-icon">&#xe642;</i>编辑</button>
-              <button class="layui-btn layui-btn-warm layui-btn-xs"  onclick="x_admin_show('编辑','admin-edit.html')" ><i class="layui-icon">&#xe642;</i>添加子栏目</button>
-              <button class="layui-btn-danger layui-btn layui-btn-xs"  onclick="member_del(this,'要删除的id')" href="javascript:;" ><i class="layui-icon">&#xe640;</i>删除</button>
-            </td>
-          </tr>
-          <tr cate-id='4' fid='2' >
-            <td>
-              <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='2'><i class="layui-icon">&#xe605;</i></div>
-            </td>
-            <td>4</td>
-            <td>
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              ├产品列表
-            </td>
-            <td><input type="text" class="layui-input x-sort" name="order" value="1"></td>
-            <td>
-              <input type="checkbox" name="switch"  lay-text="开启|停用"  checked="" lay-skin="switch">
-            </td>
-            <td class="td-manage">
-              <button class="layui-btn layui-btn layui-btn-xs"  onclick="x_admin_show('编辑','admin-edit.html')" ><i class="layui-icon">&#xe642;</i>编辑</button>
-              <button class="layui-btn layui-btn-warm layui-btn-xs"  onclick="x_admin_show('编辑','admin-edit.html')" ><i class="layui-icon">&#xe642;</i>添加子栏目</button>
-              <button class="layui-btn-danger layui-btn layui-btn-xs"  onclick="member_del(this,'要删除的id')" href="javascript:;" ><i class="layui-icon">&#xe640;</i>删除</button>
-            </td>
-          </tr>
-          <tr cate-id='5' fid='0' >
-            <td>
-              <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='2'><i class="layui-icon">&#xe605;</i></div>
-            </td>
-            <td>5</td>
-            <td>
-              
-              <i class="layui-icon x-show" status='true'>&#xe623;</i>新闻
-            </td>
-            <td><input type="text" class="layui-input x-sort" name="order" value="1"></td>
-            <td>
-              <input type="checkbox" name="switch"  lay-text="开启|停用"  checked="" lay-skin="switch">
-            </td>
-            <td class="td-manage">
-              <button class="layui-btn layui-btn layui-btn-xs"  onclick="x_admin_show('编辑','admin-edit.html')" ><i class="layui-icon">&#xe642;</i>编辑</button>
-              <button class="layui-btn layui-btn-warm layui-btn-xs"  onclick="x_admin_show('编辑','admin-edit.html')" ><i class="layui-icon">&#xe642;</i>添加子栏目</button>
-              <button class="layui-btn-danger layui-btn layui-btn-xs"  onclick="member_del(this,'要删除的id')" href="javascript:;" ><i class="layui-icon">&#xe640;</i>删除</button>
-            </td>
-          </tr>
-          <tr cate-id='6' fid='5' >
-            <td>
-              <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='2'><i class="layui-icon">&#xe605;</i></div>
-            </td>
-            <td>6</td>
-            <td>
-              &nbsp;&nbsp;&nbsp;&nbsp;
-              ├国内新闻
-            </td>
-            <td><input type="text" class="layui-input x-sort" name="order" value="1"></td>
-            <td>
-              <input type="checkbox" name="switch"  lay-text="开启|停用"  checked="" lay-skin="switch">
-            </td>
-            <td class="td-manage">
-              <button class="layui-btn layui-btn layui-btn-xs"  onclick="x_admin_show('编辑','admin-edit.html')" ><i class="layui-icon">&#xe642;</i>编辑</button>
-              <button class="layui-btn layui-btn-warm layui-btn-xs"  onclick="x_admin_show('编辑','admin-edit.html')" ><i class="layui-icon">&#xe642;</i>添加子栏目</button>
-              <button class="layui-btn-danger layui-btn layui-btn-xs"  onclick="member_del(this,'要删除的id')" href="javascript:;" ><i class="layui-icon">&#xe640;</i>删除</button>
-            </td>
-          </tr>
-          <tr cate-id='7' fid='5' >
-            <td>
-              <div class="layui-unselect layui-form-checkbox" lay-skin="primary" data-id='2'><i class="layui-icon">&#xe605;</i></div>
-            </td>
-            <td>7</td>
-            <td>
-              &nbsp;&nbsp;&nbsp;&nbsp;
-              ├国外新闻
-            </td>
-            <td><input type="text" class="layui-input x-sort" name="order" value="1"></td>
-            <td>
-              <input type="checkbox" name="switch"  lay-text="开启|停用"  checked="" lay-skin="switch">
-            </td>
-            <td class="td-manage">
-              <button class="layui-btn layui-btn layui-btn-xs"  onclick="x_admin_show('编辑','admin-edit.html')" ><i class="layui-icon">&#xe642;</i>编辑</button>
-              <button class="layui-btn layui-btn-warm layui-btn-xs"  onclick="x_admin_show('编辑','admin-edit.html')" ><i class="layui-icon">&#xe642;</i>添加子栏目</button>
-              <button class="layui-btn-danger layui-btn layui-btn-xs"  onclick="member_del(this,'要删除的id')" href="javascript:;" ><i class="layui-icon">&#xe640;</i>删除</button>
-            </td>
-          </tr>
+        <tbody id="tbodys">
+
         </tbody>
       </table>
+      <div class="page">
+      </div>
     </div>
-    <style type="text/css">
-      
-    </style>
     <script>
+        $(function () {
+            getAjax(1);
+            $("#query").click(function () {
+                getAjax(1);
+                return false;
+            });
+        })
+
+        function getAjax(data) {
+            $.ajax({
+                url:"/picture/selectPic",
+                type:"get",
+                data:{
+                    page:data,
+                    pictureArea:$("input[name='pictureArea']").val()
+                },
+                success:function (data) {
+                    eachData(data.list);
+                    eachPage(data);
+                }
+            });
+            return false;
+        }
+
+        function eachPage(data) {
+            $("#divPage").empty();
+            $(".page").empty();
+
+            var $prev = $("<a>").addClass("prev").attr("href","javascript:getAjax("+(data.isFirstPage?1:data.prePage)+")").html("&lt;&lt;");
+            var $next = $("<a>").addClass("next").attr("href","javascript:getAjax("+(data.isLastPage?data.pages:data.nextPage)+")").html("&gt;&gt;");
+            var $divc = $("<div>").append($prev);
+            $.each(data.navigatepageNums,function (index,items) {
+                if (items==data.pageNum){
+                    var $spans = $("<span>").addClass("current").html(items);
+                    $divc.append($spans);
+                }else{
+                    var $as = $("<a>").addClass("num").attr("href","javascript:getAjax("+items+")").html(items);
+                    $divc.append($as)
+                }
+            })
+            $divc.append($next);
+            $(".page").append($divc);
+        }
+
+        function eachData(result) {
+            $("#tbodys").empty();
+            $.each(result,function (index,items) {
+                <!-- 遍历数据 -->
+                var $pictureNo = $("<td>").html(items.pictureNo);
+                var $pictureName = $("<td>").html(items.pictureName);
+                var $pictureText = $("<td>").html(items.pictureText);
+                var $pictureImg = $("<td>").html(items.pictureImg);
+                var $pictureArea = $("<td>").html(items.pictureArea);
+                var $pictureTypes = $("<td>").addClass("picType").html(items.pictureType);
+                var $pictureType = $("<td>").html(items.groupCnname);
+                var $groupName = $("<td>").html(items.adminGroupNo);
+                var $createTime = $("<td>").html(items.createTime);
+                var $updateTime = $("<td>").html(items.updateTime);
+                <!--状态栏-->
+                var $status = $("<span>").addClass(items.status=='yes'?'layui-btn layui-btn-normal layui-btn-mini':'layui-btn layui-btn-disabled').html(items.status=='yes'?'已展示':'未展示');
+                var $td_status = $("<td>").addClass("td-status").append($status);
+                <!--操作栏-->
+                var $a1 = $("<a>").attr("onclick","member_stop(this,'"+items.pictureNo+"')").attr("href","javascript:;").attr("title",items.status=='yes'?'启用':'停用');
+                var $i1 = $("<i>").addClass("layui-icon").html("&#xe601;");
+                var $a2 = $("<a>").attr("title","编辑").attr("onclick","member_getNo('"+items.pictureNo+"')").attr("href","javascript:;");
+                var $i2 = $("<i>").addClass("layui-icon").html("&#xe642;");
+                var $a3 = $("<a>").attr("title","删除").attr("onclick","member_del(this,'"+items.pictureNo+"')").attr("href","javascript:;");
+                var $i3 = $("<i>").addClass("layui-icon").html("&#xe640;");
+                var $td_manage = $("<td>").addClass("td-manage").append($a1.append($i1)).append($a2.append($i2)).append($a3.append($i3));
+                var $tr = $("<tr>").append($pictureNo).append($pictureName).
+                append($pictureText).append($pictureImg).append($pictureArea).append($pictureTypes).
+                append($pictureType).append($groupName).append($createTime).append($updateTime).append($td_status).append($td_manage);
+                $("#tbodys").append($tr);
+            })
+        }
       layui.use(['form'], function(){
         form = layui.form;
-        
       });
-
-      
-
       /*用户-删除*/
       function member_del(obj,id){
           layer.confirm('确认要删除吗？',function(index){
               //发异步删除数据
-              $(obj).parents("tr").remove();
-              layer.msg('已删除!',{icon:1,time:1000});
+              $.ajax({
+                  url:"/picture/delpic",
+                  type:"post",
+                  data:{
+                      picNo:id
+                  },
+                  success:function (data) {
+                      if (data.success){
+                          $(obj).parents("tr").remove();
+                          layer.msg('已删除!',{icon:1,time:1000});
+                      }else{
+                          layer.msg(data.errMsg);
+                      }
+                  }
+              });
           });
       }
 
+        function member_stop(obj,id){
+            layer.confirm('确认要操作吗？',function(index){
+                if($(obj).attr('title')=='启用'){
+                    $.ajax({
+                        url:"/picture/updatePictureStatus",
+                        type:"post",
+                        data:{
+                            picno:id,
+                            status:"no"
+                        },
+                        success:function (data) {
+                            if (data.success){
+                                $(obj).attr('title','停用')
+                                $(obj).find('i').html('&#xe62f;');
+                                $(obj).parents("tr").find(".td-status").find('span').addClass('layui-btn-disabled').html('未展示');
+                                layer.msg('关闭启用!',{icon: 1,time:1000});
+                            }else{
+                                layer.msg(data.errMsg,{icon:5,time:1000});
+                            }
+                        }
+                    });
+                }else{
+                    $.ajax({
+                        url:"/picture/updatePictureStatus",
+                        type:"post",
+                        data:{
+                            picno:id,
+                            status:"yes"
+                        },
+                        success:function (data) {
+                            if (data.success){
+                                $(obj).attr('title','启用')
+                                $(obj).find('i').html('&#xe601;');
+                                $(obj).parents("tr").find(".td-status").find('span').removeClass('layui-btn-disabled').addClass("layui-btn-normal layui-btn-mini").html('已显示');
+                                layer.msg('正常!',{icon: 1,time:1000});
+                            }else{
+                                layer.msg(data.errMsg,{icon:5,time:1000});
+                            }
+                        }
 
+                    });
+                }
+
+            });
+        }
 
       function delAll (argument) {
-
         var data = tableCheck.getData();
-  
         layer.confirm('确认要删除吗？'+data,function(index){
             //捉到所有被选中的，发异步进行删除
             layer.msg('删除成功', {icon: 1});

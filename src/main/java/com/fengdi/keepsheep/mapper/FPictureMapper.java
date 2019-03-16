@@ -2,15 +2,17 @@ package com.fengdi.keepsheep.mapper;
 
 import com.fengdi.keepsheep.bean.FPicture;
 import com.fengdi.keepsheep.bean.FPictureExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
+import java.util.Map;
 
 public interface FPictureMapper {
     int countByExample(FPictureExample example);
 
     int deleteByExample(FPictureExample example);
 
-    int deleteByPrimaryKey(Integer pictureNo);
+    int deleteByPrimaryKey(String pictureNo);
 
     int insert(FPicture record);
 
@@ -33,4 +35,16 @@ public interface FPictureMapper {
     int updateByPrimaryKeyWithBLOBs(FPicture record);
 
     int updateByPrimaryKey(FPicture record);
+
+    List<FPicture> selectPic(@Param(value = "pictureArea") String pictureArea);
+
+    int deletePic(String pictureNo);
+
+    int updatePicStatus(Map<String,Object>map);
+
+    int checkPic();
+
+    List<FPicture> selectPictureByPno(String pictureNo);
+
+    int checkPicNum(FPicture fPicture);
 }

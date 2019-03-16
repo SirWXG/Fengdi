@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="../css/font.css">
+    <link rel="stylesheet" href="../css/xadmin.css">
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="../lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../js/xadmin.js"></script>
+    <link rel="stylesheet" href="../lib/layui/css/layui.css"/>
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+<div class="x-body">
+    <form class="layui-form" enctype="multipart/form-data" method="post">
+        <div class="layui-form-item">
+            <label for="pictureName" class="layui-form-label">
+                <span class="x-red">*</span>图片标题
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" id="pictureName" name="pictureName" required="" lay-verify="required"
+                       autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="pictureText" class="layui-form-label">
+                <span class="x-red">*</span>图片文案描述
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" id="pictureText" name="pictureText" required="" lay-verify="required"
+                       autocomplete="off" class="layui-input">
+            </div>
+            <div class="layui-form-mid layui-word-aux">
+                <span class="x-red">*</span>将在图片周围展示的文案
+            </div>
+        </div>
+        <div class="layui-form-item">
+
+            <label for="img_1" class="layui-form-label">
+                <span class="imgs x-red" onclick="document.getElementById('img_1').click()">*</span>选择图片
+            </label>
+            <div class="layui-input-inline">
+                <input class="img layui-input" type="file" id="img_1" name="img" accept="image/*" onchange="l(this)"
+                       autocomplete="off">
+            </div>
+            <div class="layui-form-mid layui-word-aux">
+                <div width="225px"><img src="" width="225px" id="1"/></div>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="L_email" class="layui-form-label">
+                <span class="x-red">*</span>展示区域
+            </label>
+            <div class="layui-input-inline">
+                <select name="pictureType" id="L_email" required="" class="layui-input">
+                    <option value="0">请选择图片类型</option>
+                    <option value="轮播图">轮播图</option>
+                    <option value="平台图片">平台图片</option>
+                </select>
+            </div>
+            <div class="layui-form-mid layui-word-aux">
+                <span class="x-red">*</span>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="Lemail" class="layui-form-label">
+                <span class="x-red">*</span>展示区域
+            </label>
+            <div class="layui-input-inline">
+                <select name="pictureArea" id="Lemail" required="" class="layui-input">
+                    <option value="0">请选择展示区域</option>
+                    <option value="顶部图片">顶部图片</option>
+                    <option value="产品轮播图片">产品轮播图片</option>
+                    <option value="平台介绍图片">平台介绍图片</option>
+                    <option value="问题展示图片">问题展示图片</option>
+                    <option value="5"></option>
+                    <option value="6"></option>
+                </select>
+            </div>
+            <div class="layui-form-mid layui-word-aux">
+                <span class="x-red">*</span>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label for="L_repass" class="layui-form-label">
+            </label>
+            <button id="addImg" class="layui-btn" lay-filter="add" lay-submit="">
+                增加
+            </button>
+        </div>
+    </form>
+</div>
+<script>
+
+    function l(evn){
+        var name = event.target.files[0].name;//获取上传的文件名
+        var divObj= $(evn).prev()  //获取div的DOM对象
+        $(divObj).html(name) //插入文件名
+        var id = $(evn).attr('id');//获取id
+        var num = id.substr(4,1)
+        var file = event.target.files[0];
+        if (window.FileReader) {
+            var reader = new FileReader();
+            reader.readAsDataURL(file);
+            //监听文件读取结束后事件
+            reader.onloadend = function (e) {
+                $("#"+num).attr("src",e.target.result);    //e.target.result就是最后的路径地址
+            };
+        }
+    }
+
+    $("#addImg").click(function () {
+        $.ajax({
+            url:"/picture/addPicture",
+            type:"post",
+            cache:false,
+            data:new FormData($('.layui-form')[0]),
+            processData:false,
+            contentType:false,
+            success:function (data) {
+                if (data.success){
+                    layer.alert("增加成功", {icon: 6},function () {
+                        // 获得frame索引
+                        var index = parent.layer.getFrameIndex(window.name);
+                        //关闭当前frame
+                        parent.layer.close(index);
+                    });
+                }else{
+                    alert("增加失败");
+                }
+            }
+        })
+        return false;
+    });
+
+    layui.use(['form','layer'], function(){
+        $ = layui.jquery;
+        var form = layui.form
+            ,layer = layui.layer;
+
+        //自定义验证规则
+        form.verify({
+            nikename: function(value){
+                if(value.length < 5){
+                    return '昵称至少得5个字符啊';
+                }
+            }
+            ,pass: [/(.+){6,12}$/, '密码必须6到12位']
+            ,repass: function(value){
+                if($('#L_pass').val()!=$('#L_repass').val()){
+                    return '两次密码不一致';
+                }
+            }
+        });
+    });
+</script>
+</body>
+</html>

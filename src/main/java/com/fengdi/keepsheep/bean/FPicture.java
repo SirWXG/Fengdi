@@ -3,7 +3,7 @@ package com.fengdi.keepsheep.bean;
 import java.util.Date;
 
 public class FPicture {
-    private Integer pictureNo;
+    private String pictureNo;
 
     private Long id;
 
@@ -11,7 +11,7 @@ public class FPicture {
 
     private String pictureText;
 
-    private Integer pictureArea;
+    private String pictureArea;
 
     private String pictureType;
 
@@ -27,11 +27,11 @@ public class FPicture {
 
     private String pictureImg;
 
-    public Integer getPictureNo() {
+    public String getPictureNo() {
         return pictureNo;
     }
 
-    public void setPictureNo(Integer pictureNo) {
+    public void setPictureNo(String pictureNo) {
         this.pictureNo = pictureNo;
     }
 
@@ -59,11 +59,12 @@ public class FPicture {
         this.pictureText = pictureText == null ? null : pictureText.trim();
     }
 
-    public Integer getPictureArea() {
+
+    public String getPictureArea() {
         return pictureArea;
     }
 
-    public void setPictureArea(Integer pictureArea) {
+    public void setPictureArea(String pictureArea) {
         this.pictureArea = pictureArea;
     }
 

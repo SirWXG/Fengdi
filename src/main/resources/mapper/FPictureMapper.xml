@@ -2,20 +2,20 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.fengdi.keepsheep.mapper.FPictureMapper" >
   <resultMap id="BaseResultMap" type="com.fengdi.keepsheep.bean.FPicture" >
-    <id column="picture_no" property="pictureNo" jdbcType="INTEGER" />
+    <id column="picture_no" property="pictureNo" jdbcType="VARCHAR" />
     <result column="id" property="id" jdbcType="BIGINT" />
     <result column="picture_name" property="pictureName" jdbcType="VARCHAR" />
     <result column="picture_text" property="pictureText" jdbcType="VARCHAR" />
-    <result column="picture_area" property="pictureArea" jdbcType="INTEGER" />
+    <result column="picture_area" property="pictureArea" jdbcType="VARCHAR" />
     <result column="picture_type" property="pictureType" jdbcType="VARCHAR" />
     <result column="status" property="status" jdbcType="VARCHAR" />
     <result column="group_cnname" property="groupCnname" jdbcType="VARCHAR" />
     <result column="admin_group_no" property="adminGroupNo" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="picture_img" property="pictureImg" jdbcType="VARCHAR" />
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.fengdi.keepsheep.bean.FPicture" extends="BaseResultMap" >
-    <result column="picture_img" property="pictureImg" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -77,7 +77,7 @@
   </sql>
   <sql id="Base_Column_List" >
     picture_no, id, picture_name, picture_text, picture_area, picture_type, status, group_cnname, 
-    admin_group_no, create_time, update_time
+    admin_group_no, create_time, update_time,picture_img
   </sql>
   <sql id="Blob_Column_List" >
     picture_img
@@ -120,9 +120,9 @@
     from f_picture
     where picture_no = #{pictureNo,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from f_picture
-    where picture_no = #{pictureNo,jdbcType=INTEGER}
+    where picture_no = #{pictureNo,jdbcType=VARCHAR}
   </delete>
   <delete id="deleteByExample" parameterType="com.fengdi.keepsheep.bean.FPictureExample" >
     delete from f_picture
@@ -136,8 +136,8 @@
       status, group_cnname, admin_group_no, 
       create_time, update_time, picture_img
       )
-    values (#{pictureNo,jdbcType=INTEGER}, #{id,jdbcType=BIGINT}, #{pictureName,jdbcType=VARCHAR}, 
-      #{pictureText,jdbcType=VARCHAR}, #{pictureArea,jdbcType=INTEGER}, #{pictureType,jdbcType=VARCHAR}, 
+    values (#{pictureNo,jdbcType=VARCHAR}, #{id,jdbcType=BIGINT}, #{pictureName,jdbcType=VARCHAR},
+      #{pictureText,jdbcType=VARCHAR}, #{pictureArea,jdbcType=VARCHAR}, #{pictureType,jdbcType=VARCHAR},
       #{status,jdbcType=VARCHAR}, #{groupCnname,jdbcType=VARCHAR}, #{adminGroupNo,jdbcType=VARCHAR}, 
       #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{pictureImg,jdbcType=LONGVARCHAR}
       )
@@ -374,4 +374,40 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where picture_no = #{pictureNo,jdbcType=INTEGER}
   </update>
+  <!--模糊查询加全查-->
+  <select id="selectPic" parameterType="string" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List" />
+    FROM f_picture
+    <where>
+      <if test="pictureArea!=null">
+        picture_area LIKE CONCAT ('%',#{pictureArea},'%')
+      </if>
+    </where>
+  </select>
+
+  <delete id="deletePic" parameterType="string">
+    DELETE FROM f_picture
+    WHERE picture_no=#{pictureNo}
+  </delete>
+
+  <update id="updatePicStatus" parameterType="map">
+    UPDATE f_picture
+    SET status=#{status}
+    WHERE picture_no=#{pictureNo}
+  </update>
+
+  <select id="checkPic" resultType="int">
+    SELECT COUNT(*) FROM f_picture WHERE picture_type='平台图片' AND status='yes'
+  </select>
+
+  <select id="selectPictureByPno" parameterType="string" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List" />
+    FROM f_picture
+    WHERE
+    picture_no=#{pictureNo}
+  </select>
+
+  <select id="checkPicNum" parameterType="picture" resultType="int">
+    SELECT count(*) FROM  f_picture WHERE picture_type=#{pictureType} AND status='yes' AND picture_area=#{pictureArea}
+  </select>
 </mapper>
