@@ -167,7 +167,6 @@
 		<property name="unauthorizedUrl" value="unauthorized" />
 		<property name="filterChainDefinitions">
 			<value>
-				/WEB-INF/view/images/**=anon
 			    /css/**=anon
 			    /fonts/**=anon
 				/images/**=anon
@@ -176,7 +175,13 @@
 				/loginAdmin/doLogin=anon
 				/index.jsp=user
 				/index=user
-				/**=authc
+				/admin/**=authc
+				/fannouncementService/**=authc
+				/FserviceController/**=authc
+				/picture/**=authc
+				/problem/**=authc
+				/product/**=authc
+				/roler/**=authc
 				/loginAdmin/logout=logout
 			</value>
 		</property>
