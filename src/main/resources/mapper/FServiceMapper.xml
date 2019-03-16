@@ -381,4 +381,29 @@
     </set>
     where super_service_no = #{superServiceNo,jdbcType=VARCHAR}
   </update>
+  <select id="selectByMhcx" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from f_service
+    <where>
+    <if test="serviceName!=null and serviceName!=''">
+      service_name like CONCAT('%',#{serviceName},'%')
+    </if>
+    <if test="serviceLevel!=null">
+       and service_level = #{serviceLevel,jdbcType=INTEGER}
+    </if>
+    </where>
+  </select>
+  <select id="selectStauts" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from f_service
+    where status = #{status,jdbcType=VARCHAR} and service_level =0
+  </select>
+  <select id="selectStauts2" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from f_service
+    where super_service_no = #{superServiceNo,jdbcType=VARCHAR} and status ="1"
+  </select>
 </mapper>

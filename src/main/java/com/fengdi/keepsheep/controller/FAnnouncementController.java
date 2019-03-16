@@ -79,8 +79,21 @@ public class FAnnouncementController {
 
     @RequestMapping(value = "/stop")
     public @ResponseBody SimpleResult stop(String announcementNo,String status){
-        int insert = fannouncementService.updatestauts(announcementNo,status);
-        return new SimpleResult(insert>0?true:false);
+	    if(status.equals("1")){
+            List<FAnnouncement> A = fannouncementService.selectStauts(status);
+            int size = A.size();
+            if(size>5){
+                return new SimpleResult(false);
+            }else{
+                int insert = fannouncementService.updatestauts(announcementNo,status);
+                return new SimpleResult(insert>0?true:false);
+            }
+        }else{
+            int insert = fannouncementService.updatestauts(announcementNo,status);
+            return new SimpleResult(insert>0?true:false);
+        }
+
+
     }
 
     @RequestMapping(value = "/selectByMhcx")
@@ -93,8 +106,6 @@ public class FAnnouncementController {
         List<FAnnouncement> selectByMhcx = fannouncementService.selectByMhcx(announcementName);
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
         PageInfo<FAnnouncement> info = new PageInfo<FAnnouncement>(selectByMhcx,4);
-
-
         model.addAttribute("selectByExample", info);
         return info;
 

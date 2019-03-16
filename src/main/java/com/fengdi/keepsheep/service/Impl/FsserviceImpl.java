@@ -59,11 +59,6 @@ public class FsserviceImpl implements Fsservice {
     }
 
     @Override
-    public List<FService> selectByMhcx(String announcementName) {
-        return null;
-    }
-
-    @Override
     public List<FService> selectByservicelevel() {
         return fserviceMapper.selectByservicelevel();
     }
@@ -71,5 +66,20 @@ public class FsserviceImpl implements Fsservice {
     @Override
     public int deleteBysuperServiceNo(String ServiceNo) {
         return fserviceMapper.deleteBysuperServiceNo(ServiceNo);
+    }
+
+    @Override
+    public List<FService> selectByMhcx(FService record) {
+        return fserviceMapper.selectByMhcx(record);
+    }
+
+    @Override
+    public List<FService> selectStauts(String status) {
+        return fserviceMapper.selectStauts(status);
+    }
+
+    @Override
+    public List<FService> selectStauts2(String status) {
+        return fserviceMapper.selectStauts2(status);
     }
 }
