@@ -143,12 +143,35 @@ public class PictureController {
                 result.setErrCode("1");
             }else{
                 List<FPicture> list = fPictureService.selectPictureByPno(picno);
+                System.out.println(list.get(0).getPictureArea());
                 Map<String,Object> map = new HashMap<String, Object>();
                 map.put("status",status);
                 map.put("pictureNo",picno);
                 if("平台轮播".equals(list.get(0).getPictureArea())){
                     if(fPictureService.checkPic()>4&&status.equals("yes")){
                         result.setErrMsg("平台轮播图片最多设置五张，请重新操作");
+                    }else{
+                        result.setSuccess(true);
+                        fPictureService.updatePicStatus(map);
+                    }
+                }else if("新闻中心".equals(list.get(0).getPictureArea())){
+                    if(fPictureService.checkPicForNote()>4&&status.equals("yes")){
+                        result.setErrMsg("新闻中心图片最多设置五张，请重新操作");
+                    }else{
+                        result.setSuccess(true);
+                        fPictureService.updatePicStatus(map);
+                    }
+                }else if("热门搜索".equals(list.get(0).getPictureArea())){
+                    if(fPictureService.checkPicByHot()>3&&status.equals("yes")){
+                        result.setErrMsg("热门搜索图片最多设置四张,请重新操作");
+                    }else{
+                        result.setSuccess(true);
+                        fPictureService.updatePicStatus(map);
+                    }
+                }else if("公司平台展示".equals(list.get(0).getPictureArea())){
+                    System.out.println(fPictureService.checkPicForEmployee());
+                    if(fPictureService.checkPicForEmployee()>0&&status.equals("yes")){
+                        result.setErrMsg("公司平台展示图片最多设置一张，请重新操作");
                     }else{
                         result.setSuccess(true);
                         fPictureService.updatePicStatus(map);

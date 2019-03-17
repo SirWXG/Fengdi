@@ -48,6 +48,10 @@ public interface FPictureMapper {
 
     int checkPicForEmployee();
 
+    int checkPicByProblem();
+
+    int checkPicByHot();
+
     List<FPicture> selectPictureByPno(String pictureNo);
 
     int checkPicNum(FPicture fPicture);
@@ -55,4 +59,12 @@ public interface FPictureMapper {
     int updatePic(FPicture fPicture);
 
     List<FPicture> selectPicByLBANDPTLB();
+
+    List<FPicture> selectPicByHot();
+
+    List<FPicture> selectPicByNote();
+
+    List<FPicture> selectPicByProblem();
+
+    List<FPicture> selectPicByEmployee();
 }

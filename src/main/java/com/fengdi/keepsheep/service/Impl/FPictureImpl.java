@@ -79,4 +79,47 @@ public class FPictureImpl implements FPictureService {
         return fPictureMapper.selectPicByLBANDPTLB();
     }
 
+    @Override
+    public int checkPicForNote() {
+        return fPictureMapper.checkPicForNote();
+    }
+
+    @Override
+    public int checkPicForEmployee() {
+        return fPictureMapper.checkPicForEmployee();
+    }
+
+    @Override
+    public int checkPicByProblem() {
+        return fPictureMapper.checkPicByProblem();
+    }
+
+    @Override
+    public int checkPicByHot() {
+        return fPictureMapper.checkPicByHot();
+    }
+
+    //前台查询热门推荐
+    @Override
+    public List<FPicture> selectPicByHot() {
+        return fPictureMapper.selectPicByHot();
+    }
+
+    //前台查询新闻中心
+    @Override
+    public List<FPicture> selectPicByNote() {
+        return fPictureMapper.selectPicByNote();
+    }
+
+    //前台问题展示图片
+    @Override
+    public List<FPicture> selectPicByProblem() {
+        return fPictureMapper.selectPicByProblem();
+    }
+
+    @Override
+    public List<FPicture> selectPicByEmployee() {
+        return fPictureMapper.selectPicByEmployee();
+    }
+
 }

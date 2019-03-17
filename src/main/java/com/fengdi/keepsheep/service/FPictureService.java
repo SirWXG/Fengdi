@@ -27,4 +27,20 @@ public interface FPictureService {
     int updatePic(FPicture fPicture);
 
     List<FPicture> selectPicByLBANDPTLB();
+
+    int checkPicForNote();
+
+    int checkPicForEmployee();
+
+    int checkPicByProblem();
+
+    int checkPicByHot();
+
+    List<FPicture> selectPicByHot();
+
+    List<FPicture> selectPicByNote();
+
+    List<FPicture> selectPicByProblem();
+
+    List<FPicture> selectPicByEmployee();
 }

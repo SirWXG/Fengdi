@@ -54,19 +54,19 @@
   </update>
 
   <select id="checkPic" resultType="int">
-    SELECT COUNT(*) FROM f_picture WHERE picture_type='平台轮播' AND status='yes'
+    SELECT COUNT(*) FROM f_picture WHERE picture_area='平台轮播' AND status='yes'
   </select>
   <select id="checkPicForNote" resultType="int">
-    SELECT COUNT(*) FROM f_picture WHERE picture_type='新闻中心' AND status='yes'
+    SELECT COUNT(*) FROM f_picture WHERE picture_area='新闻中心' AND status='yes'
   </select>
   <select id="checkPicForEmployee" resultType="int">
-  SELECT COUNT(*) FROM f_picture WHERE picture_type='公司平台展示' AND status='yes'
+  SELECT COUNT(*) FROM f_picture WHERE picture_area='公司平台展示' AND status='yes'
   </select>
   <select id="checkPicByProblem" resultType="int">
-    SELECT COUNT(*) FROM f_picture WHERE picture_type='问题展示' AND status='yes'
+    SELECT COUNT(*) FROM f_picture WHERE picture_area='问题展示' AND status='yes'
   </select>
   <select id="checkPicByHot" resultType="int">
-    SELECT COUNT(*) FROM f_picture WHERE picture_type='热门搜索' AND status='yes'
+    SELECT COUNT(*) FROM f_picture WHERE picture_area='热门搜索' AND status='yes'
   </select>
 
   <select id="selectPictureByPno" parameterType="string" resultMap="BaseResultMap">
@@ -108,5 +108,18 @@
     FROM f_picture
     WHERE picture_area='新闻中心' AND picture_type='展示图片' AND status='yes'
   </select>
+
+  <select id="selectPicByProblem" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List" />
+    FROM f_picture
+    WHERE picture_area='问题展示' AND picture_type='展示图片' AND status='yes'
+  </select>
+
+  <select id="selectPicByEmployee" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List" />
+    FROM f_picture
+    WHERE picture_area='公司平台展示' AND picture_type='展示图片' AND status='yes'
+  </select>
+
 
 </mapper>

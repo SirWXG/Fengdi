@@ -31,7 +31,14 @@ public class BeforeController {
         model.addAttribute("_product",list);
         //前台轮播图片
         model.addAttribute("_before_lunbo",fPictureService.selectPicByLBANDPTLB());
-
+        //热门推荐图片
+        model.addAttribute("_before_hot",fPictureService.selectPicByHot());
+        //新闻中心图片
+        model.addAttribute("_before_note",fPictureService.selectPicByNote());
+        //问题展示图片
+        model.addAttribute("_before_problem",fPictureService.selectPicByProblem());
+        //公司平台展示
+        model.addAttribute("_before_employee",fPictureService.selectPicByEmployee());
         return null;
     }
 }
