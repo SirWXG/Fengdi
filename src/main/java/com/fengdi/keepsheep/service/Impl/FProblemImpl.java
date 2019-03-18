@@ -87,6 +87,11 @@ public class FProblemImpl implements FProblemService{
 		return list;
 	}
 
-
-
+	/**
+	 * 查状态条数
+	 */
+	public int checkStatus(){
+		int status = fProblemMapper.checkStatus();
+		return status;
+	}
 }
