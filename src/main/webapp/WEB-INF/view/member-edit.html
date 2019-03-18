@@ -96,6 +96,10 @@
                     layer.msg('标题名称不能为空"',{icon:2,time:1000});
                     return false;
                 }
+                if (serviceName.length>6){
+                    layer.msg('标题名称不能超过6个字',{icon:2,time:1000});
+                    return false;
+                }
                 $.ajax({
                     url:"/FserviceController/upd",
                     type:"post",

@@ -146,7 +146,7 @@ public class FserviceController {
         } else if (fService.getServiceLevel() == 0 && status.equals("1")) {
             List<FService> A = fsservice.selectStauts(status);
             int size = A.size();
-            if (size > 4) {
+            if (size > 3) {
                 return new SimpleResult(false);
             } else {
                 int insert = fsservice.updatestauts(serviceNo, status);
