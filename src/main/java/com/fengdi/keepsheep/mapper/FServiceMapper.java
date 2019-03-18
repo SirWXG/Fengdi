@@ -48,4 +48,7 @@ public interface FServiceMapper {
     List<FService> selectStauts(String status);
 
     List<FService> selectStauts2(String status);
+
+    List<FService> selectStauts3();
+
 }

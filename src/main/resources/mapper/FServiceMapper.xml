@@ -406,4 +406,10 @@
     from f_service
     where super_service_no = #{superServiceNo,jdbcType=VARCHAR} and status ="1"
   </select>
+  <select id="selectStauts3" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from f_service
+    where service_level=0 and status ='1'
+  </select>
 </mapper>

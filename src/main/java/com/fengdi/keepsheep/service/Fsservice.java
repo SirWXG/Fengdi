@@ -33,4 +33,7 @@ public interface Fsservice {
 
     List<FService> selectStauts2(String status);
 
+    List<FService> selectStauts3();
+
+
 }

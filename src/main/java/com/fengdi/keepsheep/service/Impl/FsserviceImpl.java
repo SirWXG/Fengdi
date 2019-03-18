@@ -82,4 +82,9 @@ public class FsserviceImpl implements Fsservice {
     public List<FService> selectStauts2(String status) {
         return fserviceMapper.selectStauts2(status);
     }
+
+    @Override
+    public List<FService> selectStauts3() {
+        return fserviceMapper.selectStauts3();
+    }
 }
