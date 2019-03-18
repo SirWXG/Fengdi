@@ -94,4 +94,12 @@ public class FProblemImpl implements FProblemService{
 		int status = fProblemMapper.checkStatus();
 		return status;
 	}
+	/**
+	 * 前端接口
+	 */
+	@Override
+	public List<FProblem> selectByStatus() {
+		List<FProblem> list = fProblemMapper.selectByStatus();
+		return list;
+	}
 }

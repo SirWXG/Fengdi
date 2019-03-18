@@ -290,4 +290,8 @@
   <select id="checkStatus" resultType="int">
     select count(*) from f_problem where status='1';
   </select>
+
+  <select id="selectByStatus" resultMap="BaseResultMap">
+    select * from f_problem where status='1'
+</select>
 </mapper>

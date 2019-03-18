@@ -42,4 +42,6 @@ public interface FProblemMapper {
     int selectCount();
 
     int checkStatus();
+
+    List<FProblem> selectByStatus();
 }
