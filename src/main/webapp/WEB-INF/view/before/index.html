@@ -6,7 +6,9 @@
     <link rel="stylesheet" href="../../../css/font_1089438_x71yzm3wef/iconfont.css"/>
     <link rel="stylesheet" href="../../../css/swiper.css"/>
     <link rel="stylesheet" href="../../../css/e.css"/>
+    <link rel="stylesheet" href="../../../css/mui.min.css">
     <script src="../../../js/jquery-1.9.1.js"></script>
+    <script src="../../../js/mui.min.js"></script>
     <script src="../../../js/vue.js"></script>
     <script src="../../../js/swiper.min.js"></script>
     <script src="../../../js/e.js"></script>
@@ -21,28 +23,28 @@
     <div class="top_nav">
         <div class="logo"><img src="../../../img/logo1.png"></div>
         <ul class="nav">
-            <li><a href="#1F" id="a1">网站首页 /</a></li>
+            <li><a href="#1F" id="a1">首页 /</a></li>
             <li><a href="#2F">热门推荐 /</a></li>
             <li><a href="#3F">新闻中心 /</a></li>
             <li><a href="#4F">产品中心 /</a></li>
             <li><a href="#5F">基地展示 /</a></li>
             <li><a href="#6F">问题解决 /</a></li>
-            <li><a href="#7F">关于我们 /</a></li>
             
         </ul>
         
        <div class="gongneng_box">
       	       <a href="">登录</a>
       	      <a href="">注册</a>
-      </div> 
-        
-       
+      </div>
+
+        <div class="app_anniu1"><a href="">APP下载</a></div>
       <div class="clearfix"></div>
       
     </div>
     <!--banner-->
     <div class="banner_hezi" style="margin-top: 70px">
-        <a name="1F"></a>
+        <!--热门-->
+        <a name="2F"></a>
 
         <div class="swiper-container">
             <div class="swiper-wrapper">
@@ -78,7 +80,7 @@
     </script>
     <!--热门推荐-->
     <div class="popular">
-        <h2><a name="2F">热门推荐</a></h2>
+        <h2>热门推荐</h2>
 
         <div class="popular-l"></div>
         <p>我们用心为您做的更好</p>
@@ -87,10 +89,14 @@
         <div class="recommend-top">
             <div class="recommend-left" th:each="hot:${_before_hot}">
                 <div class="recommend-img">
+                    <!--新闻-->
+                    <a name="3F"></a>
                     <img th:src="${hot.pictureImg}" height="100%" width="100%" alt=""/>
                     <div class="recommend-ping">
+
                         <!--如果有需要,可以放一些文章在下面的p标签里-->
                         <p th:text="${hot.pictureText}" style="text-align: center; margin-top: 100px; font-size: 22px; font-weight: bold;"></p >
+
                     </div>
                 </div>
             </div>
@@ -98,28 +104,40 @@
     </div>
 
     <!--新闻中心box-->
-    <div class="xinwen_box">
-            <h1><a name="3F">新闻中心</a></h1>
+    <div  class="xinwen">
+        <div class="xinwen_box">
+            <h1>新闻中心</h1>
 
-        <div class="popular-l"  style="margin-bottom: 20px"></div>
+            <div class="popular-l"  style="margin-bottom: 20px"></div>
         </div>
-    <div style="width: 60% ; height:400px;margin: 0 auto;position: relative">
-        <nav id="nav">
-            <ul type="none">
-                <li th:text="${view.announcementName+'   '+#dates.format(view.createTime,'yyyy-MM-dd')}" th:each="view:${_before_view}">
-                </li>
-            </ul>
-        </nav>
-        <!--内容部分HTML代码-->
-        <div id="container">
-            <section class="tab" th:each="note:${_before_note}"><img th:src="${note.pictureImg}" alt=""/></section>
+        <div style="width: 60%;margin: 0 auto 30px;position: relative;">
+            <nav id="nav">
+                <ul type="none">
+                    <li th:class="${viewStat.index==0?'act':''}" th:each="view,viewStat:${_before_view}" th:text="${view.announcementName}">选卡1</li>
+                </ul>
+            </nav>
+            <!--内容部分HTML代码-->
+            <div id="container">
+                <!--产品-->
+                <a name="4F"></a>
+                <section class="tab">
+                    <div class="mui-slider">
+                        <div class="mui-slider-group mui-slider-loop">
+                            <!--支持循环，需要重复图片节点-->
+                            <div class="mui-slider-item" th:each="notes:${_before_note}"><a href="#"><img th:src="${notes.pictureImg}"/><p>dsjgjh</p></a></div>
+                            <!--支持循环，需要重复图片节点-->
+                        </div>
+                    </div>
+                </section>
+            </div>
         </div>
 
     </div>
     <!--产品中心box-->
     <div class="product">
         <div class="product-text">
-            <h2><a name="4F">产品中心</a></h2>
+            <h2>产品中心</h2>
+            <p style="float: right ;margin-right: 40px"><a href="">更多</a></p>
 
             <p>Product Center</p>
         </div>
@@ -130,7 +148,7 @@
                     <img th:src="${product.productImg}" width="100%" height="100%" alt=""/>
                 </div>
                 <p><b style="font-size: 20px" th:text="${product.productName}"></b></p>
-
+                <a name="5F"></a>
                 <div class="product-appear">
                     <p th:text="${product.productIntroduction+'  >'}"></p>
                 </div>
@@ -139,9 +157,9 @@
     </div>
 		
     <!--基地展示-->
-    <div class="base">
+    <div class="base" style="border: 1px solid transparent;">
         <div class="base-text">
-            <p><b>基地展示</b></p>
+            <p style="font-size: 2rem;margin-top: 35px"><b>基地展示</b></p>
         </div>
         <div class="base-main">
             <!-- 图一-->
@@ -151,8 +169,9 @@
                     <!-- 线-->
                     <div class="base-line"></div>
                 </div>
+                <a name="6F"></a>
                 <div class="base-img">
-                    <img th:src="${employee.pictureImg}" width="100%" height="240px" alt=""/>
+                    <a href=""><img th:src="${employee.pictureImg}" width="100%" height="240px" alt=""/></a>
                 </div>
             </div>
         </div>
@@ -161,9 +180,9 @@
     <div class="head">
         <a onclick="pageScroll()" id="gotoTop"><span class="iconfont icon-huidingbu"></span></a>
     </div>
-     <div class="kefu">
+     <!--<div class="kefu">
      	<a><img src="../../../img/微信图片_20190316114911.png"></a>
-     </div>
+     </div>-->
     <!--留言框-->
     
     <!--问题设置-->
@@ -188,29 +207,43 @@
         <div class="yejiao_box">
             <div class="text_hezi" th:each="s:${m}">
                 <h1 th:text="${s.serviceName}"></h1>
-              <div class="hengxiang1"></div>
+                <div class="hengxiang1"></div>
                     <p th:each="fann:${s.s}" th:text="${fann.serviceName}"></p>
             </div>
             <div class="text_hezi">
                 <h1>全国咨询热线:</h1>
+
                  <p>400-123-4567</p>
 
 
             </div>
-            <div class="erweima">
+           <!-- <div class="erweima">
             <div class="weixin">
             <img src="../../../img/weixing.png">
             <p>微信扫码咨询</p>
             
             </div>
             <div class="clearfix"></div>
-        </div>
+        </div>-->
         
     </div>
-    <!--页尾-->
+        <div class="erweima">
+            <div class="weixin">
+                <img src="../../../img/erweima.png">
+                <p><a href="">网页版注册</a></p>
+            </div>
+            <div class="app">
+                <img src="../../../img/erweima.png">
+                <p><a href="">APP下载</a></p>
+
+            </div>
+
+        </div>
+        <div class="clearfix"></div>
+        <!--页尾-->
     <div class="yewei">
     <div class="da_hengxiang"></div>
-    <p>深圳市易捷网络科技有限公司版权所有    备案号：粤ICP备12084881号 网站地图XML深圳网站建设</p>
+    <p style="text-align: center">深圳市易捷网络科技有限公司版权所有    备案号：粤ICP备12084881号 网站地图XML深圳网站建设</p>
     </div>
 </div>
 </div>
@@ -224,7 +257,6 @@
     })();
 </script>
 </body>
-
 <script>
     $(".base-bg1").hover(function () {
         $(".base-bg1").parent().parent().addClass("bg1").removeClass("bg2").removeClass("bg3")
@@ -304,5 +336,11 @@
         }
     };
 </script>
-
+<script>
+    //获得slider插件对象
+    var gallery = mui('.mui-slider');
+    gallery.slider({
+        interval:5000//自动轮播周期，若为0则不自动播放，默认为0；
+    });
+</script>
 </html>

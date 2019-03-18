@@ -18,8 +18,13 @@ public class ImgUtils {
             String realPath = request.getSession().getServletContext().getRealPath("/images");
             //获取文件名
             String filename = file.getOriginalFilename();
+            System.out.println(filename);
             //获取文件后缀名
             String extensionname = filename.substring(filename.lastIndexOf(".") + 1);
+            if(extensionname.equals("")||extensionname==null||extensionname.trim()==""){
+                extensionname="jpg";
+            }
+            System.out.println(extensionname+"1111");
             //给上传的文件起别名，有很多种方式
             String newFilename = String.valueOf(System.currentTimeMillis()) + "." + extensionname;
             //创建File对象，传入目标路径参数，和新的文件别名

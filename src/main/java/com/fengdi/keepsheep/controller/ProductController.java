@@ -173,9 +173,10 @@ public class ProductController {
                 HttpSession session = request.getSession();
                 FProduct product = (FProduct) session.getAttribute("f_product");
                 Map<String,Object> map = new HashMap<String, Object>();
+                String filePath = ImgUtils.getImgs(request,file);
                 map.put("productName",productName);
                 map.put("productIntroduction",productInfo);
-                map.put("productImg",ImgUtils.getImgs(request,file));
+                map.put("productImg",filePath);
                 map.put("productNo",product.getProductNo());
                 int flag =  fProductService.updateProduct(map);
                 if(flag<1){

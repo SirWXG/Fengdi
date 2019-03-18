@@ -172,6 +172,7 @@
             $.ajax({
                 url:"/picture/selectPicture",
                 type:"post",
+                async: false,
                 data:{
                     pictureNo:pictureNo
                 },
@@ -181,6 +182,7 @@
                     }else{
                         layer.msg('删除失败',{icon:1,time:1000});
                     }
+
                 }
             });
         }

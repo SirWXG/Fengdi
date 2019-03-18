@@ -220,6 +220,11 @@ public class PictureController {
             FPicture fPicture =(FPicture)session.getAttribute("f_picture");
             String picNo = fPicture.getPictureNo();
             String filePath = ImgUtils.getImgs(request,file);
+            if(!filePath.endsWith("png")&&filePath.endsWith(".")&&fPicture.getPictureImg().endsWith(".png")){
+                filePath = filePath+"jpg";
+            }else if(!filePath.endsWith("jpg")&&filePath.endsWith(".")&&fPicture.getPictureImg().endsWith(".jpg")){
+                filePath = filePath+"jpg";
+            }
             FPicture fp = new FPicture();
             fp.setPictureImg(filePath);
             fp.setPictureNo(picNo);
