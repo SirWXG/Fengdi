@@ -25,4 +25,6 @@ public interface FProblemService {
 
 	public int checkStatus();
 
+	public List<FProblem> selectByStatus();
+
 }

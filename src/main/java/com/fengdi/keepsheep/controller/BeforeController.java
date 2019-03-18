@@ -1,10 +1,7 @@
 package com.fengdi.keepsheep.controller;
 
 import com.fengdi.keepsheep.bean.FService;
-import com.fengdi.keepsheep.service.FAnnouncementService;
-import com.fengdi.keepsheep.service.FPictureService;
-import com.fengdi.keepsheep.service.FProductService;
-import com.fengdi.keepsheep.service.Fsservice;
+import com.fengdi.keepsheep.service.*;
 import com.fengdi.keepsheep.util.AnnouncementUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.annotation.Resource;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +28,8 @@ public class BeforeController {
 
     @Autowired
     private FAnnouncementService fAnnouncementService;
+    @Autowired
+    private FProblemService fProblemService;
 
     @Resource
     private Fsservice fsservice;
@@ -51,6 +51,8 @@ public class BeforeController {
         model.addAttribute("_before_employee",fPictureService.selectPicByEmployee());
         //平台公告展示
         model.addAttribute("_before_view",fAnnouncementService.selectByYes());
+        //平台问题展示
+        model.addAttribute("_before_question",fProblemService.selectByStatus());
 
         String array[] = {"1","2","3"};
         model.addAttribute("num",array);

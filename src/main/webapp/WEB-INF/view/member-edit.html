@@ -25,7 +25,7 @@
         <form class="layui-form">
             <table>
                 <tr th:if="${session.f.ServiceLevel==1}">
-                    <input type="text" id="ss" th:value="${session.f.serviceNo}" name="serviceNo" required="" lay-verify="nikename"
+                    <input type="hidden" id="ss" th:value="${session.f.serviceNo}" name="serviceNo" required="" lay-verify="nikename"
                            autocomplete="off" class="layui-input">
                     <div class="layui-form-item">
                         <label for="superServiceNo" class="layui-form-label">
@@ -52,7 +52,7 @@
                     </div>
                 </tr>
                 <tr th:if="${session.f.ServiceLevel==0}">
-                    <input type="text" id="s" th:value="${session.f.serviceNo}" name="serviceNo" required="" lay-verify="nikename"
+                    <input type="hidden" id="s" th:value="${session.f.serviceNo}" name="serviceNo" required="" lay-verify="nikename"
                            autocomplete="off" class="layui-input">
                     <div class="layui-form-item">
                         <label for="fserviceName" class="layui-form-label">
