@@ -184,41 +184,15 @@
             <p><b>基地展示</b></p>
         </div>
         <div class="base-main">
-
             <!-- 图一-->
-            <div>
-
+            <div th:each="employee,employeeStat:${_before_employee}" th:class="base-bg+${employeeStat.index+1}">
                 <div class="base-foot">
-                    <p>我们的故事</p>
+                    <p th:text="${employee.pictureName}">我们的故事</p>
                     <!-- 线-->
                     <div class="base-line"></div>
                 </div>
                 <div class="base-img">
-                    <img src="../../../imags/3124.jpg_wh300.jpg" width="100%" alt=""/>
-                </div>
-            </div>
-            <!--图二-->
-            <div class="base-bg2">
-
-                <div class="base-foot">
-                    <p>我们的故事</p>
-                    <!-- 线-->
-                    <div class="base-line"></div>
-                </div>
-                <div class="base-img">
-                    <img src="../../../imags/5289.jpg_wh300.jpg" width="100%" alt=""/>
-                </div>
-            </div>
-            <!--图三-->
-            <div class="base-bg3">
-
-                <div class="base-foot">
-                    <p>我们的故事</p>
-                    <!-- 线-->
-                    <div class="base-line"></div>
-                </div>
-                <div class="base-img">
-                    <img src="../../../imags/2740.jpg_wh300.jpg" width="100%" alt=""/>
+                    <img th:src="${employee.pictureImg}" width="100%" height="240px" alt=""/>
                 </div>
             </div>
         </div>
@@ -281,49 +255,17 @@
      </div>
     <!--页脚-->
     <div class="yejiao_bj">
-        <div class="yejiao_box" th:each="s:${m}">
-            <div class="text_hezi">
+        <div class="yejiao_box">
+            <div class="text_hezi" th:each="s:${m}">
                 <h1 th:text="${s.serviceName}"></h1>
               <div class="hengxiang1"></div>
-                <span th:each="fann:${s.s}">
-                    <p th:text="${fann.serviceName}"></p>
-                </span>
-            </div>
-
-            <div class="text_hezi">
-                <h1>产品中心</h1>
-               <div class="hengxiang1"></div>
-                <p>果树苗</p>
-
-                <p>绿树苗</p>
-
-                <p>松柏类</p>
-
-                <p>灌木类</p>
-            </div>
-            <div class="text_hezi">
-                <h1>基地展示</h1>
-              <div class="hengxiang1"></div>
-                <p>樱桃种植基地</p>
-
-                <p>猕猴桃种植基地</p>
-
-                <p>云杉苗种植基地</p>
-            </div>
-            <div class="text_hezi">
-                <h1>联系方式</h1>
-               <div class="hengxiang1"></div>
-                <p>联系人：赵经理</p>
-                <p>电话：0755-61603557</p>
-                <p>邮箱：info@qifor.com</p>
-                <p>手机：13714247375</p>
-                <p>地址：广东.深圳宝安西乡宝源路鸿源大厦618</p>
+                    <p th:each="fann:${s.s}" th:text="${fann.serviceName}"></p>
             </div>
             <div class="text_hezi">
                 <h1>全国咨询热线:</h1>
                  <p>400-123-4567</p>
-                
-    
+
+
             </div>
             <div class="erweima">
             <div class="weixin">

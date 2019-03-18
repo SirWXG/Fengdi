@@ -1,7 +1,5 @@
 package com.fengdi.keepsheep.controller;
 
-import com.fengdi.keepsheep.bean.FAnnouncement;
-import com.fengdi.keepsheep.bean.FProduct;
 import com.fengdi.keepsheep.bean.FService;
 import com.fengdi.keepsheep.service.FAnnouncementService;
 import com.fengdi.keepsheep.service.FPictureService;
@@ -54,6 +52,9 @@ public class BeforeController {
         //平台公告展示
         model.addAttribute("_before_view",fAnnouncementService.selectByYes());
 
+        String array[] = {"1","2","3"};
+        model.addAttribute("num",array);
+        //标题展示
         List<AnnouncementUtils> list = new ArrayList<AnnouncementUtils>();
         //一级标题
         List<FService> list1 = fsservice.selectStauts3();

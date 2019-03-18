@@ -85,8 +85,6 @@
      set
       picture_name = #{pictureName},
       picture_text = #{pictureText},
-      picture_area = #{pictureArea},
-      picture_type = #{pictureType},
       picture_img = #{pictureImg}
     where picture_no = #{pictureNo}
   </update>

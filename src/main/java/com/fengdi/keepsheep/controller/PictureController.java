@@ -143,7 +143,6 @@ public class PictureController {
                 result.setErrCode("1");
             }else{
                 List<FPicture> list = fPictureService.selectPictureByPno(picno);
-                System.out.println(list.get(0).getPictureArea());
                 Map<String,Object> map = new HashMap<String, Object>();
                 map.put("status",status);
                 map.put("pictureNo",picno);
@@ -170,8 +169,8 @@ public class PictureController {
                     }
                 }else if("公司平台展示".equals(list.get(0).getPictureArea())){
                     System.out.println(fPictureService.checkPicForEmployee());
-                    if(fPictureService.checkPicForEmployee()>0&&status.equals("yes")){
-                        result.setErrMsg("公司平台展示图片最多设置一张，请重新操作");
+                    if(fPictureService.checkPicForEmployee()>2&&status.equals("yes")){
+                        result.setErrMsg("公司平台展示图片最多设置三张，请重新操作");
                     }else{
                         result.setSuccess(true);
                         fPictureService.updatePicStatus(map);
@@ -207,9 +206,7 @@ public class PictureController {
     @RequestMapping(value = "/updatePicture",method = RequestMethod.POST)
     @ResponseBody
     public SimpleResult updatePicture(@RequestParam(name = "pictureText",defaultValue = "")String pictureText,
-                                      @RequestParam(name = "pictureArea",defaultValue = "")String pictureArea,
                                       @RequestParam(name = "img")CommonsMultipartFile file,
-                                      @RequestParam(name = "pictureType",defaultValue = "")String pictureType,
                                       @RequestParam(name = "pictureName",defaultValue = "")String pictureName,
                                       HttpServletRequest request,HttpSession session){
         SimpleResult result = new SimpleResult();
@@ -222,8 +219,6 @@ public class PictureController {
             fp.setPictureNo(picNo);
             fp.setPictureText(pictureText);
             fp.setPictureName(pictureName);
-            fp.setPictureArea(pictureArea);
-            fp.setPictureType(pictureType);
             int flag = fPictureService.updatePic(fp);
             if(flag<1){
                 result.setErrCode("1");
