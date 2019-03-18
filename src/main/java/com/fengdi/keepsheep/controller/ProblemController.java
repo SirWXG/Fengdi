@@ -1,26 +1,25 @@
 package com.fengdi.keepsheep.controller;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpSession;
-
 import com.alibaba.fastjson.JSONArray;
 import com.fengdi.keepsheep.bean.FAdmin;
 import com.fengdi.keepsheep.bean.FProblem;
 import com.fengdi.keepsheep.bean.FProblemExample;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
-import org.apache.shiro.session.Session;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-
 import com.fengdi.keepsheep.service.FProblemService;
 import com.fengdi.keepsheep.util.SimpleResult;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpSession;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping(value="/problem")
@@ -113,8 +112,8 @@ public class ProblemController {
 				result.setSuccess(false);
 			}else{
 				System.out.println("Sataus:"+fProblemService.checkStatus());
-				if(fProblemService.checkStatus()>4&&status.equals("1")){
-					result.setErrMsg("最多只能展示五条问题，请重新设置");
+				if(fProblemService.checkStatus()>3&&status.equals("1")){
+					result.setErrMsg("最多只能展示四条问题，请重新设置");
 				}else {
 					result.setSuccess(true);
 					boolean stu = fProblemService.updateByStatus(id, status);

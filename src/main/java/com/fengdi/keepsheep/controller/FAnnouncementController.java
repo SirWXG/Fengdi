@@ -1,24 +1,24 @@
 package com.fengdi.keepsheep.controller;
 
-import java.io.UnsupportedEncodingException;
-import java.sql.SQLOutput;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-
-import javax.annotation.Resource;
-import javax.servlet.http.HttpSession;
-
 import com.fengdi.keepsheep.bean.FAdmin;
 import com.fengdi.keepsheep.bean.FAnnouncement;
+import com.fengdi.keepsheep.service.FAnnouncementService;
+import com.fengdi.keepsheep.util.SimpleResult;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.fengdi.keepsheep.service.FAnnouncementService;
-import com.fengdi.keepsheep.util.SimpleResult;
+import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
+import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 
 @Controller
 @RequestMapping("/fannouncementService")
@@ -101,7 +101,7 @@ public class FAnnouncementController {
 	    if(status.equals("1")){
             List<FAnnouncement> A = fannouncementService.selectStauts(status);
             int size = A.size();
-            if(size>5){
+            if(size>4){
                 return new SimpleResult(false);
             }else{
                 int insert = fannouncementService.updatestauts(announcementNo,status);

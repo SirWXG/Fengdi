@@ -104,16 +104,17 @@
         <div class="popular-l"  style="margin-bottom: 20px"></div>
         </div>
     <div style="width: 60% ; height:400px;margin: 0 auto;position: relative">
-
-        <!--内容部分HTML代码-->
-        <div id="container">
-            <section class="tab" ><img th:src="${note.pictureImg}" alt="" th:each="note:${_before_note}"/></section>
-        </div>
         <nav id="nav">
             <ul type="none">
-                <li th:class="${noteStat.index==0?'act':''}" th:text="${notes.pictureText}" th:each="notes,noteStat:${_before_note}"></li>
+                <li th:text="${view.announcementName+'   '+#dates.format(view.createTime,'yyyy-MM-dd')}" th:each="view:${_before_view}">
+                </li>
             </ul>
         </nav>
+        <!--内容部分HTML代码-->
+        <div id="container">
+            <section class="tab" th:each="note:${_before_note}"><img th:src="${note.pictureImg}" alt=""/></section>
+        </div>
+
     </div>
     <!--产品中心box-->
     <div class="product">
@@ -164,21 +165,6 @@
      	<a><img src="../../../img/微信图片_20190316114911.png"></a>
      </div>-->
     <!--留言框-->
-    <div class="comments">
-        <div class="comments-head">
-            <p>问题咨询处</p>
-            <span id="sp" class="iconfont icon-close"></span>
-        </div>
-        <form action="">
-            主题: <input type="text"/><br/>
-            主题: <input type="text"/><br/>
-            主题: <input type="text"/><br/>
-            主题: <input type="text"/><br/>
-            内容: <textarea name="" id="" cols="30" rows="5"></textarea><br/>
-
-            <input type="button" value="提交"/>
-        </form>
-    </div>
     
     <!--问题设置-->
      <div class="dakuang">
