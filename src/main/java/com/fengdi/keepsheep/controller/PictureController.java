@@ -70,7 +70,7 @@ public class PictureController {
                                @RequestParam(name = "pictureText")String pictureText,
                                @RequestParam(name = "img")CommonsMultipartFile file,
                                @RequestParam(name = "pictureArea")String pictureArea,
-                               @RequestParam(name = "pictureType")String pictureType,HttpServletRequest request){
+                               @RequestParam(name = "pictureType",defaultValue = "展示图片")String pictureType,HttpServletRequest request){
         SimpleResult result = new SimpleResult();
         try{
             if(null==request.getSession().getAttribute("admin")){
@@ -168,9 +168,15 @@ public class PictureController {
                         fPictureService.updatePicStatus(map);
                     }
                 }else if("公司平台展示".equals(list.get(0).getPictureArea())){
-                    System.out.println(fPictureService.checkPicForEmployee());
                     if(fPictureService.checkPicForEmployee()>2&&status.equals("yes")){
                         result.setErrMsg("公司平台展示图片最多设置三张，请重新操作");
+                    }else{
+                        result.setSuccess(true);
+                        fPictureService.updatePicStatus(map);
+                    }
+                }else if("问题展示".equals(list.get(0).getPictureArea())){
+                    if(fPictureService.checkPicByProblem()>0&&status.equals("yes")){
+                        result.setErrMsg("问题展示图片最多设置一张，请重新操作");
                     }else{
                         result.setSuccess(true);
                         fPictureService.updatePicStatus(map);

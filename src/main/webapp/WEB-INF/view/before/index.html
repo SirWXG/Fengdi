@@ -101,60 +101,19 @@
     <div class="xinwen_box">
             <h1><a name="3F">新闻中心</a></h1>
 
-            <div class="hengxiang"></div>
+        <div class="popular-l"  style="margin-bottom: 20px"></div>
         </div>
-    <div class="xinwen">
-        <!--技术要领-->
-        <div class="neirong_hezi">
-            <div class="zuo_box">
-                <div class="wenben1">
-                    <h1>技术要领</h1>
+    <div style="width: 60% ; height:400px;margin: 0 auto;position: relative">
 
-                    <div class="hengxiang1"></div>
-                    <div class="anniu1"><a href="">更多</a></div>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="tu">
-                    <img src="../../../imags/0x300a0a0.jpg">
-
-                    <div class="touming_box">
-                        <p><a href="">每周我们会通过微信给您推送苗木的最新知识,</a></p>
-
-                        <p><a href="">让您随时随地掌握苗木的一线知识。</a></p>
-
-                        <p><a href="">您也可以通过微信与我们交流。</a></p>
-
-                        <p><a href="">分享您育苗中遇到的难题，让我们第一时间给您解</a></p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="you_box">
-                <div class="wenben1">
-                    <h1>技术要领</h1>
-
-                    <div class="hengxiang1"></div>
-                    <div class="anniu1"><a href="">更多</a></div>
-                    <div class="clearfix"></div>
-                </div>
-
-                <div class="liebiao_box1">
-                    <p><span>1</span>种植樱桃树苗对气候有何要求&nbsp;&nbsp;&nbsp;&nbsp;[01-03]</p>
-
-                    <p><span>2</span>种植樱桃树苗对气候有何要求&nbsp;&nbsp;&nbsp;&nbsp;[01-03]</p>
-
-                    <p><span>3</span>种植樱桃树苗对气候有何要求&nbsp;&nbsp;&nbsp;&nbsp;[01-03]</p>
-
-                    <p><span>4</span>种植樱桃树苗对气候有何要求&nbsp;&nbsp;&nbsp;&nbsp;[01-03]</p>
-
-                    <p><span>5</span>种植樱桃树苗对气候有何要求&nbsp;&nbsp;&nbsp;&nbsp;[01-03]</p>
-                </div>
-            </div>
-            <!--1200底部大图-->
-            <div class="dibu1_hezi">
-                <img src="../../../img/6.png">
-            </div>
+        <!--内容部分HTML代码-->
+        <div id="container">
+            <section class="tab" ><img th:src="${note.pictureImg}" alt="" th:each="note:${_before_note}"/></section>
         </div>
+        <nav id="nav">
+            <ul type="none">
+                <li th:class="${noteStat.index==0?'act':''}" th:text="${notes.pictureText}" th:each="notes,noteStat:${_before_note}"></li>
+            </ul>
+        </nav>
     </div>
     <!--产品中心box-->
     <div class="product">
@@ -225,30 +184,15 @@
      <div class="dakuang">
      <div class="xiao_kuang">
      <h1>解决方案</h1>
-     <div class="text_zuo">
-     
-     	<h2>养羊开发常见问题</h2>
-     	<h3>开发一个app多少钱？</h3>
+     <div class="text_zuo" th:each="question:${_before_question}">
+
+     	<h3 th:text="${question.problemNo}"></h3>
      	<div class="hengxiang"></div>
-     	<p>关于“APP开发需要多少钱”的问题，已经是一个热门的话题来的了，很多需要开发app的用户都很想知道关于开发一款app需要多少钱，今天商侣小编就给大家详细的介绍一下关于手机app开发费用方面的问题。</p>
-     </div>	
-     <div class="text_zuo">
-     
-     	<h2>养羊开发常见问题</h2>
-     	<h3>开发一个app多少钱？</h3>
-     	<div class="hengxiang"></div>
-     	<p>关于“APP开发需要多少钱”的问题，已经是一个热门的话题来的了，很多需要开发app的用户都很想知道关于开发一款app需要多少钱，今天商侣小编就给大家详细的介绍一下关于手机app开发费用方面的问题。</p>
-     </div>
-     <div class="text_zuo">
-     
-     	<h2>养羊开发常见问题</h2>
-     	<h3>开发一个app多少钱？</h3>
-     	<div class="hengxiang"></div>
-     	<p>关于“APP开发需要多少钱”的问题，已经是一个热门的话题来的了，很多需要开发app的用户都很想知道关于开发一款app需要多少钱，今天商侣小编就给大家详细的介绍一下关于手机app开发费用方面的问题。</p>
+     	<p th:text="${question.problemAnswers}">关于“APP开发需要多少钱”的问题，已经是一个热门的话题来的了，很多需要开发app的用户都很想知道关于开发一款app需要多少钱，今天商侣小编就给大家详细的介绍一下关于手机app开发费用方面的问题。</p>
      </div>
      
      <div class="datu">
-     	<img src="../../../imags/timg%20(4).jpg">
+     	<img th:src="${problem.pictureImg}" th:each="problem:${_before_problem}">
      </div>
      <div class="clearfix"></div>
      </div>	
@@ -349,6 +293,30 @@
 			$(".comments").show()
 		},300000)
 	})
+</script>
+<script>
+    window.onload=function () {
+        var nav=document.getElementById('nav');
+        var oNav=nav.getElementsByTagName('li');
+
+        var container=document.getElementById('container');
+        var oDiv=container.getElementsByClassName('tab');
+        for(var i=0;i<oNav.length;i++){
+            oNav[i].index=i;
+            oNav[i].onclick=function () {
+                for(var i=0;i<oNav.length;i++){
+                    oNav[i].className='';
+                    oDiv[i].style.display="none";
+                }
+                this.className='act';
+                oDiv[this.index].style.display="block"
+            }
+            for(var m=1;m<oNav.length;m++){
+                oNav[m].className='';
+                oDiv[m].style.display="none";
+            }
+        }
+    };
 </script>
 
 </html>
