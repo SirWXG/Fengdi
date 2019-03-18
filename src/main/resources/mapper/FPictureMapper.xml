@@ -92,7 +92,7 @@
   <select id="selectPicByLBANDPTLB" resultMap="BaseResultMap">
     SELECT <include refid="Base_Column_List"/>
     FROM f_picture
-    WHERE picture_area='平台轮播' AND picture_type='轮播图' AND status='yes'
+    WHERE picture_area='平台轮播' AND picture_type='展示图片' AND status='yes'
   </select>
 
   <select id="selectPicByHot" resultMap="BaseResultMap">
