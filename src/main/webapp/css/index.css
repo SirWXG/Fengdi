@@ -240,7 +240,7 @@ a {
 
 nav li{
     /*display: inline;*/
-    width: 24%;
+    width: 30%;
     text-decoration: none;
     padding: 15px;
     list-style-type: decimal-leading-zero;
@@ -258,7 +258,6 @@ section{
     position: absolute;
     right: 0;
     top: 0;
-    z-index: 555555555555;
     background-color: rgba(255,255,255,.3);
 }
 
