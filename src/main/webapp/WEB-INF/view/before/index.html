@@ -281,16 +281,13 @@
      </div>
     <!--页脚-->
     <div class="yejiao_bj">
-        <div class="yejiao_box" th:each="s:${m.list}">
+        <div class="yejiao_box" th:each="s:${m}">
             <div class="text_hezi">
-                <h1 th:text="s.serviceName"></h1>
+                <h1 th:text="${s.serviceName}"></h1>
               <div class="hengxiang1"></div>
-                <p>公司简介</p>
-                <p>人才招聘</p>
-                <p>售后服务</p>
-                <p>联系我们</p>
-                <p>在线留言</p>
-                
+                <span th:each="fann:${s.s}">
+                    <p th:text="${fann.serviceName}"></p>
+                </span>
             </div>
 
             <div class="text_hezi">
