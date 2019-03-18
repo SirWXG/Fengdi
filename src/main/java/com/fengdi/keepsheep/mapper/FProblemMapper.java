@@ -40,4 +40,6 @@ public interface FProblemMapper {
     List<FProblem> selectNoAndCname(Map<String,Object> map);
 
     int selectCount();
+
+    int checkStatus();
 }

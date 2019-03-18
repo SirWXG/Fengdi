@@ -211,7 +211,7 @@
                               $(obj).parents("tr").find(".td-status").find('span').removeClass('layui-btn-disabled').addClass("layui-btn-normal layui-btn-mini").html('已展示');
                               layer.msg('上架成功!',{icon: 5,time:1000});
                           }else{
-                              layer.msg('上架失败,请重新操作',{icon:5,time:1000});
+                              layer.msg(data.errMsg,{icon:5,time:1000});
                           }
                       }
                   });
@@ -230,7 +230,7 @@
                               $(obj).parents("tr").find(".td-status").find('span').addClass('layui-btn-disabled').html('未展示');
                               layer.msg('未展示!',{icon: 5,time:1000});
                           }else{
-                              layer.msg('操作失败',{icon:5,time:1000});
+                              layer.msg(data.errMsg,{icon:5,time:1000});
                           }
                       }
 

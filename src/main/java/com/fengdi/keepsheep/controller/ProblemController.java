@@ -112,11 +112,16 @@ public class ProblemController {
 				result.setErrMsg("登录信息失效,请重新登录");
 				result.setSuccess(false);
 			}else{
-				result.setSuccess(true);
-				boolean stu = fProblemService.updateByStatus(id, status);
-				if(stu!=true){
-					result.setSuccess(false);
-					result.setErrMsg("修改失败,请重新修改");
+				System.out.println("Sataus:"+fProblemService.checkStatus());
+				if(fProblemService.checkStatus()>4&&status.equals("1")){
+					result.setErrMsg("最多只能展示五条问题，请重新设置");
+				}else {
+					result.setSuccess(true);
+					boolean stu = fProblemService.updateByStatus(id, status);
+					if (stu != true) {
+						result.setSuccess(false);
+						result.setErrMsg("修改失败,请重新修改");
+					}
 				}
 			}
 		}catch (Exception e){

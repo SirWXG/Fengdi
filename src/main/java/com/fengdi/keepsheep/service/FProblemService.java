@@ -23,5 +23,6 @@ public interface FProblemService {
 
 	public List<FProblem> selectNoAndCname(Map<String,Object> map);
 
+	public int checkStatus();
 
 }
