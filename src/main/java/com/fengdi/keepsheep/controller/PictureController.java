@@ -156,7 +156,7 @@ public class PictureController {
                     }
                 }else if("新闻中心".equals(list.get(0).getPictureArea())){
                     if(fPictureService.checkPicForNote()>4&&status.equals("yes")){
-                        result.setErrMsg("新闻中心图片最多设置五张，请重新操作");
+                        result.setErrMsg("新闻中心图片最多设置一张，请重新操作");
                     }else{
                         result.setSuccess(true);
                         fPictureService.updatePicStatus(map);

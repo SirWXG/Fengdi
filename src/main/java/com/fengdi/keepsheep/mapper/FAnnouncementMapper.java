@@ -2,10 +2,9 @@ package com.fengdi.keepsheep.mapper;
 
 import com.fengdi.keepsheep.bean.FAnnouncement;
 import com.fengdi.keepsheep.bean.FAnnouncementExample;
-import java.util.List;
-
-import com.fengdi.keepsheep.bean.FService;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface FAnnouncementMapper {
     int countByExample(FAnnouncementExample example);
@@ -35,4 +34,6 @@ public interface FAnnouncementMapper {
     List<FAnnouncement> selectByMhcx(String announcementName);
 
     List<FAnnouncement> selectStauts(String status);
+
+    List<FAnnouncement> selectByYes();
 }

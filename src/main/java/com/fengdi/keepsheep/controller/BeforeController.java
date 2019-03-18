@@ -1,6 +1,7 @@
 package com.fengdi.keepsheep.controller;
 
 import com.fengdi.keepsheep.bean.FProduct;
+import com.fengdi.keepsheep.service.FAnnouncementService;
 import com.fengdi.keepsheep.service.FPictureService;
 import com.fengdi.keepsheep.service.FProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,9 @@ public class BeforeController {
     @Autowired
     private FPictureService fPictureService;
 
+    @Autowired
+    private FAnnouncementService fAnnouncementService;
+
     //与前端对接的借口  产品
     @RequestMapping(value = "/selectProductForBefore")
     public String selectProductForBefore(Model model){
@@ -39,6 +43,8 @@ public class BeforeController {
         model.addAttribute("_before_problem",fPictureService.selectPicByProblem());
         //公司平台展示
         model.addAttribute("_before_employee",fPictureService.selectPicByEmployee());
-        return null;
+        //平台公告展示
+        model.addAttribute("_before_view",fAnnouncementService.selectByYes());
+        return "/before/index";
     }
 }

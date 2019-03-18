@@ -1,7 +1,6 @@
 package com.fengdi.keepsheep.service;
 
 import com.fengdi.keepsheep.bean.FAnnouncement;
-import com.fengdi.keepsheep.bean.FAnnouncementExample;
 
 import java.util.List;
 
@@ -24,4 +23,6 @@ public interface FAnnouncementService {
 	List<FAnnouncement> selectByMhcx(String announcementName);
 
 	List<FAnnouncement> selectStauts(String status);
+
+	List<FAnnouncement> selectByYes();
 }

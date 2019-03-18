@@ -280,4 +280,11 @@
     from f_announcement
     where status = #{status,jdbcType=VARCHAR}
   </select>
+
+  <select id="selectByYes" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List" />
+    FROM f_announcement
+    WHERE status='1'
+  </select>
+
 </mapper>

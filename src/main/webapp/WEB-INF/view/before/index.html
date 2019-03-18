@@ -1,0 +1,404 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" href="../../../css/index.css"/>
+    <link rel="stylesheet" href="../../../css/font_1087916_6llt6lxnypg/iconfont.css"/>
+    <link rel="stylesheet" href="../../../css/font_1089438_x71yzm3wef/iconfont.css"/>
+    <link rel="stylesheet" href="../../../css/swiper.css"/>
+    <link rel="stylesheet" href="../../../css/e.css"/>
+    <script src="../../../js/jquery-1.9.1.js"></script>
+    <script src="../../../js/vue.js"></script>
+    <script src="../../../js/swiper.min.js"></script>
+    <script src="../../../js/e.js"></script>
+    <script src="../../../css/font_1087916_6llt6lxnypg/iconfont.js"></script>
+    <script src="../../../css/font_1089438_x71yzm3wef/iconfont.js"></script>
+    <meta charset="utf-8">
+    <title>无标题文档</title>
+</head>
+
+<body>
+<div id="app">
+    <div class="top_nav">
+        <div class="logo"><img src="../../../img/logo1.png"></div>
+        <ul class="nav">
+            <li><a href="#1F" id="a1">网站首页 /</a></li>
+            <li><a href="#2F">热门推荐 /</a></li>
+            <li><a href="#3F">新闻中心 /</a></li>
+            <li><a href="#4F">产品中心 /</a></li>
+            <li><a href="#5F">基地展示 /</a></li>
+            <li><a href="#6F">问题解决 /</a></li>
+            <li><a href="#7F">关于我们 /</a></li>
+            
+        </ul>
+        
+       <div class="gongneng_box">
+      	       <a href="">登录</a>
+      	      <a href="">注册</a>
+      </div> 
+        
+       
+      <div class="clearfix"></div>
+      
+    </div>
+    <!--banner-->
+    <div class="banner_hezi" style="margin-top: 70px">
+        <a name="1F"></a>
+
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide" th:each="lunbo:${_before_lunbo}"><img th:src="${lunbo.pictureImg}" width="100%" height="800px" alt=""/></div>
+            </div>
+         <div class="swiper-button-prev"></div>
+<div class="swiper-button-next"></div>
+        </div>
+        
+    </div>
+
+    <script>
+        var mySwiper = new Swiper('.swiper-container', {
+            autoplay: {
+                delay: 4000,
+                disableOnInteraction: false,
+            },
+            slidesPerView: 1,
+            spaceBetween: 30,
+            loop: true,
+            effect: 'fade',
+            touchRatio: 0.5,
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+        });
+
+    </script>
+    <!--热门推荐-->
+    <div class="popular">
+        <h2><a name="2F">热门推荐</a></h2>
+
+        <div class="popular-l"></div>
+        <p>我们用心为您做的更好</p>
+    </div>
+    <div class="recommend">
+        <div class="recommend-top">
+            <div class="recommend-left" th:each="hot:${_before_hot}">
+                <div class="recommend-img">
+                    <img th:src="${hot.pictureImg}" height="100%" width="100%" alt=""/>
+                    <div class="recommend-ping">
+                        <!--如果有需要,可以放一些文章在下面的p标签里-->
+                        <p th:text="${hot.pictureText}" style="text-align: center; margin-top: 100px; font-size: 22px; font-weight: bold;"></p >
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--新闻中心box-->
+    <div class="xinwen_box">
+            <h1><a name="3F">新闻中心</a></h1>
+
+            <div class="hengxiang"></div>
+        </div>
+    <div class="xinwen">
+        <!--技术要领-->
+        <div class="neirong_hezi">
+            <div class="zuo_box">
+                <div class="wenben1">
+                    <h1>技术要领</h1>
+
+                    <div class="hengxiang1"></div>
+                    <div class="anniu1"><a href="">更多</a></div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="tu">
+                    <img src="../../../imags/0x300a0a0.jpg">
+
+                    <div class="touming_box">
+                        <p><a href="">每周我们会通过微信给您推送苗木的最新知识,</a></p>
+
+                        <p><a href="">让您随时随地掌握苗木的一线知识。</a></p>
+
+                        <p><a href="">您也可以通过微信与我们交流。</a></p>
+
+                        <p><a href="">分享您育苗中遇到的难题，让我们第一时间给您解</a></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="you_box">
+                <div class="wenben1">
+                    <h1>技术要领</h1>
+
+                    <div class="hengxiang1"></div>
+                    <div class="anniu1"><a href="">更多</a></div>
+                    <div class="clearfix"></div>
+                </div>
+
+                <div class="liebiao_box1">
+                    <p><span>1</span>种植樱桃树苗对气候有何要求&nbsp;&nbsp;&nbsp;&nbsp;[01-03]</p>
+
+                    <p><span>2</span>种植樱桃树苗对气候有何要求&nbsp;&nbsp;&nbsp;&nbsp;[01-03]</p>
+
+                    <p><span>3</span>种植樱桃树苗对气候有何要求&nbsp;&nbsp;&nbsp;&nbsp;[01-03]</p>
+
+                    <p><span>4</span>种植樱桃树苗对气候有何要求&nbsp;&nbsp;&nbsp;&nbsp;[01-03]</p>
+
+                    <p><span>5</span>种植樱桃树苗对气候有何要求&nbsp;&nbsp;&nbsp;&nbsp;[01-03]</p>
+                </div>
+            </div>
+            <!--1200底部大图-->
+            <div class="dibu1_hezi">
+                <img src="../../../img/6.png">
+            </div>
+        </div>
+    </div>
+    <!--产品中心box-->
+    <div class="product">
+        <div class="product-text">
+            <h2><a name="4F">产品中心</a></h2>
+
+            <p>Product Center</p>
+        </div>
+        <div class="product-tan">
+            <!--三个图-->
+            <div class="product-main" th:each="product:${_product}">
+                <div class="product-img">
+                    <img th:src="${product.productImg}" width="100%" height="100%" alt=""/>
+                </div>
+                <p><b style="font-size: 20px" th:text="${product.productName}"></b></p>
+
+                <div class="product-appear">
+                    <p th:text="${product.productIntroduction+'  >'}"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+		
+    <!--基地展示-->
+    <div class="base">
+        <div class="base-text">
+            <p><b>基地展示</b></p>
+        </div>
+        <div class="base-main">
+
+            <!-- 图一-->
+            <div th:class="base-bg+${i}" th:each="${i:#numbers.sequence(1, 3)}">
+
+                <div class="base-foot">
+                    <p>我们的故事</p>
+                    <!-- 线-->
+                    <div class="base-line"></div>
+                </div>
+                <div class="base-img">
+                    <img src="../../../imags/3124.jpg_wh300.jpg" width="100%" alt=""/>
+                </div>
+            </div>
+            <!--图二-->
+            <div class="base-bg2">
+
+                <div class="base-foot">
+                    <p>我们的故事</p>
+                    <!-- 线-->
+                    <div class="base-line"></div>
+                </div>
+                <div class="base-img">
+                    <img src="../../../imags/5289.jpg_wh300.jpg" width="100%" alt=""/>
+                </div>
+            </div>
+            <!--图三-->
+            <div class="base-bg3">
+
+                <div class="base-foot">
+                    <p>我们的故事</p>
+                    <!-- 线-->
+                    <div class="base-line"></div>
+                </div>
+                <div class="base-img">
+                    <img src="../../../imags/2740.jpg_wh300.jpg" width="100%" alt=""/>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--回顶部-->
+    <div class="head">
+        <a onclick="pageScroll()" id="gotoTop"><span class="iconfont icon-huidingbu"></span></a>
+    </div>
+     <div class="kefu">
+     	<a><img src="../../../img/微信图片_20190316114911.png"></a>
+     </div>
+    <!--留言框-->
+    <div class="comments">
+        <div class="comments-head">
+            <p>问题咨询处</p>
+            <span id="sp" class="iconfont icon-close"></span>
+        </div>
+        <form action="">
+            主题: <input type="text"/><br/>
+            主题: <input type="text"/><br/>
+            主题: <input type="text"/><br/>
+            主题: <input type="text"/><br/>
+            内容: <textarea name="" id="" cols="30" rows="5"></textarea><br/>
+
+            <input type="button" value="提交"/>
+        </form>
+    </div>
+    
+    <!--问题设置-->
+     <div class="dakuang">
+     <div class="xiao_kuang">
+     <h1>解决方案</h1>
+     <div class="text_zuo">
+     
+     	<h2>养羊开发常见问题</h2>
+     	<h3>开发一个app多少钱？</h3>
+     	<div class="hengxiang"></div>
+     	<p>关于“APP开发需要多少钱”的问题，已经是一个热门的话题来的了，很多需要开发app的用户都很想知道关于开发一款app需要多少钱，今天商侣小编就给大家详细的介绍一下关于手机app开发费用方面的问题。</p>
+     </div>	
+     <div class="text_zuo">
+     
+     	<h2>养羊开发常见问题</h2>
+     	<h3>开发一个app多少钱？</h3>
+     	<div class="hengxiang"></div>
+     	<p>关于“APP开发需要多少钱”的问题，已经是一个热门的话题来的了，很多需要开发app的用户都很想知道关于开发一款app需要多少钱，今天商侣小编就给大家详细的介绍一下关于手机app开发费用方面的问题。</p>
+     </div>
+     <div class="text_zuo">
+     
+     	<h2>养羊开发常见问题</h2>
+     	<h3>开发一个app多少钱？</h3>
+     	<div class="hengxiang"></div>
+     	<p>关于“APP开发需要多少钱”的问题，已经是一个热门的话题来的了，很多需要开发app的用户都很想知道关于开发一款app需要多少钱，今天商侣小编就给大家详细的介绍一下关于手机app开发费用方面的问题。</p>
+     </div>
+     
+     <div class="datu">
+     	<img src="../../../imags/timg%20(4).jpg">
+     </div>
+     <div class="clearfix"></div>
+     </div>	
+     </div>
+    <!--页脚-->
+    <div class="yejiao_bj">
+        <div class="yejiao_box">
+            <div class="text_hezi">
+                <h1>关于我们</h1>
+              <div class="hengxiang1"></div>
+                <p>公司简介</p>
+                <p>人才招聘</p>
+                <p>售后服务</p>
+                <p>联系我们</p>
+                <p>在线留言</p>
+                
+            </div>
+
+            <div class="text_hezi">
+                <h1>产品中心</h1>
+               <div class="hengxiang1"></div>
+                <p>果树苗</p>
+
+                <p>绿树苗</p>
+
+                <p>松柏类</p>
+
+                <p>灌木类</p>
+            </div>
+            <div class="text_hezi">
+                <h1>基地展示</h1>
+              <div class="hengxiang1"></div>
+                <p>樱桃种植基地</p>
+
+                <p>猕猴桃种植基地</p>
+
+                <p>云杉苗种植基地</p>
+            </div>
+            <div class="text_hezi">
+                <h1>联系方式</h1>
+               <div class="hengxiang1"></div>
+                <p>联系人：赵经理</p>
+                <p>电话：0755-61603557</p>
+                <p>邮箱：info@qifor.com</p>
+                <p>手机：13714247375</p>
+                <p>地址：广东.深圳宝安西乡宝源路鸿源大厦618</p>
+            </div>
+            <div class="text_hezi">
+                <h1>全国咨询热线:</h1>
+                 <p>400-123-4567</p>
+                
+    
+            </div>
+            <div class="erweima">
+            <div class="weixin">
+            <img src="../../../img/weixing.png">
+            <p>微信扫码咨询</p>
+            
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        
+    </div>
+    <!--页尾-->
+    <div class="yewei">
+    <div class="da_hengxiang"></div>
+    <p>深圳市易捷网络科技有限公司版权所有    备案号：粤ICP备12084881号 网站地图XML深圳网站建设</p>
+    </div>
+</div>
+</div>
+</body>
+<script>
+    $(".base-bg1").hover(function () {
+        $(".base-bg1").parent().parent().addClass("bg1").removeClass("bg2").removeClass("bg3")
+    })
+
+    $(".base-bg2").hover(function () {
+        $(".base-bg1").parent().parent().addClass("bg2").removeClass("bg1").removeClass("bg3")
+    })
+
+    $(".base-bg3").hover(function () {
+        $(".base-bg1").parent().parent().addClass("bg3").removeClass("bg2").removeClass("bg1")
+    })
+</script>
+<script>
+    function gotoTop(min_height) {
+        //预定义返回顶部的html代码，它的css样式默认为不显示
+        var gotoTop_html = '<div id="gotoTop">返回顶部</div>';
+        //将返回顶部的html代码插入页面上id为page的元素的末尾
+        $("#page").append(gotoTop_html);
+        $("#gotoTop").click(//定义返回顶部点击向上滚动的动画
+                function () {
+                    $('html,body').animate({scrollTop: 0}, 700);
+                }).hover(//为返回顶部增加鼠标进入的反馈效果，用添加删除css类实现
+                function () {
+                    $(this).addClass("hover");
+                },
+                function () {
+                    $(this).removeClass("hover");
+                });
+        //获取页面的最小高度，无传入值则默认为600像素
+        min_height ? min_height = min_height : min_height = 600;
+        //为窗口的scroll事件绑定处理函数
+        $(window).scroll(function () {
+            //获取窗口的滚动条的垂直位置
+            var s = $(window).scrollTop();
+            //当窗口的滚动条的垂直位置大于页面的最小高度时，让返回顶部元素渐现，否则渐隐
+            if (s > min_height) {
+                $("#gotoTop").fadeIn(100);
+            } else {
+                $("#gotoTop").fadeOut(200);
+            }
+            ;
+        });
+    }
+    ;
+    gotoTop();
+</script>
+<script>
+	$("#sp").click(function(){
+		$(".comments").hide();
+		setInterval(function(){
+			$(".comments").show()
+		},300000)
+	})
+</script>
+</html>

@@ -100,7 +100,7 @@
   <select id="selectPicByHot" resultMap="BaseResultMap">
     SELECT <include refid="Base_Column_List"/>
     FROM f_picture
-    WHERE picture_area='热门推荐' AND picture_type='展示图片' AND status='yes'
+    WHERE picture_area='热门搜索' AND picture_type='展示图片' AND status='yes'
   </select>
 
   <select id="selectPicByNote" resultMap="BaseResultMap">
