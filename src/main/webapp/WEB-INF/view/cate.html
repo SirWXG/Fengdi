@@ -34,7 +34,16 @@
     <div class="x-body">
       <div class="layui-row">
         <form class="layui-form layui-col-md12 x-so">
-          <input type="text" name="pictureArea"  placeholder="请输入展示区域" autocomplete="off" class="layui-input">
+          <div class="layui-input-inline">
+            <select name="pictureArea" id="serviceLevel">
+              <option value="">请选择展示区域</option>
+              <option value="热门搜索">热门搜索</option>
+              <option value="新闻中心">新闻中心</option>
+              <option value="平台轮播">平台轮播</option>
+              <option value="公司平台展示">公司平台展示</option>
+              <option value="问题展示">问题展示</option>
+            </select>
+          </div>
           <button class="layui-btn" id="query"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
         </form>
       </div>
@@ -82,7 +91,7 @@
                 type:"get",
                 data:{
                     page:data,
-                    pictureArea:$("input[name='pictureArea']").val()
+                    pictureArea:$("select[name='pictureArea']").val()
                 },
                 success:function (data) {
                     eachData(data.list);
