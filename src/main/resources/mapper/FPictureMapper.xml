@@ -119,5 +119,13 @@
     WHERE picture_area='公司平台展示' AND picture_type='展示图片' AND status='yes'
   </select>
 
+  <update id="updatePics" parameterType="picture">
+    update f_picture
+    set
+    picture_name = #{pictureName},
+    picture_text = #{pictureText}
+    where picture_no = #{pictureNo}
+  </update>
+
 
 </mapper>

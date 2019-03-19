@@ -66,6 +66,13 @@
       WHERE product_no=#{productNo}
   </update>
 
+  <update id="updateProducts" parameterType="map">
+    UPDATE f_product SET
+    product_name=#{productName},
+    product_introduction=#{productIntroduction}
+    WHERE product_no=#{productNo}
+  </update>
+
   <select id="selectProductForBefore" resultMap="BaseResultMap">
     SELECT <include refid="Base_Column_List" />
     FROM f_product

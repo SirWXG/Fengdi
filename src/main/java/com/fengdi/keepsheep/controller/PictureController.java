@@ -220,17 +220,20 @@ public class PictureController {
             FPicture fPicture =(FPicture)session.getAttribute("f_picture");
             String picNo = fPicture.getPictureNo();
             String filePath = ImgUtils.getImgs(request,file);
-            if(!filePath.endsWith("png")&&filePath.endsWith(".")&&fPicture.getPictureImg().endsWith(".png")){
-                filePath = filePath+"jpg";
-            }else if(!filePath.endsWith("jpg")&&filePath.endsWith(".")&&fPicture.getPictureImg().endsWith(".jpg")){
-                filePath = filePath+"jpg";
-            }
             FPicture fp = new FPicture();
-            fp.setPictureImg(filePath);
-            fp.setPictureNo(picNo);
-            fp.setPictureText(pictureText);
-            fp.setPictureName(pictureName);
-            int flag = fPictureService.updatePic(fp);
+            int flag;
+            if(filePath.endsWith(".png")||filePath.endsWith(".jpg")){
+                fp.setPictureImg(filePath);
+                fp.setPictureNo(picNo);
+                fp.setPictureText(pictureText);
+                fp.setPictureName(pictureName);
+                flag = fPictureService.updatePic(fp);
+            }else{
+                fp.setPictureNo(picNo);
+                fp.setPictureText(pictureText);
+                fp.setPictureName(pictureName);
+                flag = fPictureService.updatePics(fp);
+            }
             if(flag<1){
                 result.setErrCode("1");
                 result.setErrMsg("更新失败");

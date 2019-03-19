@@ -172,13 +172,22 @@ public class ProductController {
             }else{
                 HttpSession session = request.getSession();
                 FProduct product = (FProduct) session.getAttribute("f_product");
-                Map<String,Object> map = new HashMap<String, Object>();
                 String filePath = ImgUtils.getImgs(request,file);
-                map.put("productName",productName);
-                map.put("productIntroduction",productInfo);
-                map.put("productImg",filePath);
-                map.put("productNo",product.getProductNo());
-                int flag =  fProductService.updateProduct(map);
+                int flag;
+                if(filePath.endsWith(".png")||filePath.endsWith(".jpg")){
+                    Map<String,Object> map = new HashMap<String, Object>();
+                    map.put("productName",productName);
+                    map.put("productIntroduction",productInfo);
+                    map.put("productImg",filePath);
+                    map.put("productNo",product.getProductNo());
+                    flag =  fProductService.updateProduct(map);
+                }else{
+                    Map<String,Object> maps = new HashMap<String, Object>();
+                    maps.put("productName",productName);
+                    maps.put("productIntroduction",productInfo);
+                    maps.put("productNo",product.getProductNo());
+                    flag =  fProductService.updateProducts(maps);
+                }
                 if(flag<1){
                     result.setErrMsg("修改失败");
                 }else{

@@ -24,5 +24,7 @@ public interface FProductService {
 
     int updateProduct(Map<String,Object>map);
 
+    int updateProducts(Map<String,Object>map);
+
     List<FProduct> selectProductForBefore();
 }

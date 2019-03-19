@@ -75,6 +75,11 @@ public class FPictureImpl implements FPictureService {
     }
 
     @Override
+    public int updatePics(FPicture fPicture) {
+        return fPictureMapper.updatePics(fPicture);
+    }
+
+    @Override
     public List<FPicture> selectPicByLBANDPTLB() {
         return fPictureMapper.selectPicByLBANDPTLB();
     }

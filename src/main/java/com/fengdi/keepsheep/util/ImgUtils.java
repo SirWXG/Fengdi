@@ -18,23 +18,22 @@ public class ImgUtils {
             String realPath = request.getSession().getServletContext().getRealPath("/images");
             //获取文件名
             String filename = file.getOriginalFilename();
-            System.out.println(filename);
             //获取文件后缀名
             String extensionname = filename.substring(filename.lastIndexOf(".") + 1);
-            if(extensionname.equals("")||extensionname==null||extensionname.trim()==""){
-                extensionname="jpg";
+            if(extensionname.trim().equals("")||extensionname==null){
+                return "";
+            }else{
+                //给上传的文件起别名，有很多种方式
+                String newFilename = String.valueOf(System.currentTimeMillis()) + "." + extensionname;
+                //创建File对象，传入目标路径参数，和新的文件别名
+                File dir = new File(realPath, newFilename);
+                if (!dir.exists()) {//如果dir代表的文件不存在，则创建它，
+                    dir.mkdirs();//
+                }
+                filePath = "/images/"+newFilename;
+                //如果存在则直接执行下面操作
+                file.transferTo(dir);//将上传的实体文件复制到指定目录upload下
             }
-            System.out.println(extensionname+"1111");
-            //给上传的文件起别名，有很多种方式
-            String newFilename = String.valueOf(System.currentTimeMillis()) + "." + extensionname;
-            //创建File对象，传入目标路径参数，和新的文件别名
-            File dir = new File(realPath, newFilename);
-            if (!dir.exists()) {//如果dir代表的文件不存在，则创建它，
-                dir.mkdirs();//
-            }
-            filePath = "/images/"+newFilename;
-            //如果存在则直接执行下面操作
-            file.transferTo(dir);//将上传的实体文件复制到指定目录upload下
         }catch (Exception e){
             e.printStackTrace();
         }

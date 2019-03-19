@@ -69,6 +69,11 @@ public class FProductImpl implements FProductService {
     }
 
     @Override
+    public int updateProducts(Map<String, Object> map) {
+        return fProductMapper.updateProducts(map);
+    }
+
+    @Override
     public List<FProduct> selectProductForBefore() {
         return fProductMapper.selectProductForBefore();
     }

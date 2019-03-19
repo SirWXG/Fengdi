@@ -58,6 +58,8 @@ public interface FPictureMapper {
 
     int updatePic(FPicture fPicture);
 
+    int updatePics(FPicture fPicture);
+
     List<FPicture> selectPicByLBANDPTLB();
 
     List<FPicture> selectPicByHot();
