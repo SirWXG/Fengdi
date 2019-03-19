@@ -124,8 +124,10 @@
                     <div class="mui-slider">
                         <div class="mui-slider-group mui-slider-loop">
                             <!--支持循环，需要重复图片节点-->
+                            <div class="mui-slider-item mui-slider-item-duplicate"><a href=" "><img src="../../../img/5.png" /></a></div>
                             <div class="mui-slider-item" th:each="notes:${_before_note}"><a href="#"><img th:src="${notes.pictureImg}"/><p>dsjgjh</p></a></div>
                             <!--支持循环，需要重复图片节点-->
+                            <div class="mui-slider-item mui-slider-item-duplicate"><a href=" "><img src="../../../img/5.png" /></a></div>
                         </div>
                     </div>
                 </section>
@@ -189,16 +191,19 @@
      <div class="dakuang">
      <div class="xiao_kuang">
      <h1>解决方案</h1>
-     <div class="text_zuo" th:each="question:${_before_question}">
+
+         <div class="datu">
+             <img th:src="${problem.pictureImg}" th:each="problem:${_before_problem}">
+         </div>
+
+     <div class= "text_zuo" th:each="question:${_before_question}" >
 
      	<h3 th:text="${question.problemNo}"></h3>
      	<div class="hengxiang"></div>
-     	<p th:text="${question.problemAnswers}">关于“APP开发需要多少钱”的问题，已经是一个热门的话题来的了，很多需要开发app的用户都很想知道关于开发一款app需要多少钱，今天商侣小编就给大家详细的介绍一下关于手机app开发费用方面的问题。</p>
+     	<p th:text="${question.problemAnswers}"></p>
      </div>
-     
-     <div class="datu">
-     	<img th:src="${problem.pictureImg}" th:each="problem:${_before_problem}">
-     </div>
+
+
      <div class="clearfix"></div>
      </div>	
      </div>
@@ -340,7 +345,7 @@
     //获得slider插件对象
     var gallery = mui('.mui-slider');
     gallery.slider({
-        interval:5000//自动轮播周期，若为0则不自动播放，默认为0；
+        interval:2000//自动轮播周期，若为0则不自动播放，默认为0；
     });
 </script>
 </html>
