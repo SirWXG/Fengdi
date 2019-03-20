@@ -761,20 +761,19 @@ section {
     height: 700px;
     background-color: white;
     margin-top: 30px;
-    position: relative;
     font-family: ΢���ź�;
     border: 1px solid transparent;
 }
 
 .xiao_kuang {
-    width: 1200px;
-    margin: auto 0;
+    width: 1200px;margin: 0 auto;
 }
-
+.zuo_hezi{width: 48%;
+    }
 .text_zuo {
-    width: 590px;
+    width: 100%;
     padding: 10px 10px;
-    margin-bottom: 30px;;
+    margin-bottom: 30px;
 }
 
 .xiao_kuang .text_zuo:hover {
@@ -788,7 +787,8 @@ section {
     font-weight: bold;
     font-family: ΢���ź�;
     color: black;
-    margin-bottom: 30px;
+    margin-bottom: 60px;
+    margin-top: 40px;
 }
 
 .text_zuo h2 {
@@ -802,7 +802,7 @@ section {
 
 .text_zuo p {
     font-size: 14px;
-    line-height: 25px;border: solid 3px red;
+    line-height: 25px;
 }
 
 .text_zuo .hengxiang {
@@ -812,22 +812,20 @@ section {
 }
 
 .datu {
-    width: 590px;
+    width: 580px;
     height: 500px;
     top: 0;
     right: 0;
-    border: solid 3px blue;
+
 }
 
 .datu img {
     width: 100%;
     height: 100%;
-    margin-top: 100px;
-    padding-left: 30px;
 }
+.zuo_hezi{float: right;margin-top: -500px;}
 
-.xiao_kuang zuo_text, .dadu {
-    float: left;
+.xiao_kuang .dadu{float: left;
 }
 
 /*ҳ��*/
