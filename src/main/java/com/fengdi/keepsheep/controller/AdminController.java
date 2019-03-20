@@ -68,8 +68,6 @@ public class AdminController {
                                     @RequestParam(name = "loginName",defaultValue = "")String loginName,
                                     @RequestParam(name = "page",defaultValue = "1")Integer page,
                                     @RequestParam(name = "rows",defaultValue = "10")Integer rows,Model model,HttpSession session) throws UnsupportedEncodingException {
-        realName = new String(realName.getBytes("iso-8859-1"),"utf-8");
-        loginName = new String(loginName.getBytes("iso-8859-1"),"utf-8");
         Map<String,Object> map = new HashMap<String, Object>();
         try{
             FAdmin fAdmin = (FAdmin)session.getAttribute("admin");
@@ -223,8 +221,13 @@ public class AdminController {
                 result.setErrCode("1");
             }else{
                 fAdmin.setAdminNo(admin.getAdminNo());
-                fAdmin.setPwd(Shiro.ToMD5(fAdmin.getLoginName(),fAdmin.getPwd()));
-                int flag = fAdminService.updateByPrimaryKeySelective(fAdmin);
+                int flag;
+                if(fAdmin.getPwd().length()==32){
+                    flag = fAdminService.updateByPrimaryKeySelective(fAdmin);
+                }else{
+                    fAdmin.setPwd(Shiro.ToMD5(fAdmin.getLoginName(),fAdmin.getPwd()));
+                    flag = fAdminService.updateByPrimaryKeySelective(fAdmin);
+                }
                 if(flag<1){
                     result.setErrMsg("更新失败,请重新操作");
                 }else{
