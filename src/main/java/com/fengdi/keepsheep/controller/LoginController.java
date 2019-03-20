@@ -3,6 +3,7 @@ package com.fengdi.keepsheep.controller;
 import com.fengdi.keepsheep.bean.FAdmin;
 import com.fengdi.keepsheep.service.FAdminService;
 import com.fengdi.keepsheep.shiro.Shiro;
+import com.fengdi.keepsheep.util.ReadProperties;
 import com.fengdi.keepsheep.util.SimpleResult;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.List;
@@ -43,7 +45,7 @@ public class LoginController {
 	@RequestMapping(value = "/doLogin",method = RequestMethod.POST)
 	@ResponseBody
 	public SimpleResult doLogin(@RequestParam(name = "username") String username,
-								@RequestParam(name = "password") String password, Model model, HttpSession session) {
+								@RequestParam(name = "password") String password, Model model, HttpSession session) throws IOException {
 		SimpleResult result = new SimpleResult();
 		Subject currentUser = SecurityUtils.getSubject();
 		if (!currentUser.isAuthenticated()) {
@@ -72,6 +74,7 @@ public class LoginController {
 		}else{
 			result.setSuccess(true);
 		}
+		session.setAttribute("imgUrl", ReadProperties.getUrl());
 		session.setAttribute("admin",list.get(0));
 		return result;
 	}

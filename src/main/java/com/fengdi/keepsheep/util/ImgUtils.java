@@ -25,12 +25,13 @@ public class ImgUtils {
             }else{
                 //给上传的文件起别名，有很多种方式
                 String newFilename = String.valueOf(System.currentTimeMillis()) + "." + extensionname;
+                System.out.println(realPath+"  "+newFilename);
                 //创建File对象，传入目标路径参数，和新的文件别名
-                File dir = new File(realPath, newFilename);
+                File dir = new File("http://u.m-coms.com/Fengdi/images/", newFilename);
                 if (!dir.exists()) {//如果dir代表的文件不存在，则创建它，
                     dir.mkdirs();//
                 }
-                filePath = "/images/"+newFilename;
+                filePath = "http://u.m-coms.com/Fengdi/images/"+newFilename;
                 //如果存在则直接执行下面操作
                 file.transferTo(dir);//将上传的实体文件复制到指定目录upload下
             }

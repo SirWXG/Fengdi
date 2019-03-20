@@ -8,7 +8,9 @@
     <link rel="stylesheet" href="../css/xadmin.css">
     <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
     <script type="text/javascript" src="../lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../js/jquery-1.11.1.min.js"></script>
     <script type="text/javascript" src="../js/xadmin.js"></script>
+    <script type="text/javascript" src="../js/ajaxfileupload.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
     <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
@@ -39,17 +41,18 @@
             </div>
         </div>
         <div class="layui-form-item">
-            <label for="img_1" class="layui-form-label">
-                <span class="imgs x-red" onclick="document.getElementById('img_1').click()">*</span>选择图片
+            <label for="imagesPath5" class="layui-form-label">
+                <span class="imgs x-red">*</span>选择图片
             </label>
             <div class="layui-input-inline">
-                <input class="img layui-input" type="file" id="img_1" name="img" accept="image/*" onchange="l(this)"
-                       autocomplete="off">
-            </div>
-            <div class="layui-form-mid layui-word-aux">
-                <div width="225px"><img th:src="${session.f_picture.pictureImg}" width="225px" id="1"/></div>
+                <img th:src="${session.f_picture.pictureImg}" width="100px" height="100px" id="returnImg"/>
+                <img id="pic5" src="" width="0" alt="">
+                <input id="imagesPath5" name='uploadToImportFile' onchange="showPic(this, 5);"
+                       type="file"
+                       class="g_inp" style="height:25px;margin-left:-3px;">
             </div>
         </div>
+        <input type="hidden" th:value="${session.imgUrl}" id="imgUrl"/>
         <div class="layui-form-item">
             <label for="L_repass" class="layui-form-label">
             </label>
@@ -109,10 +112,11 @@
             $.ajax({
                 url:"/picture/updatePicture",
                 type:"post",
-                cache:false,
-                data:new FormData($('.layui-form')[0]),
-                processData:false,
-                contentType:false,
+                data:{
+                    pictureName:$("input[name='pictureName']").val(),
+                    pictureText:$("input[name='pictureText']").val(),
+                    img:$("#pic5").attr("src")
+                },
                 success:function (data) {
                     if (data.success){
                         layer.alert("修改成功", {icon: 6},function () {
@@ -120,6 +124,7 @@
                             var index = parent.layer.getFrameIndex(window.name);
                             //关闭当前frame
                             parent.layer.close(index);
+                            parent.window.location.href="/view/cate";
                         });
                     }else{
                         alert("修改失败");
@@ -129,6 +134,83 @@
             return false;
         });
     });
+    function judgeImgSuffix(path) {
+        var index = path.lastIndexOf('.');
+        var suffix = "";
+        if (index > 0) {
+            suffix = path.substring(index + 1);
+        }
+        if ("png" == suffix || "jpg" == suffix || "jpeg" == suffix || "bmp" == suffix || "PNG" == suffix || "JPG" == suffix || "JPEG" == suffix || "BMP" == suffix) {
+            return true;
+        } else {
+            alert("上传图片格式有误！！")
+            return false;
+        }
+
+    }
+
+    //图片回显+图片格式+文件类型
+    function showPic(obj, id) {
+        var newPreview = document.getElementById('pic' + id);
+        var $file = $('#imagesPath' + id);
+        var $img = $('#pic' + id);
+        contactAjaxFileUpload(obj, 'imagesPath' + id, $img)
+        var fileObj = $file[0];
+        var windowURL = window.URL || window.webkitURL;
+        var dataURL;
+        var name = '';
+
+        if (fileObj && fileObj.files && fileObj.files[0]) {
+            dataURL = windowURL.createObjectURL(fileObj.files[0]);
+            name = fileObj.files[0].name;
+            judgeImgSuffix(name);
+            $img.attr('src', dataURL);
+        } else {
+            dataURL = $file.val();
+            newPreview.style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale)";
+            newPreview.filters.item("DXImageTransform.Microsoft.AlphaImageLoader").src = dataURL;
+        }
+    }
+
+    function contactAjaxFileUpload(obj, picId, $img) {
+        var key = new Date().getTime() + Math.round(Math.random() * 100000);
+        $.ajaxFileUpload({
+            url: $("#imgUrl").val()+'/shopImageUpload.do',
+            secureuri: false,// 一般设置为false
+            fileElementId: picId, // 文件上传控件的id属性 <input
+            dataType: 'json',
+            data: {id: key},
+            success: function (data) { // 服务器成功响应处理函数
+                $.ajax({
+                    async: false,
+                    url: $("#imgUrl").val()+'/shopImagePath.do',
+                    type: "GET",
+                    dataType: "jsonp",
+                    jsonp: "callbackparam", //服务端用于接收callback调用的function名的参数
+                    jsonpCallback: "success", //callback的function名称,服务端会把名称和data一起传递回来
+                    data: {key: key},
+                    success: function (json) {
+                        var data = eval(json[0]);
+                        var path = data.retData;
+                        if (data.retCode == 'success') {
+                            $img.attr('src', $("#imgUrl").val()+ path);
+                            $("#returnImg").attr("src",$("#imgUrl").val()+path);
+                        } else {
+                            alert("上传异常" + data.retData);
+                        }
+                    },
+                    error: function (json) {
+                        alert("error");
+                    }
+                });
+            },
+            error: function (data, e) { // 服务器响应失败处理函数
+                alert("上传失败");
+                $("#upload").find("uploadClick").show();
+                return;
+            }
+        });
+    }
 </script>
 </body>
 </html>

@@ -2,7 +2,6 @@ package com.fengdi.keepsheep.controller;
 
 import com.fengdi.keepsheep.bean.FProduct;
 import com.fengdi.keepsheep.service.FProductService;
-import com.fengdi.keepsheep.util.ImgUtils;
 import com.fengdi.keepsheep.util.SimpleResult;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -90,9 +88,9 @@ public class ProductController {
                     }
                 }else{
                     int index = fProductService.checkProductImg();
-                    if(index>6){
+                    if(index>4){
                         result.setErrCode("1");
-                        result.setErrMsg("产品最多展示六个，请重新操作!");
+                        result.setErrMsg("产品最多展示五个，请重新操作!");
                     }else{
                         int flag = fProductService.updateProductStatus(map);
                         if(flag<1){
@@ -113,16 +111,15 @@ public class ProductController {
     @ResponseBody
     public SimpleResult addProduct(@RequestParam(name = "productName")String productName,
                                    @RequestParam(name = "productInfo")String productInfo,
-                                   @RequestParam(name = "img")CommonsMultipartFile file, HttpServletRequest request){
+                                   @RequestParam(name = "img")String file, HttpServletRequest request){
         SimpleResult result = new SimpleResult();
         try{
             if(result==request.getSession().getAttribute("admin")){
                 result.setErrCode("1");
                 result.setErrMsg("登录信息失效，请重新登录");
             }else{
-                String filePath = ImgUtils.getImgs(request,file);
                 FProduct product = new FProduct();
-                product.setProductImg(filePath);
+                product.setProductImg(file);
                 product.setProductIntroduction(productInfo);
                 product.setProductName(productName);
                 int flag = fProductService.insert(product);
@@ -142,7 +139,6 @@ public class ProductController {
     @RequestMapping(value = "/selectProduct",method = RequestMethod.POST)
     @ResponseBody
     public SimpleResult selectProduct(@RequestParam(name = "productNo")String productNo,HttpSession session){
-        System.out.println(productNo);
         SimpleResult result = new SimpleResult();
         try{
             if(session.getAttribute("admin")==null){
@@ -163,7 +159,7 @@ public class ProductController {
     @ResponseBody
     public SimpleResult updateProduct(@RequestParam(name = "productName")String productName,
                                       @RequestParam(name = "productInfo")String productInfo,
-                                      @RequestParam(name = "img")CommonsMultipartFile file, HttpServletRequest request){
+                                      @RequestParam(name = "img")String file, HttpServletRequest request){
         SimpleResult result = new SimpleResult();
         try{
             if(null==request.getSession().getAttribute("admin")){
@@ -172,22 +168,12 @@ public class ProductController {
             }else{
                 HttpSession session = request.getSession();
                 FProduct product = (FProduct) session.getAttribute("f_product");
-                String filePath = ImgUtils.getImgs(request,file);
-                int flag;
-                if(filePath.endsWith(".png")||filePath.endsWith(".jpg")){
-                    Map<String,Object> map = new HashMap<String, Object>();
-                    map.put("productName",productName);
-                    map.put("productIntroduction",productInfo);
-                    map.put("productImg",filePath);
-                    map.put("productNo",product.getProductNo());
-                    flag =  fProductService.updateProduct(map);
-                }else{
-                    Map<String,Object> maps = new HashMap<String, Object>();
-                    maps.put("productName",productName);
-                    maps.put("productIntroduction",productInfo);
-                    maps.put("productNo",product.getProductNo());
-                    flag =  fProductService.updateProducts(maps);
-                }
+                Map<String,Object> map = new HashMap<String, Object>();
+                map.put("productName",productName);
+                map.put("productIntroduction",productInfo);
+                map.put("productImg",file);
+                map.put("productNo",product.getProductNo());
+                int flag =  fProductService.updateProduct(map);
                 if(flag<1){
                     result.setErrMsg("修改失败");
                 }else{

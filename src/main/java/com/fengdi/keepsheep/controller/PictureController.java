@@ -2,7 +2,6 @@ package com.fengdi.keepsheep.controller;
 
 import com.fengdi.keepsheep.bean.FPicture;
 import com.fengdi.keepsheep.service.FPictureService;
-import com.fengdi.keepsheep.util.ImgUtils;
 import com.fengdi.keepsheep.util.SimpleResult;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -31,6 +29,7 @@ public class PictureController {
 
     @Autowired
     private FPictureService fPictureService;
+
 
 
     /**
@@ -68,18 +67,18 @@ public class PictureController {
     @ResponseBody
     public SimpleResult insert(@RequestParam(name = "pictureName")String pictureName,
                                @RequestParam(name = "pictureText")String pictureText,
-                               @RequestParam(name = "img")CommonsMultipartFile file,
+                               @RequestParam(name = "img")String  file,
                                @RequestParam(name = "pictureArea")String pictureArea,
                                @RequestParam(name = "pictureType",defaultValue = "展示图片")String pictureType,HttpServletRequest request){
+        System.out.println(file);
         SimpleResult result = new SimpleResult();
         try{
             if(null==request.getSession().getAttribute("admin")){
                 result.setErrCode("1");
                 result.setMessage("登录信息失效，请重新登录");
             }else{
-                String filePath = ImgUtils.getImgs(request,file);
                 FPicture fp = new FPicture();
-                fp.setPictureImg(filePath);
+                fp.setPictureImg(file);
                 fp.setPictureText(pictureText);
                 fp.setPictureName(pictureName);
                 fp.setPictureArea(pictureArea);
@@ -212,28 +211,20 @@ public class PictureController {
     @RequestMapping(value = "/updatePicture",method = RequestMethod.POST)
     @ResponseBody
     public SimpleResult updatePicture(@RequestParam(name = "pictureText",defaultValue = "")String pictureText,
-                                      @RequestParam(name = "img")CommonsMultipartFile file,
+                                      @RequestParam(name = "img")String file,
                                       @RequestParam(name = "pictureName",defaultValue = "")String pictureName,
                                       HttpServletRequest request,HttpSession session){
         SimpleResult result = new SimpleResult();
         try{
             FPicture fPicture =(FPicture)session.getAttribute("f_picture");
             String picNo = fPicture.getPictureNo();
-            String filePath = ImgUtils.getImgs(request,file);
             FPicture fp = new FPicture();
             int flag;
-            if(filePath.endsWith(".png")||filePath.endsWith(".jpg")){
-                fp.setPictureImg(filePath);
-                fp.setPictureNo(picNo);
-                fp.setPictureText(pictureText);
-                fp.setPictureName(pictureName);
-                flag = fPictureService.updatePic(fp);
-            }else{
-                fp.setPictureNo(picNo);
-                fp.setPictureText(pictureText);
-                fp.setPictureName(pictureName);
-                flag = fPictureService.updatePics(fp);
-            }
+            fp.setPictureImg(file);
+            fp.setPictureNo(picNo);
+            fp.setPictureText(pictureText);
+            fp.setPictureName(pictureName);
+            flag = fPictureService.updatePic(fp);
             if(flag<1){
                 result.setErrCode("1");
                 result.setErrMsg("更新失败");
