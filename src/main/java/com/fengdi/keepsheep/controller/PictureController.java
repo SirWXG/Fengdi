@@ -220,11 +220,18 @@ public class PictureController {
             String picNo = fPicture.getPictureNo();
             FPicture fp = new FPicture();
             int flag;
-            fp.setPictureImg(file);
-            fp.setPictureNo(picNo);
-            fp.setPictureText(pictureText);
-            fp.setPictureName(pictureName);
-            flag = fPictureService.updatePic(fp);
+            if(file.length()==0){
+                fp.setPictureNo(picNo);
+                fp.setPictureText(pictureText);
+                fp.setPictureName(pictureName);
+                flag = fPictureService.updatePics(fp);
+            }else{
+                fp.setPictureImg(file);
+                fp.setPictureNo(picNo);
+                fp.setPictureText(pictureText);
+                fp.setPictureName(pictureName);
+                flag = fPictureService.updatePic(fp);
+            }
             if(flag<1){
                 result.setErrCode("1");
                 result.setErrMsg("更新失败");
