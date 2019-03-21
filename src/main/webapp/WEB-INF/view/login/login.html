@@ -36,14 +36,14 @@
         $(function  () {
             $("input[type='submit']").click(function () {
                 $.ajax({
-                    url:"/loginAdmin/doLogin",
+                    url:"/Fengdi/loginAdmin/doLogin",
                     type:"post",
                     data:{
                         username:$("input[name='username']").val(),
                         password:$("input[name='password']").val()
                     },success:function (data) {
                         if (data.success){
-                            window.location.href="/view/index";
+                            window.location.href="/Fengdi/view/index";
                         }else{
                             layer.msg(data.errMsg,{icon:1,time:1000});
                         }

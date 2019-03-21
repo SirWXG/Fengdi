@@ -122,7 +122,6 @@ public class FAnnouncementController {
     public PageInfo<FAnnouncement> selectByMhcx(@RequestParam(name = "announcementName",defaultValue = "")String announcementName,
                                                 @RequestParam(name = "page",defaultValue = "1")Integer page,
                                                 @RequestParam(name = "rows",defaultValue = "10")Integer rows, Model model) throws UnsupportedEncodingException {
-        announcementName = new String(announcementName.getBytes("iso-8859-1"),"utf-8");
 	    PageHelper.startPage(page,rows);
         List<FAnnouncement> selectByMhcx = fannouncementService.selectByMhcx(announcementName);
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式

@@ -110,7 +110,7 @@
         //监听提交
         $("#updatePic").click(function () {
             $.ajax({
-                url:"/picture/updatePicture",
+                url:"/Fengdi/picture/updatePicture",
                 type:"post",
                 data:{
                     pictureName:$("input[name='pictureName']").val(),
@@ -124,7 +124,7 @@
                             var index = parent.layer.getFrameIndex(window.name);
                             //关闭当前frame
                             parent.layer.close(index);
-                            parent.window.location.href="/view/cate";
+                            parent.window.location.href="/Fengdi/view/cate";
                         });
                     }else{
                         alert("修改失败");

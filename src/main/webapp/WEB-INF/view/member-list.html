@@ -48,7 +48,7 @@
         </form>
       </div>
       <xblock>
-        <button class="layui-btn" onclick="x_admin_show('添加一级标题','/view/member-add')"><i class="layui-icon"></i>添加一级标题</button>
+        <button class="layui-btn" onclick="x_admin_show('添加一级标题','/Fengdi/view/member-add')"><i class="layui-icon"></i>添加一级标题</button>
         <button class="layui-btn" onclick="javascript:member_add2();"><i class="layui-icon"></i>添加二级标题</button>
         <span class="x-right" th:text="'共有数据:'+${selectByExample.total}+'条'" style="line-height:40px">共有数据： 条</span>
       </xblock>
@@ -100,14 +100,14 @@
         <nav aria-label="Page navigation">
           <ul class="pagination">
             <li>
-              <a th:href="@{'/FserviceController/getall?page='+${selectByExample.isFirstPage?1:selectByExample.prePage}}" aria-label="Previous">
+              <a th:href="@{'/Fengdi/FserviceController/getall?page='+${selectByExample.isFirstPage?1:selectByExample.prePage}}" aria-label="Previous">
                 <span aria-hidden="true">&laquo;</span>
               </a>
             </li>
             <li th:class="${arrays==selectByExample.pageNum?'active':''}" th:each="arrays:${selectByExample.navigatepageNums}">
-              <a th:text="${arrays}" th:href="@{'/FserviceController/getall?page='+${arrays}}">1</a></li>
+              <a th:text="${arrays}" th:href="@{'/Fengdi/FserviceController/getall?page='+${arrays}}">1</a></li>
             <li>
-              <a th:href="@{'/FserviceController/getall?page='+${selectByExample.isLastPage?selectByExample.pages:selectByExample.nextPage}}" aria-label="Next">
+              <a th:href="@{'/Fengdi/FserviceController/getall?page='+${selectByExample.isLastPage?selectByExample.pages:selectByExample.nextPage}}" aria-label="Next">
                 <span aria-hidden="true">&raquo;</span>
               </a>
             </li>
@@ -128,7 +128,7 @@
 
         function getAjax(data) {
             $.ajax({
-                url:"/FserviceController/selectByMhcx",
+                url:"/Fengdi/FserviceController/selectByMhcx",
                 type:"get",
                 data:{
                     page:data,
@@ -199,7 +199,7 @@
             layer.confirm('确认要操作吗？',function(index){
                 if($(obj).attr('title')=='启用'){
                     $.ajax({
-                        url:"/FserviceController/stop",
+                        url:"/Fengdi/FserviceController/stop",
                         type:"post",
                         data:{
                             serviceNo:id,
@@ -219,7 +219,7 @@
                     });
                 }else{
                     $.ajax({
-                        url:"/FserviceController/stop",
+                        url:"/Fengdi/FserviceController/stop",
                         type:"post",
                         data:{
                             serviceNo:id,
@@ -248,7 +248,7 @@
             layer.confirm('确认要删除吗？如果是一级标题，则所属一级标题的二级标题将全部删除！！！',function(index){
                 //发异步删除数据
                 $.ajax({
-                    url:"/FserviceController/delserviceNo",
+                    url:"/Fengdi/FserviceController/delserviceNo",
                     type:"post",
                     data:{
                         serviceNo:serviceNo
@@ -268,7 +268,7 @@
 
         function member_getNo(serviceNo){
             $.ajax({
-                url:"/FserviceController/getserviceNo",
+                url:"/Fengdi/FserviceController/getserviceNo",
                 type:"post",
                 data:{
                     serviceNo:serviceNo
@@ -292,7 +292,7 @@
                     return false;
                 }
                 $.ajax({
-                    url:"/fannouncementService/getadd",
+                    url:"/Fengdi/fannouncementService/getadd",
                     type:"post",
                     data:{
                         text:announcementName,
@@ -304,7 +304,7 @@
                                 // 获得frame索引
                                 var index = parent.layer.getFrameIndex(window.name);
                                 //关闭当前frame
-                                parent.window.location.href="/fannouncementService/getall";
+                                parent.window.location.href="/Fengdi/fannouncementService/getall";
                             });
                         }else{
                             alert("添加失败,请重新添加");
@@ -317,11 +317,11 @@
 
         function member_add2(){
             $.ajax({
-                url:"/FserviceController/getservicelevel",
+                url:"/Fengdi/FserviceController/getservicelevel",
                 type:"post",
                 success:function (data) {
                     if (data.success){
-                       x_admin_show('添加二级标题','/view/member-add2');
+                       x_admin_show('添加二级标题','/Fengdi/view/member-add2');
                     }else{
                         layer.msg('页面没有一级标题，请先添加',{icon:2,time:1000});
                     }

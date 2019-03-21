@@ -108,7 +108,7 @@
 
     $("#addImg").click(function () {
         $.ajax({
-            url:"/picture/addPicture",
+            url:"/Fengdi/picture/addPicture",
             type:"post",
             data:{
                 pictureName:$("input[name='pictureName']").val(),
@@ -123,7 +123,7 @@
                         var index = parent.layer.getFrameIndex(window.name);
                         //关闭当前frame
                         parent.layer.close(index);
-                        parent.window.location.href="/view/cate";
+                        parent.window.location.href="/Fengdi/view/cate";
                     });
                 }else{
                     alert("增加失败");

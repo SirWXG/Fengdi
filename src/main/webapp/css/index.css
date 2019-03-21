@@ -838,8 +838,8 @@ section {
 .yejiao_box {
     width: 1200px;
     margin: 0 auto;
-    padding-top: 30px;
-    padding-bottom: 50px
+    padding-top: 20px;
+    /*padding-bottom: 50px*/
 }
 
 .text_hezi {
@@ -859,9 +859,6 @@ section {
     line-height: 25px
 }
 
-.head {
-
-}
 
 .head span {
     font-size: 55px;
@@ -926,10 +923,20 @@ section {
 
 /*��ά��*/
 
+
 .erweima {
     float: right;
     margin-right: 300px;
     text-align: center;
+
+}
+
+.zhifu_hezi .zhifubao,.weixin{padding-bottom: 20px;}
+/*.zhifu_hezi .zhifubao,.weixin p{float: left;}*/
+.zhifu_hezi{margin-left: 20px;}
+
+.zhifu_hezi{
+    display: flex;
 }
 
 .erweima .weixin, .app {
@@ -942,3 +949,7 @@ section {
     line-height: 40px;
     font-weight: bold;
 }
+
+
+.yewei{width: 1200px;margin: -40px auto 40px;text-align: center;}
+.da_hengxiang{margin: 15px 0}

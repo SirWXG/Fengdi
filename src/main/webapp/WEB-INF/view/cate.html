@@ -48,7 +48,7 @@
         </form>
       </div>
       <div class="layui-row">
-          <button class="layui-btn" onclick="x_admin_show('添加','/view/picture-add')"><i class="layui-icon"></i>添加</button>
+          <button class="layui-btn" onclick="x_admin_show('添加','/Fengdi/view/picture-add')"><i class="layui-icon"></i>添加</button>
       </div>
       <xblock>
         <span class="x-right" style="line-height:40px">共有数据：88 条</span>
@@ -87,7 +87,7 @@
 
         function getAjax(data) {
             $.ajax({
-                url:"/picture/selectPic",
+                url:"/Fengdi/picture/selectPic",
                 type:"get",
                 data:{
                     page:data,
@@ -160,7 +160,7 @@
           layer.confirm('确认要删除吗？',function(index){
               //发异步删除数据
               $.ajax({
-                  url:"/picture/delpic",
+                  url:"/Fengdi/picture/delpic",
                   type:"post",
                   data:{
                       picNo:id
@@ -179,7 +179,7 @@
 
         function member_getNo(pictureNo){
             $.ajax({
-                url:"/picture/selectPicture",
+                url:"/Fengdi/picture/selectPicture",
                 type:"post",
                 async: false,
                 data:{
@@ -187,7 +187,7 @@
                 },
                 success:function (data) {
                     if (data.success){
-                        x_admin_show('编辑','/view/picture-edit');
+                        x_admin_show('编辑','/Fengdi/view/picture-edit');
                     }else{
                         layer.msg('删除失败',{icon:1,time:1000});
                     }
@@ -200,7 +200,7 @@
             layer.confirm('确认要操作吗？',function(index){
                 if($(obj).attr('title')=='启用'){
                     $.ajax({
-                        url:"/picture/updatePictureStatus",
+                        url:"/Fengdi/picture/updatePictureStatus",
                         type:"post",
                         data:{
                             picno:id,
@@ -219,7 +219,7 @@
                     });
                 }else{
                     $.ajax({
-                        url:"/picture/updatePictureStatus",
+                        url:"/Fengdi/picture/updatePictureStatus",
                         type:"post",
                         data:{
                             picno:id,

@@ -75,7 +75,7 @@
             var problem_answers = $("input[name='problem_answers']").val();
             var status = $('#status option:selected').val();
             $.ajax({
-                url:"/problem/updateById",
+                url:"/Fengdi/problem/updateById",
                 type:"post",
                 data:{
                     id:id,
@@ -89,7 +89,7 @@
                             // 获得frame索引
                             var index = parent.layer.getFrameIndex(window.name);
                             //关闭当前frame
-                            parent.window.location.href="/problem/selectAllProblem";
+                            parent.window.location.href="/Fengdi/problem/selectAllProblem";
                         });
                     }else{
                         alert("修改失败,请重新修改");

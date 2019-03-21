@@ -40,7 +40,7 @@
         </form>
       </div>
       <xblock>
-        <button class="layui-btn" onclick="x_admin_show('添加用户','/view/admin-add')"><i class="layui-icon"></i>添加</button>
+        <button class="layui-btn" onclick="x_admin_show('添加用户','/Fengdi/view/admin-add')"><i class="layui-icon"></i>添加</button>
         <span class="x-right" th:text="'共有数据:'+${admin.total}+'条'" style="line-height:40px">共有数据： 条</span>
       </xblock>
       <table class="layui-table">
@@ -94,14 +94,14 @@
       <nav aria-label="Page navigation">
         <ul class="pagination">
           <li>
-            <a th:href="@{'/admin/selectAllAdmin?page='+${admin.isFirstPage?1:admin.prePage}}" aria-label="Previous">
+            <a th:href="@{'/Fengdi/admin/selectAllAdmin?page='+${admin.isFirstPage?1:admin.prePage}}" aria-label="Previous">
               <span aria-hidden="true">&laquo;</span>
             </a>
           </li>
           <li th:class="${arrays==admin.pageNum?'active':''}" th:each="arrays:${admin.navigatepageNums}">
-            <a th:text="${arrays}" th:href="@{'/admin/selectAllAdmin?page='+${arrays}}">1</a></li>
+            <a th:text="${arrays}" th:href="@{'/Fengdi/admin/selectAllAdmin?page='+${arrays}}">1</a></li>
           <li>
-            <a th:href="@{'/admin/selectAllAdmin?page='+${admin.isLastPage?admin.pages:admin.nextPage}}" aria-label="Next">
+            <a th:href="@{'/Fengdi/admin/selectAllAdmin?page='+${admin.isLastPage?admin.pages:admin.nextPage}}" aria-label="Next">
               <span aria-hidden="true">&raquo;</span>
             </a>
           </li>
@@ -121,7 +121,7 @@
 
         function getAjax(data) {
             $.ajax({
-                url:"/admin/selectAdminByStatus",
+                url:"/Fengdi/admin/selectAdminByStatus",
                 type:"get",
                 data:{
                     page:data,
@@ -193,7 +193,7 @@
             layer.confirm('确认要删除吗？',function(index){
                 //发异步删除数据
                 $.ajax({
-                    url:"/admin/deleteAdmin",
+                    url:"/Fengdi/admin/deleteAdmin",
                     type:"post",
                     data:{
                         adminNo:adminNo
@@ -212,14 +212,14 @@
 
         function member_getNo(adminNo){
             $.ajax({
-                url:"/admin/selectAdminByAdminNo",
+                url:"/Fengdi/admin/selectAdminByAdminNo",
                 type:"post",
                 data:{
                     adminNo:adminNo
                 },
                 success:function (data) {
                     if (data.success){
-                        x_admin_show('编辑','/view/admin-edit');
+                        x_admin_show('编辑','/Fengdi/view/admin-edit');
                     }else{
                         layer.msg('查询失败',{icon:1,time:1000});
                     }
@@ -246,7 +246,7 @@
           layer.confirm('确认要操作吗？',function(index){
               if($(obj).attr('title')=='启用'){
                   $.ajax({
-                      url:"/admin/updateAdminStatus",
+                      url:"/Fengdi/admin/updateAdminStatus",
                       type:"post",
                       data:{
                           adminNo:id,
@@ -265,7 +265,7 @@
                   });
               }else{
                   $.ajax({
-                      url:"/admin/updateAdminStatus",
+                      url:"/Fengdi/admin/updateAdminStatus",
                       type:"post",
                       data:{
                           adminNo:id,

@@ -146,7 +146,7 @@ public class FserviceController {
         } else if (fService.getServiceLevel() == 0 && status.equals("1")) {
             List<FService> A = fsservice.selectStauts(status);
             int size = A.size();
-            if (size > 3) {
+            if (size > 2) {
                 return new SimpleResult(false);
             } else {
                 int insert = fsservice.updatestauts(serviceNo, status);
@@ -155,7 +155,7 @@ public class FserviceController {
         } else if (fService.getServiceLevel() == 1 && status.equals("1")) {
             List<FService> ff = fsservice.selectStauts2(fService.getSuperServiceNo());
             int size = ff.size();
-            if(size>4){
+            if(size>3){
                 return new SimpleResult(false);
             }else{
                 int i = fsservice.updatestauts(fService.getSuperServiceNo(), status);
@@ -177,7 +177,6 @@ public class FserviceController {
     public PageInfo<FService> selectByMhcx(@RequestParam(name = "page",defaultValue = "1")Integer page,
                                                 @RequestParam(name = "rows",defaultValue = "10")Integer rows, Model model,FService record) throws UnsupportedEncodingException {
         String serviceName = record.getServiceName();
-        serviceName = new String(serviceName.getBytes("iso-8859-1"),"utf-8");
         record.setServiceName(serviceName);
         PageHelper.startPage(page,rows);
         List<FService> selectByMhcx = fsservice.selectByMhcx(record);

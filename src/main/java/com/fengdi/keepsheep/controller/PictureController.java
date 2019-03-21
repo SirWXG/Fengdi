@@ -45,7 +45,6 @@ public class PictureController {
     public PageInfo<FPicture> selectPic(@RequestParam(name = "page",defaultValue = "1")Integer page,
                                         @RequestParam(name = "rows",defaultValue = "10")Integer rows,
                                         @RequestParam(name = "pictureArea",defaultValue = "")String pictureArea) throws UnsupportedEncodingException {
-        pictureArea = new String(pictureArea.getBytes("iso-8859-1"),"utf-8");
         PageHelper.startPage(page,rows);
         List<FPicture> list = fPictureService.selectPic(pictureArea);
         PageInfo<FPicture> info = new PageInfo<FPicture>(list,4);

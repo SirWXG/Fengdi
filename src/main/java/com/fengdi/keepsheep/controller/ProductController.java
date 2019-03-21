@@ -35,7 +35,6 @@ public class ProductController {
     public PageInfo<FProduct> selectAll(@RequestParam(name = "page",defaultValue = "1")Integer page,
             @RequestParam(name = "rows",defaultValue = "6")Integer rows,
             @RequestParam(name = "productName",defaultValue = "")String productName) throws UnsupportedEncodingException {
-        productName = new String(productName.getBytes("iso-8859-1"),"utf-8");
         PageHelper.startPage(page,rows);
         List<FProduct> list = fProductService.selectAllProduct(productName);
         PageInfo<FProduct> info = new PageInfo<FProduct>(list,4);
