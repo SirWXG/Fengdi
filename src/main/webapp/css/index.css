@@ -24,10 +24,7 @@ a {
     color: black;
 }
 
-.app_anniu1 a {
-    color: white;
-    line-height: 70px;
-}
+
 
 .top_nav {
     background-color: #2D7450;
@@ -60,6 +57,25 @@ a {
     padding-right: 23px;
 }
 
+.nav #l1 a:hover #d1{
+    display: block;
+}
+
+#d1{
+    width: 110px;
+    height: 140px;
+    margin-top: 70px;
+    margin-left: 62%;
+    display: none;
+    position: absolute;
+    background: white;
+    text-align: center;
+}
+
+#d1 img{
+    margin: 5px 5px;
+}
+
 .nav a {
     font-weight: bold;
     color: white;
@@ -80,11 +96,12 @@ a {
 /*����*/
 .gongneng_box {
     float: right;
+    display: flex;
     margin-right: 40px;
 }
 
 .gongneng_box a {
-    line-height: 70px;
+    line-height: 70px;display: block;
     color: white;
     font-family: ΢���ź�;
     padding: 0 5px;
@@ -952,4 +969,8 @@ section {
 
 
 .yewei{width: 1200px;margin: -40px auto 40px;text-align: center;}
+.yewei p{
+    padding-bottom: 20px;
+}
+
 .da_hengxiang{margin: 15px 0}
