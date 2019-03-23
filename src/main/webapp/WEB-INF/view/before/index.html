@@ -29,15 +29,21 @@
             <li><a href="#4F">产品中心 /</a></li>
             <li><a href="#5F">基地展示 /</a></li>
             <li><a href="#6F">问题解决 /</a></li>
-            
+            <li id="l1"><a href="">APP下载 /</a></li>
         </ul>
-        
+        <div id="d1"><img src="/Fengdi/img/erweima.png"><p>请扫码下载</p></div>
        <div class="gongneng_box">
-      	       <a href="http://swk.fg321.cn/keepsheep/api/member/shareRegister">登录</a>
-      	      <a href="http://swk.fg321.cn/keepsheep/api/member/shareRegister">注册</a>
+           <a href="http://swk.fg321.cn/keepsheep/api/member/shareRegister">登录</a>
+           <a href="http://swk.fg321.cn/keepsheep/api/member/shareRegister">注册</a>
       </div>
+        <script>
+            $("#l1").mousemove(function () {
+                $("#d1").show()
+            }).mouseout(function () {
+                $("#d1").hide()
+            })
+        </script>
 
-        <div class="app_anniu1"><a href="">APP下载</a></div>
       <div class="clearfix"></div>
       
     </div>
@@ -149,7 +155,7 @@
                 <div class="product-img">
                     <img th:src="${product.productImg}" width="100%" height="100%" alt=""/>
                 </div>
-                <p><b style="font-size: 20px" th:text="${product.productName}"></b></p>
+                <p><b style="font-size: 20px;color: rgba(0,0,0,.7)" th:text="${product.productName}"></b></p>
                 <a name="5F"></a>
                 <div class="product-appear">
                     <p th:text="${product.productIntroduction+'  >'}"></p>
@@ -161,7 +167,7 @@
     <!--基地展示-->
     <div class="base" style="border: 1px solid transparent;">
         <div class="base-text">
-            <p style="font-size: 2rem;margin-top: 35px"><b>基地展示</b></p>
+            <p style="font-size: 2rem;margin-top: 35px;color: rgba(0,0,0,.8)"><b>基地展示</b></p>
         </div>
         <div class="base-main">
             <!-- 图一-->
@@ -258,8 +264,8 @@
         <div class="clearfix"></div>
         <!--页尾-->
     <div class="yewei">
-    <div class="da_hengxiang"></div>
-    <p style="margin-left: 200px">深圳市一草一牧科技有限公司版权所有    备案号：粤ICP备1126452号</p>
+        <div class="da_hengxiang"></div>
+        <p style="margin-left: 200px">深圳市一草一牧科技有限公司版权所有    备案号：粤ICP备1126452号</p>
     </div>
         <div class="clearfix"></div>
 </div>
