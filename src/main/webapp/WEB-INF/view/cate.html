@@ -189,7 +189,7 @@
                     if (data.success){
                         x_admin_show('编辑','/Fengdi/view/picture-edit');
                     }else{
-                        layer.msg('删除失败',{icon:1,time:1000});
+                        layer.msg(data.errMsg,{icon:1,time:1000});
                     }
 
                 }

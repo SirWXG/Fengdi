@@ -33,6 +33,11 @@ public class SimpleResult {
 		this.message = message;
 	}
 
+	public SimpleResult(String errMsg, boolean success) {
+		super();
+		this.errMsg = errMsg;
+		this.success = success;
+	}
 	public void setSuccess(boolean success) {
 		this.success = success;
 	}

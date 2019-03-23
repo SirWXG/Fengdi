@@ -17,6 +17,7 @@
 
 </head>
 <body>
+
     <!-- 顶部开始 -->
     <div class="container">
         <div class="logo"><a href="/index">全民养羊官网管理系统</a></div>
@@ -52,95 +53,19 @@
     <div class="left-nav">
       <div id="side-nav">
         <ul id="nav">
-            <li>
+            <li th:each="auth:${session.auth}">
                 <a href="javascript:;">
                     <i class="iconfont">&#xe6b8;</i>
-                    <cite>管理员管理</cite>
+                    <cite th:text="${auth.authName}">管理员管理</cite>
                     <i class="iconfont nav_right">&#xe697;</i>
                 </a>
                 <ul class="sub-menu">
                     <li>
-                        <a _href="/Fengdi/admin/selectAllAdmin">
+                        <a th:_href="${'/Fengdi'+auth.url}">
                             <i class="iconfont">&#xe6a7;</i>
-                            <cite>管理员列表</cite>
+                            <cite th:text="${auth.authName}"></cite>
                         </a>
                     </li >
-                </ul>
-            </li>
-            <li>
-                <a href="javascript:;">
-                    <i class="iconfont">&#xe723;</i>
-                    <cite>平台公告管理</cite>
-                    <i class="iconfont nav_right">&#xe697;</i>
-                </a>
-                <ul class="sub-menu">
-                    <li>
-                        <a _href="/Fengdi/fannouncementService/getall">
-
-                            <i class="iconfont">&#xe6a7;</i>
-                            <cite>公告列表</cite>
-                        </a>
-                    </li >
-                </ul>
-            </li>
-            <li>
-                <a href="javascript:;">
-                    <i class="iconfont">&#xe723;</i>
-                    <cite>设置平台图片和文案</cite>
-                    <i class="iconfont nav_right">&#xe697;</i>
-                </a>
-                <ul class="sub-menu">
-                    <li>
-                        <a _href="/Fengdi/view/cate">
-                            <i class="iconfont">&#xe6a7;</i>
-                            <cite>平台图片文案设置</cite>
-                        </a>
-                    </li >
-                </ul>
-            </li>
-            <li>
-                <a href="javascript:;">
-                    <i class="iconfont">&#xe723;</i>
-                    <cite>平台问题帮助内容</cite>
-                    <i class="iconfont nav_right">&#xe697;</i>
-                </a>
-                <ul class="sub-menu">
-                    <li>
-                        <a _href="/Fengdi/problem/selectAllProblem">
-                            <i class="iconfont">&#xe6a7;</i>
-                            <cite>平台问题设置</cite>
-                        </a>
-                    </li >
-                </ul>
-            </li>
-            <li>
-                <a href="javascript:;">
-                    <i class="iconfont">&#xe6ce;</i>
-                    <cite>公司产品</cite>
-                    <i class="iconfont nav_right">&#xe697;</i>
-                </a>
-                <ul class="sub-menu">
-                    <li>
-                        <a _href="/Fengdi/view/product-list">
-                            <i class="iconfont">&#xe6a7;</i>
-                            <cite>公司产品设置</cite>
-                        </a>
-                    </li >
-                </ul>
-            </li>
-            <li>
-                <a href="javascript:;">
-                    <i class="iconfont">&#xe6b4;</i>
-                    <cite>网站快捷服务</cite>
-                    <i class="iconfont nav_right">&#xe697;</i>
-                </a>
-                <ul class="sub-menu">
-                    <li>
-                        <a _href="/Fengdi/FserviceController/getall">
-                            <i class="iconfont">&#xe6a7;</i>
-                            <cite>快捷服务列表</cite>
-                        </a>
-                    </li>
                 </ul>
             </li>
         </ul>

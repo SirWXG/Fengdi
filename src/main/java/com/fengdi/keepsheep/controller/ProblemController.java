@@ -1,9 +1,9 @@
 package com.fengdi.keepsheep.controller;
 
 import com.alibaba.fastjson.JSONArray;
-import com.fengdi.keepsheep.bean.FAdmin;
-import com.fengdi.keepsheep.bean.FProblem;
-import com.fengdi.keepsheep.bean.FProblemExample;
+import com.fengdi.keepsheep.bean.*;
+import com.fengdi.keepsheep.service.FAdminGroupService;
+import com.fengdi.keepsheep.service.FAuthorizeService;
 import com.fengdi.keepsheep.service.FProblemService;
 import com.fengdi.keepsheep.util.SimpleResult;
 import com.github.pagehelper.PageHelper;
@@ -15,7 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
@@ -28,6 +31,12 @@ public class ProblemController {
 	
 	@Autowired
 	private FProblemService fProblemService;
+
+	@Autowired
+	private FAuthorizeService fAuthorizeService;
+
+	@Autowired
+	private FAdminGroupService fAdminGroupService;
 	
 	/**
 	 * 查询问题列表
@@ -78,18 +87,22 @@ public class ProblemController {
 	public SimpleResult addProblem(FProblem fProblem,HttpSession session){
 		SimpleResult result=new SimpleResult();
 		try {
-			FAdmin admin = (FAdmin) session.getAttribute("admin");
-			if (null==admin){
-				result.setErrCode("1");
-				result.setErrMsg("登录信息失效,请重新登录");
-				result.setSuccess(false);
-			}else{
-				result.setSuccess(true);
-				int insert = fProblemService.insert(fProblem);
-				if(insert<1){
+			if(checkAuth()){
+				FAdmin admin = (FAdmin) session.getAttribute("admin");
+				if (null==admin){
+					result.setErrCode("1");
+					result.setErrMsg("登录信息失效,请重新登录");
 					result.setSuccess(false);
-					result.setErrMsg("添加失败,请重新添加");
+				}else{
+					result.setSuccess(true);
+					int insert = fProblemService.insert(fProblem);
+					if(insert<1){
+						result.setSuccess(false);
+						result.setErrMsg("添加失败,请重新添加");
+					}
 				}
+			}else{
+				result.setMessage("权限不足,无法操作");
 			}
 		}catch (Exception e){
 			e.printStackTrace();
@@ -105,23 +118,27 @@ public class ProblemController {
 	public SimpleResult updateByStatus(@RequestParam("id")Integer id,@RequestParam("status")String status,HttpSession session){
 		SimpleResult result=new SimpleResult();
 		try {
-			FAdmin admin = (FAdmin) session.getAttribute("admin");
-			if (null==admin){
-				result.setErrCode("1");
-				result.setErrMsg("登录信息失效,请重新登录");
-				result.setSuccess(false);
-			}else{
-				System.out.println("Sataus:"+fProblemService.checkStatus());
-				if(fProblemService.checkStatus()>3&&status.equals("1")){
-					result.setErrMsg("最多只能展示四条问题，请重新设置");
-				}else {
-					result.setSuccess(true);
-					boolean stu = fProblemService.updateByStatus(id, status);
-					if (stu != true) {
-						result.setSuccess(false);
-						result.setErrMsg("修改失败,请重新修改");
+			if(checkAuth()){
+				FAdmin admin = (FAdmin) session.getAttribute("admin");
+				if (null==admin){
+					result.setErrCode("1");
+					result.setErrMsg("登录信息失效,请重新登录");
+					result.setSuccess(false);
+				}else{
+					System.out.println("Sataus:"+fProblemService.checkStatus());
+					if(fProblemService.checkStatus()>3&&status.equals("1")){
+						result.setErrMsg("最多只能展示四条问题，请重新设置");
+					}else {
+						result.setSuccess(true);
+						boolean stu = fProblemService.updateByStatus(id, status);
+						if (stu != true) {
+							result.setSuccess(false);
+							result.setErrMsg("修改失败,请重新修改");
+						}
 					}
 				}
+			}else{
+				result.setErrMsg("权限不足,无法操作");
 			}
 		}catch (Exception e){
 			e.printStackTrace();
@@ -135,9 +152,13 @@ public class ProblemController {
 	@RequestMapping(value = "/selectById",method = RequestMethod.POST)
 	@ResponseBody
 	public SimpleResult selectById(Integer id, HttpSession session){
-		FProblem fProblem = fProblemService.selectById(id);
-		session.setAttribute("fProblem",fProblem);
-		return new SimpleResult(fProblem!=null?true:false);
+		if(checkAuth()){
+			FProblem fProblem = fProblemService.selectById(id);
+			session.setAttribute("fProblem",fProblem);
+			return new SimpleResult(fProblem!=null?true:false);
+		}else {
+			return new SimpleResult("权限不足,无法操作",false);
+		}
 	}
 	/**
 	 * 修改
@@ -147,9 +168,13 @@ public class ProblemController {
 	@ResponseBody
 	public SimpleResult updateById(FProblem fProblem){
 		System.out.println(fProblem.getProblemNo());
-		FProblem fProblem1=new FProblem(fProblem.getProblemNo(),fProblem.getId(),fProblem.getProblemAnswers(),fProblem.getStatus());
-		boolean result = fProblemService.updateById(fProblem1);
-		return new SimpleResult(result);
+		if(checkAuth()){
+			FProblem fProblem1=new FProblem(fProblem.getProblemNo(),fProblem.getId(),fProblem.getProblemAnswers(),fProblem.getStatus());
+			boolean result = fProblemService.updateById(fProblem1);
+			return new SimpleResult(result);
+		}else{
+			return new SimpleResult("权限不足,无法操作",false);
+		}
 	}
 	/**
 	 * 模糊查
@@ -168,6 +193,27 @@ public class ProblemController {
 		List<FProblem> list = fProblemService.selectNoAndCname(map);
 		PageInfo<FProblem> info=new PageInfo<FProblem>(list,4);
 		return info;
+	}
+
+	public  boolean checkAuth(){
+		boolean flag = false;
+		HttpServletRequest request=((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+		HttpSession session = request.getSession();
+		String url = request.getServletPath();
+		//获得请求路径
+		FAdmin fAdmin = (FAdmin) session.getAttribute("admin");
+		List<FAdminGroup> list = fAdminGroupService.selectRolerByAdminNo(fAdmin.getAdminNo());
+		String c_auth = list.get(0).getAuthorizeList();
+		String array_auth[] = c_auth.split(",");
+		List<FAuthorize> auth_list = fAuthorizeService.selectListAuth(array_auth);
+		for(FAuthorize fAuthorize : auth_list){
+			if (fAuthorize.getResourcekey().equals(url)){
+				return true;
+			}else{
+				flag = false;
+			}
+		}
+		return flag;
 	}
 
 }

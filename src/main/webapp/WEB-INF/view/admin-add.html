@@ -147,6 +147,7 @@
                                 parent.window.location.href="/Fengdi/admin/selectAllAdmin";
                             });
                         }else{
+                            layer.msg(data.errMsg,{icon:5,time:1000});
                             alert("添加失败,请重新添加");
                         }
                     }

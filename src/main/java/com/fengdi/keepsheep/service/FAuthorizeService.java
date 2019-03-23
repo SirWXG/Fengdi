@@ -15,4 +15,12 @@ public interface FAuthorizeService {
      * @return
      */
     List<FAuthorize> selectList(String array[]);
+
+    List<FAuthorize> selectAuthByFirst(String array[]);
+
+    List<FAuthorize> selectListAuth(String array[]);
+
+    List<FAuthorize> selectFirst();
+
+    List<FAuthorize> selectAuthBySecond(String superAuthorizeNo);
 }

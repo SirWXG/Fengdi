@@ -1,19 +1,27 @@
 package com.fengdi.keepsheep.controller;
 
 import com.fengdi.keepsheep.bean.FAdmin;
+import com.fengdi.keepsheep.bean.FAdminGroup;
 import com.fengdi.keepsheep.bean.FAnnouncement;
+import com.fengdi.keepsheep.bean.FAuthorize;
+import com.fengdi.keepsheep.service.FAdminGroupService;
 import com.fengdi.keepsheep.service.FAnnouncementService;
+import com.fengdi.keepsheep.service.FAuthorizeService;
 import com.fengdi.keepsheep.util.SimpleResult;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
@@ -25,6 +33,12 @@ import java.util.List;
 public class FAnnouncementController {
 	@Resource
 	private FAnnouncementService fannouncementService;
+
+    @Autowired
+    private FAuthorizeService fAuthorizeService;
+
+    @Autowired
+    private FAdminGroupService fAdminGroupService;
 
     /*
     * 查所有
@@ -47,16 +61,22 @@ public class FAnnouncementController {
 	* */
 	@RequestMapping(value = "/getadd",method=RequestMethod.POST)
 	public @ResponseBody SimpleResult getallFAnnouncement(String text,String status, FAnnouncement fannouncement, HttpSession session){
-        FAdmin fAdmin =  (FAdmin)session.getAttribute("admin");
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
-        fannouncement.setAnnouncementName(text);
-        fannouncement.setGroupCnname(fAdmin.getAdminName());
-        fannouncement.setAdminGroupNo(fAdmin.getAdminNo());
-        fannouncement.setCreateTime(new Date());
-        fannouncement.setUpdateTime(new Date());
-        fannouncement.setStatus(status);
-		int insert = fannouncementService.insert(fannouncement);
-		return new SimpleResult(insert>0?true:false);
+	    if(checkAuth()){
+            FAdmin fAdmin =  (FAdmin)session.getAttribute("admin");
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+            fannouncement.setAnnouncementName(text);
+            fannouncement.setGroupCnname(fAdmin.getAdminName());
+            fannouncement.setAdminGroupNo(fAdmin.getAdminNo());
+            fannouncement.setCreateTime(new Date());
+            fannouncement.setUpdateTime(new Date());
+            fannouncement.setStatus(status);
+            int insert = fannouncementService.insert(fannouncement);
+            return new SimpleResult(insert>0?true:false);
+        }else{
+	        return new SimpleResult("权限不足,无法操作",false);
+        }
+
+
 	}
 
 	/*
@@ -65,9 +85,14 @@ public class FAnnouncementController {
     @RequestMapping(value = "/getannouncementNo")
     @ResponseBody
     public SimpleResult getannouncementNo(Model model,String announcementNo,HttpSession session ){
-        FAnnouncement fAnnouncement = fannouncementService.selectByPrimaryKey(announcementNo);
-        session .setAttribute("fAnnouncement",fAnnouncement);
-        return new SimpleResult(fAnnouncement!=null?true:false);
+        if(checkAuth()){
+            FAnnouncement fAnnouncement = fannouncementService.selectByPrimaryKey(announcementNo);
+            session .setAttribute("fAnnouncement",fAnnouncement);
+            return new SimpleResult(fAnnouncement!=null?true:false);
+        }else{
+            return new SimpleResult("权限不足,无法操作",false);
+        }
+
     }
 
     /*
@@ -75,8 +100,12 @@ public class FAnnouncementController {
     * */
     @RequestMapping(value = "/delannouncementNo")
     public @ResponseBody SimpleResult delannouncementNo(@RequestParam("announcementNo") String announcementNo){
-        int i = fannouncementService.deleteByPrimaryKey(announcementNo);
-        return new SimpleResult(i>0?true:false);
+        if(checkAuth()){
+            int i = fannouncementService.deleteByPrimaryKey(announcementNo);
+            return new SimpleResult(i>0?true:false);
+        }else{
+            return new SimpleResult("权限不足,无法操作",false);
+        }
     }
 
     /*
@@ -84,13 +113,17 @@ public class FAnnouncementController {
     * */
     @RequestMapping(value = "/upd")
     public @ResponseBody SimpleResult upd(FAnnouncement fannouncement, HttpSession session){
-        FAdmin fAdmin =  (FAdmin)session.getAttribute("admin");
+        if(checkAuth()){
+            FAdmin fAdmin =  (FAdmin)session.getAttribute("admin");
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
         fannouncement.setGroupCnname(fAdmin.getAdminName());
         fannouncement.setAdminGroupNo(fAdmin.getAdminNo());
         fannouncement.setUpdateTime(new Date());
         int insert = fannouncementService.updateByPrimaryKeySelective(fannouncement);
         return new SimpleResult(insert>0?true:false);
+        }else{
+            return new SimpleResult("权限不足,无法操作",false);
+        }
     }
 
     /*
@@ -98,20 +131,23 @@ public class FAnnouncementController {
     * */
     @RequestMapping(value = "/stop")
     public @ResponseBody SimpleResult stop(String announcementNo,String status){
-	    if(status.equals("1")){
-            List<FAnnouncement> A = fannouncementService.selectStauts(status);
-            int size = A.size();
-            if(size>4){
-                return new SimpleResult(false);
+        if(checkAuth()){
+            if(status.equals("1")){
+                List<FAnnouncement> A = fannouncementService.selectStauts(status);
+                int size = A.size();
+                if(size>4){
+                    return new SimpleResult(false);
+                }else{
+                    int insert = fannouncementService.updatestauts(announcementNo,status);
+                    return new SimpleResult(insert>0?true:false);
+                }
             }else{
                 int insert = fannouncementService.updatestauts(announcementNo,status);
                 return new SimpleResult(insert>0?true:false);
             }
         }else{
-            int insert = fannouncementService.updatestauts(announcementNo,status);
-            return new SimpleResult(insert>0?true:false);
+            return new SimpleResult("权限不足,无法操作",false);
         }
-
 
     }
     /*
@@ -129,6 +165,27 @@ public class FAnnouncementController {
         model.addAttribute("selectByExample", info);
         return info;
 
+    }
+
+    public  boolean checkAuth(){
+        boolean flag = false;
+        HttpServletRequest request=((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        HttpSession session = request.getSession();
+        String url = request.getServletPath();
+        //获得请求路径
+        FAdmin fAdmin = (FAdmin) session.getAttribute("admin");
+        List<FAdminGroup> list = fAdminGroupService.selectRolerByAdminNo(fAdmin.getAdminNo());
+        String c_auth = list.get(0).getAuthorizeList();
+        String array_auth[] = c_auth.split(",");
+        List<FAuthorize> auth_list = fAuthorizeService.selectListAuth(array_auth);
+        for(FAuthorize fAuthorize : auth_list){
+            if (fAuthorize.getResourcekey().equals(url)){
+                return true;
+            }else{
+                flag = false;
+            }
+        }
+        return flag;
     }
 
 

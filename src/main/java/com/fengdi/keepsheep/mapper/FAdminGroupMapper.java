@@ -5,6 +5,7 @@ import com.fengdi.keepsheep.bean.FAdminGroupExample;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 public interface FAdminGroupMapper {
     int countByExample(FAdminGroupExample example);
@@ -36,4 +37,9 @@ public interface FAdminGroupMapper {
     int updateByPrimaryKey(FAdminGroup record);
 
     List<FAdminGroup> selectAllRoler();
+
+    List<FAdminGroup> selectRolerByAdminNo(@Param("adminNo") String adminNo);
+
+    int addGroup(FAdminGroup fAdminGroup);
+    int updateGroup(Map<String,Object>map);
 }

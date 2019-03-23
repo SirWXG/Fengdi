@@ -9,7 +9,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.annotation.Resource;
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,8 +53,6 @@ public class BeforeController {
         //平台问题展示
         model.addAttribute("_before_question",fProblemService.selectByStatus());
 
-        String array[] = {"1","2","3"};
-        model.addAttribute("num",array);
         //标题展示
         List<AnnouncementUtils> list = new ArrayList<AnnouncementUtils>();
         //一级标题

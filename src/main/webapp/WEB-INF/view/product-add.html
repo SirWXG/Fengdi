@@ -97,6 +97,7 @@
                         parent.window.location.href="/Fengdi/view/product-list";
                     });
                 }else{
+                    layer.msg(data.errMsg,{icon:5,time:1000});
                     alert("增加失败");
                 }
             }

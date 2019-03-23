@@ -92,6 +92,7 @@
                             parent.window.location.href="/Fengdi/problem/selectAllProblem";
                         });
                     }else{
+                        layer.msg(data.errMsg,{icon:5,time:1000});
                         alert("修改失败,请重新修改");
                     }
                 }

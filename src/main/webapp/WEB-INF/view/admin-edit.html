@@ -138,6 +138,7 @@
                             parent.window.location.href="/Fengdi/admin/selectAllAdmin";
                         });
                     }else{
+                        layer.msg(data.errMsg,{icon:5,time:1000});
                         layer.alert("修改失败",{icon:6});
                     }
                 }

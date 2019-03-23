@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="../css/font.css">
+    <link rel="stylesheet" href="../css/xadmin.css">
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="../lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="../js/xadmin.js"></script>
+    <link rel="stylesheet" href="../lib/layui/css/layui.css"/>
+    <link rel="stylesheet" href="../bootstrap-3.3.7-dist/css/bootstrap.css" >
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+<div class="x-nav">
+      <span class="layui-breadcrumb">
+        <a href="">首页</a>
+        <a href="">演示</a>
+        <a>
+          <cite>导航元素</cite></a>
+      </span>
+    <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" href="javascript:location.replace(location.href);" title="刷新">
+        <i class="layui-icon" style="line-height:30px">ဂ</i></a>
+</div>
+<br />
+<br />
+    <div align="center">
+        <span>权限分配:
+            <select name="f_Auth" style="width: 200px;height: 50px">
+                <option value="">请选择一级权限</option>
+            </select>
+        </span>
+        <span>
+        二级权限分配:
+            <select name="s_auth" style="width: 200px;height: 50px">
+                <option value="">请选择二级权限</option>
+            </select>
+        </span>
+        <br />
+        <br />
+        <br />
+        <span>分配人员:
+            <select name="f_admin" style="width: 200px;height: 50px">
+            </select>
+        </span>
+        <span>
+            <button type="button" class="btn btn-primary">添加</button>
+        </span>
+    </div>
+<script type="text/javascript">
+    $(function () {
+        $.ajax({
+            url:"/Fengdi/roler/selectRolerForFirst",
+            type:"post",
+            success:function (data) {
+                $.each(data, function (index,items) {
+                    var $option = $("<option>").attr("value",items.authorizeNo).html(items.remark);
+                    $("select[name='f_Auth']").append($option);
+                })
+            }
+        });
+
+        $.ajax({
+            url:"/Fengdi/roler/selectAllAdmin",
+            type:"post",
+            success:function (data) {
+                $.each(data, function (index,items) {
+                    var $option = $("<option>").attr("value",items.adminNo).html(items.adminName);
+                    $("select[name='f_admin']").append($option);
+                })
+            }
+        });
+
+        $("select[name='f_Auth']").change(function () {
+            if ($("select[name='f_Auth']").val()==''){
+                $("select[name='s_auth']").empty();
+                $("select[name='s_auth']").append($("<option>").attr("value","").html("请选择二级权限"));
+            }else{
+                $.ajax({
+                    url:"/Fengdi/roler/selectRolerSecound",
+                    type:"post",
+                    data:{
+                        superAuthorizeNo:$("select[name='f_Auth']").val()
+                    },
+                    success:function (data) {
+                        $("select[name='s_auth']").empty();
+                        $.each(data, function (index,items) {
+                            var $options = $("<option>").attr("value",items.authorizeNo).html(items.remark);
+                            $("select[name='s_auth']").append($options);
+                        })
+                    }
+                });
+            }
+        });
+        
+        $("button").click(function () {
+            $.ajax({
+                url:"/Fengdi/roler/addRoler",
+                type:"post",
+                data:{
+                    firstRemark:$("select[name='f_Auth']").val(),
+                    s_remark:$("select[name='s_auth']").val(),
+                    adminNo:$("select[name='f_admin']").val()
+                },
+                success:function (data) {
+                    if (data.success){
+                        alert("权限添加成功");
+                    }else{
+                        layer.msg(data.errMsg,{icon:5,time:1000});
+                        alert("权限添加失败");
+                    }
+                }
+            });
+        });
+
+    })
+</script>
+</body>
+</html>

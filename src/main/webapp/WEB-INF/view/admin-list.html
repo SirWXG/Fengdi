@@ -203,7 +203,7 @@
                             $(obj).parents("tr").remove();
                             layer.msg('已删除!',{icon:1,time:1000});
                         }else{
-                            layer.msg('删除失败',{icon:1,time:1000});
+                            layer.msg(data.errMsg,{icon:1,time:1000});
                         }
                     }
                 });
@@ -221,7 +221,7 @@
                     if (data.success){
                         x_admin_show('编辑','/Fengdi/view/admin-edit');
                     }else{
-                        layer.msg('查询失败',{icon:1,time:1000});
+                        layer.msg(data.errMsg,{icon:1,time:1000});
                     }
                 }
             });
@@ -259,7 +259,7 @@
                               $(obj).parents("tr").find(".td-status").find('span').addClass('layui-btn-disabled').html('冻结');
                               layer.msg('冻结!',{icon: 5,time:1000});
                           }else{
-                              layer.msg('冻结失败,请重新操作',{icon:5,time:1000});
+                              layer.msg(data.errMsg,{icon:5,time:1000});
                           }
                       }
                   });
@@ -278,7 +278,7 @@
                               $(obj).parents("tr").find(".td-status").find('span').removeClass('layui-btn-disabled').addClass("layui-btn-normal layui-btn-mini").html('正常');
                               layer.msg('正常!',{icon: 5,time:1000});
                           }else{
-                              layer.msg('操作失败',{icon:5,time:1000});
+                              layer.msg(data.errMsg,{icon:5,time:1000});
                           }
                       }
 

@@ -23,4 +23,21 @@
     FROM f_admin_group
   </select>
 
+  <select id="selectRolerByAdminNo" resultMap="BaseResultMap" parameterType="string">
+    SELECT <include refid="Base_Column_List" />
+    FROM f_admin_group
+    WHERE admin_no=#{adminNo}
+  </select>
+
+  <insert id="addGroup" parameterType="com.fengdi.keepsheep.bean.FAdminGroup">
+    INSERT INTO f_admin_group(admin_group_no,group_name,group_cnname,admin_no,founder,create_time,update_time,authorize_list)
+    VALUES (#{adminGroupNo},'管理员','conservator',#{adminNo},'admin',#{createTime},#{updateTime},#{authorizeList})
+  </insert>
+
+  <update id="updateGroup" parameterType="map">
+    UPDATE f_admin_group SET
+    authorize_list=#{authorizeList},update_time=#{updateTime}
+    WHERE admin_no=#{adminNo}
+  </update>
+
 </mapper>

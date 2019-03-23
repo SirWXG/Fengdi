@@ -29,5 +29,13 @@ public interface FAuthorizeMapper {
 
     int updateByPrimaryKey(FAuthorize record);
 
+    List<FAuthorize> selectAuthByFirst(String array[]);
+
     List<FAuthorize> selectList(String array[]);
+
+    List<FAuthorize> selectListAuth(String array[]);
+
+    List<FAuthorize> selectFirst();
+
+    List<FAuthorize> selectAuthBySecond(@Param("superAuthorizeNo")String superAuthorizeNo);
 }
