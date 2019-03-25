@@ -57,6 +57,16 @@
     </foreach>
   </select>
 
+  <select id="selectListAuthBySuper" parameterType="java.util.List" resultMap="BaseResultMap">
+    SELECT  <include refid="Base_Column_List" />
+    FROM f_authorize
+    WHERE super_authorize_no IN
+    <foreach collection="array" index="index" item="item"
+             open="(" separator="," close=")">
+      #{item}
+    </foreach>
+  </select>
+
   <select id="selectAuthBySecond" resultMap="BaseResultMap" parameterType="string">
     SELECT <include refid="Base_Column_List" />
     FROM f_authorize

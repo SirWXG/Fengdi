@@ -38,4 +38,6 @@ public interface FAuthorizeMapper {
     List<FAuthorize> selectFirst();
 
     List<FAuthorize> selectAuthBySecond(@Param("superAuthorizeNo")String superAuthorizeNo);
+
+    List<FAuthorize> selectListAuthBySuper(String array[]);
 }

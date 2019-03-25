@@ -23,12 +23,13 @@ public class Shiro extends AuthenticatingRealm{
 		String username = upt.getUsername();
 		char c[] = upt.getPassword();
 		String pass = new String(c);
+		List<FAdmin> lists =  fAdminService.selectAdminByLoginName(username);
 		Map<String, String> map = new HashMap<String,String>();
 		map.put("loginName", username);
-		map.put("password", ToMD5(username,pass));
+		map.put("password", ToMD5(lists.get(0).getSalt(),pass));
 		List<FAdmin> list = fAdminService.checkLogin(map);
-		SimpleAuthenticationInfo simpleAuthenticationInfo = new SimpleAuthenticationInfo(list.get(0).getLoginName(),
-				list.get(0).getPwd(), ByteSource.Util.bytes(username), getName());
+		SimpleAuthenticationInfo simpleAuthenticationInfo = new SimpleAuthenticationInfo(list.get(0).getSalt(),
+				list.get(0).getPwd(), ByteSource.Util.bytes(lists.get(0).getSalt()),getName());
 		return simpleAuthenticationInfo;
 	}
 

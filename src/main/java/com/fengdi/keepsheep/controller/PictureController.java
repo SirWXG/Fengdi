@@ -83,7 +83,6 @@ public class PictureController {
                                @RequestParam(name = "pictureType",defaultValue = "展示图片")String pictureType,HttpServletRequest request){
         SimpleResult result = new SimpleResult();
         try{
-            CommonInterceptor interceptor = new CommonInterceptor();
             if(checkAuth()){
                 if(null==request.getSession().getAttribute("admin")){
                     result.setErrCode("1");
@@ -155,7 +154,6 @@ public class PictureController {
     public SimpleResult updatePicStatus(@RequestParam(name = "picno")String picno,@RequestParam(name = "status")String status,HttpSession session){
         SimpleResult result = new SimpleResult();
         try{
-            CommonInterceptor interceptor = new CommonInterceptor();
             if(checkAuth()){
                 if(null==session.getAttribute("admin")){
                     result.setErrMsg("登录信息失效，请重新登录");

@@ -23,4 +23,6 @@ public interface FAuthorizeService {
     List<FAuthorize> selectFirst();
 
     List<FAuthorize> selectAuthBySecond(String superAuthorizeNo);
+
+    List<FAuthorize> selectListAuthBySuper(String array[]);
 }

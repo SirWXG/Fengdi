@@ -20,10 +20,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Administrator on 2019/3/13.
@@ -129,6 +126,80 @@ public class RolerController {
         }
         return result;
     }
+
+    //根据选择框查询权限
+    @RequestMapping(value = "/selAuth",method = RequestMethod.POST)
+    @ResponseBody
+    public SimpleResult selAuth(@RequestParam(name = "firstAuth")String firstAuth,
+                                @RequestParam(name = "adminNo")String adminNo){
+        SimpleResult result = new SimpleResult();
+        if(checkAuth()){
+            if(firstAuth.trim().length()<1||adminNo.trim().length()<1){
+                result.setErrMsg("选择框不能为空,");
+            }else{
+                List<FAdminGroup> list = fAdminGroupService.selectRolerByAdminNo(adminNo);
+                String auth_list = list.get(0).getAuthorizeList();
+                List<FAuthorize> list_auth = fAuthorizeService.selectAuthBySecond(firstAuth);
+                String f[] = new String[list_auth.size()];
+                for(int i = 0 ;i < list_auth.size();i++){
+                    f[i] = String.valueOf(list_auth.get(i).getAuthorizeNo());
+                }
+                String auth_array[] = new String[list_auth.size()];
+                int k = 0;
+                for(int i=0;i<f.length;i++){
+                    if(auth_list.contains(f[i])){
+                        auth_array[k] = f[i];
+                        k++;
+                    }
+                }
+                List<FAuthorize> lists = fAuthorizeService.selectListAuth(auth_array);
+                if(lists.size()==0){
+                    result.setErrMsg("查询结果为空");
+                }else{
+                    result.setSuccess(true);
+                    result.setData(lists);
+                }
+            }
+        }else{
+            result.setErrMsg("权限不足,无法操作");
+        }
+        return  result;
+    }
+
+
+    @RequestMapping(value = "/delRoler",method = RequestMethod.POST)
+    @ResponseBody
+    public SimpleResult delRoler(@RequestParam(name = "authorizeNo")String authorizeNo,
+                                 @RequestParam(name = "adminNo")String adminNo){
+        SimpleResult result = new SimpleResult();
+        if(checkAuth()){
+            List<FAdminGroup> list = fAdminGroupService.selectRolerByAdminNo(adminNo);
+            String auth = list.get(0).getAuthorizeList();
+            String newAuth = auth.replace(authorizeNo,"");
+            String new_auth = newAuth.replace(",,",",");
+            StringBuffer sb = new StringBuffer(new_auth);
+            if(new_auth.startsWith(",")){
+                sb.replace(0,1,"");
+            }
+            if(new_auth.endsWith(",")){
+                sb.replace(sb.length()-1,sb.length(),"");
+            }
+            Map<String,Object> map = new HashMap<String, Object>();
+            map.put("authorizeList",sb.toString());
+            map.put("updateTime",new Date());
+            map.put("adminNo",adminNo);
+            int flag = fAdminGroupService.updateGroup(map);
+            if(flag<1){
+                result.setErrMsg("删除失败，请重新操作");
+            }else{
+                result.setSuccess(true);
+            }
+        }else{
+            result.setErrMsg("权限不足,无法操作");
+        }
+        return result;
+    }
+
 
     public  boolean checkAuth(){
         boolean flag = false;

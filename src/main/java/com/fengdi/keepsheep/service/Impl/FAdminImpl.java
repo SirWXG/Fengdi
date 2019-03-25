@@ -97,4 +97,9 @@ public class FAdminImpl implements FAdminService{
 		return fAdminMapper.updateByPrimaryKeySelective(record);
 	}
 
+	@Override
+	public List<FAdmin> selectAdminByLoginName(String loginName) {
+		return fAdminMapper.selectAdminByLoginName(loginName);
+	}
+
 }

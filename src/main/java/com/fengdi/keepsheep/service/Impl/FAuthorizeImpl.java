@@ -44,4 +44,9 @@ public class FAuthorizeImpl implements FAuthorizeService{
     public List<FAuthorize> selectAuthBySecond(String superAuthorizeNo) {
         return fAuthorizeMapper.selectAuthBySecond(superAuthorizeNo);
     }
+
+    @Override
+    public List<FAuthorize> selectListAuthBySuper(String[] array) {
+        return fAuthorizeMapper.selectListAuthBySuper(array);
+    }
 }

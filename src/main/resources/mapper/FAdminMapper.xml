@@ -518,4 +518,9 @@
     WHERE admin_no=#{adminNo}
   </select>
 
+  <select id="selectAdminByLoginName" parameterType="string" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List" />
+    FROM f_admin
+    WHERE login_name=#{loginName}
+  </select>
 </mapper>

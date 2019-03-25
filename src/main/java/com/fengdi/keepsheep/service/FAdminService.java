@@ -71,4 +71,7 @@ public interface FAdminService {
 	 * @return
 	 */
 	int updateByPrimaryKeySelective(FAdmin record);
+
+
+	List<FAdmin> selectAdminByLoginName(String loginName);
 }

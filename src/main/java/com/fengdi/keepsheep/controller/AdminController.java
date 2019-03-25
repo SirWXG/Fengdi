@@ -255,7 +255,8 @@ public class AdminController {
                     if(fAdmin.getPwd().length()==32){
                         flag = fAdminService.updateByPrimaryKeySelective(fAdmin);
                     }else{
-                        fAdmin.setPwd(Shiro.ToMD5(fAdmin.getLoginName(),fAdmin.getPwd()));
+                        List<FAdmin> lists =  fAdminService.selectAdminByLoginName(admin.getLoginName());
+                        fAdmin.setPwd(Shiro.ToMD5(lists.get(0).getSalt(),fAdmin.getPwd()));
                         flag = fAdminService.updateByPrimaryKeySelective(fAdmin);
                     }
                     if(flag<1){

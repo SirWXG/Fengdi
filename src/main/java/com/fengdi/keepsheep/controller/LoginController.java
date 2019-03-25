@@ -79,9 +79,10 @@ public class LoginController {
 				return result;
 			}
 		}
+		List<FAdmin> list_s =  fAdminService.selectAdminByLoginName(username);
 		Map<String,String> map = new HashMap<String, String>();
 		map.put("loginName",username);
-		map.put("password", Shiro.ToMD5(username,password));
+		map.put("password", Shiro.ToMD5(list_s.get(0).getSalt(),password));
 		List<FAdmin> list = fAdminService.checkLogin(map);
 		List<FAdminGroup> lists = fAdminGroupService.selectRolerByAdminNo(list.get(0).getAdminNo());
 		if(lists.size()==0||lists.get(0).getAuthorizeList()==null||lists.get(0).getAuthorizeList().trim().length()<1){

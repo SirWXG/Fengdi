@@ -41,4 +41,6 @@ public interface FAdminMapper {
     int updateAdminStatus(Map<String,String>map);
 
     List<FAdmin> selectAdminByAdminNo(String adminNo);
+
+    List<FAdmin> selectAdminByLoginName(@Param("loginName")String loginName);
 }

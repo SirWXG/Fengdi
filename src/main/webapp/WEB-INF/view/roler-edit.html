@@ -11,6 +11,12 @@
     <script type="text/javascript" src="../js/xadmin.js"></script>
     <link rel="stylesheet" href="../lib/layui/css/layui.css"/>
     <link rel="stylesheet" href="../bootstrap-3.3.7-dist/css/bootstrap.css" >
+
+    <link rel="stylesheet" type="text/css" href="../easyui/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../easyui/themes/icon.css">
+    <link rel="stylesheet" type="text/css" href="../easyui/demo/demo.css">
+    <script type="text/javascript" src="../../jquery.easyui.min.js"></script>
+
     <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
     <!--[if lt IE 9]>
     <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
@@ -47,12 +53,42 @@
         <br />
         <span>分配人员:
             <select name="f_admin" style="width: 200px;height: 50px">
+                <option value="">请选择分配的人员</option>
             </select>
         </span>
         <span>
-            <button type="button" class="btn btn-primary">添加</button>
+            <button id="addBut" type="button" class="btn btn-primary">添加</button>
         </span>
     </div>
+    <br />
+    <br />
+    <span>一级权限选择:
+            <select name="f_Auth_s" style="width: 200px;height: 50px">
+                <option value="">请选择一级权限</option>
+            </select>
+    </span>
+    <span>请选择查询人员:
+            <select name="f_admin_s" style="width: 200px;height: 50px">
+                <option value="">请选择</option>
+            </select>
+    </span>
+    <span>
+            <button id="selAuth" type="button" class="btn btn-primary">查询</button>
+    </span>
+    <br />
+<table class="layui-table layui-form">
+    <thead>
+    <tr>
+        <th>编号</th>
+        <th>权限对应请求地址</th>
+        <th>二级权限名称</th>
+        <th width="50">操作</th>
+    </tr>
+    </thead>
+    <tbody id="tbodys">
+
+    </tbody>
+</table>
 <script type="text/javascript">
     $(function () {
         $.ajax({
@@ -62,6 +98,10 @@
                 $.each(data, function (index,items) {
                     var $option = $("<option>").attr("value",items.authorizeNo).html(items.remark);
                     $("select[name='f_Auth']").append($option);
+                })
+                $.each(data, function (index,items) {
+                    var $option = $("<option>").attr("value",items.authorizeNo).html(items.remark);
+                    $("select[name='f_Auth_s']").append($option);
                 })
             }
         });
@@ -73,6 +113,10 @@
                 $.each(data, function (index,items) {
                     var $option = $("<option>").attr("value",items.adminNo).html(items.adminName);
                     $("select[name='f_admin']").append($option);
+                })
+                $.each(data, function (index,items) {
+                    var $option = $("<option>").attr("value",items.adminNo).html(items.adminName);
+                    $("select[name='f_admin_s']").append($option);
                 })
             }
         });
@@ -99,7 +143,7 @@
             }
         });
         
-        $("button").click(function () {
+        $("#addBut").click(function () {
             $.ajax({
                 url:"/Fengdi/roler/addRoler",
                 type:"post",
@@ -119,7 +163,51 @@
             });
         });
 
+        $("#selAuth").click(function () {
+            $("#tbodys").empty();
+            $.ajax({
+                url:"/Fengdi/roler/selAuth",
+                type:"post",
+                data:{
+                    firstAuth:$("select[name='f_Auth_s']").val(),
+                    adminNo:$("select[name='f_admin_s']").val()
+                },
+                success:function (data) {
+                    var result = data.data;
+                    if (data.success){
+                        $.each(result,function (index,items) {
+                            var $tr = $("<tr>");
+                            var $no = $("<td>").attr("style","width:100px").html(items.authorizeNo);
+                            var $resource = $("<td>").attr("style","width:100px").html(items.resourcekey);
+                            var $remark = $("<td>").attr("style","width:100px").html(items.remark);
+                            var $delUrl = $("<td>").append($("<button>").attr("onclick","delRoler(this,"+items.authorizeNo+")").html("删除权限"));
+                            $("#tbodys").append($tr.append($no).append($resource).append($remark).append($delUrl));
+                        })
+                    }else{
+                        alert(data.errMsg);
+                    }
+                }
+            });
+        });
     })
+    function delRoler(obj,authorizeNo) {
+        $.ajax({
+           url:"/Fengdi/roler/delRoler",
+            type:"post",
+            data:{
+                authorizeNo:authorizeNo,
+                adminNo:$("select[name='f_admin_s']").val()
+            },
+            success:function (data) {
+                if (data.success){
+                    $(obj).parents("tr").remove();
+                    layer.msg('已删除!',{icon:1,time:1000});
+                }else{
+                    layer.msg(data.errMsg,{icon:6,time:1000});
+                }
+            }
+        });
+    }
 </script>
 </body>
 </html>
