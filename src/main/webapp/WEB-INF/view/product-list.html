@@ -80,6 +80,7 @@
             success:function (data) {
                 eachData(data.list);
                 eachPage(data);
+                $(".x-right").html("共有数据："+data.total+"条");
             }
         });
         return false;
