@@ -240,6 +240,20 @@
           });
       }
 
+        function member_getNo(productNo){
+            $.ajax({
+                url:"/Fengdi/problem/selectById",
+                type:"post",
+                data:{
+                    id:productNo
+                },
+                success:function (data) {
+                    if (data.success){
+                        x_admin_show('编辑','/Fengdi/view/question-edit');
+                    }
+                }
+            });
+        }
         function member_del(obj,id){
             layer.confirm('确认要删除吗？',function(index){
                 //发异步删除数据
