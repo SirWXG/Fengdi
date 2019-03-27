@@ -103,9 +103,9 @@ public class LoginController {
 	
 	@RequestMapping("/logout")
 	public String doLogout(HttpSession session) {
-		session.removeAttribute("admin");
+		session.setAttribute("admin",null);
 		SecurityUtils.getSubject().logout();
-		return "redirect:/dologin/login";
+		return "/login/login";
 	}
 
 	public  List<AuthorizeUtils> getAuth(){

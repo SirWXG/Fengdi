@@ -274,6 +274,12 @@ public class AdminController {
         return result;
     }
 
+    @RequestMapping(value = "/getSession",method = RequestMethod.POST)
+    @ResponseBody
+    public FAdmin getSessions(HttpSession session){
+        return (FAdmin)session.getAttribute("admin");
+    }
+
     public  boolean checkAuth(){
         boolean flag = false;
         HttpServletRequest request=((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();

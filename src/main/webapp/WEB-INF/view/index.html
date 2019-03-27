@@ -90,6 +90,18 @@
     <!-- 中部结束 -->
     <!-- 底部开始 -->
     <!-- 底部结束 -->
-
+    <script>
+        $(function () {
+            $.ajax({
+                url:"/Fengdi/admin/getSession",
+                type:"post",
+                success:function (data) {
+                   if (typeof(data.adminName)=="undefined"){
+                       window.location.reload();
+                   }
+                }
+            })
+        })
+    </script>
 </body>
 </html>
