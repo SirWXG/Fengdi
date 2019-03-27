@@ -81,7 +81,8 @@
     <tr>
         <th>编号</th>
         <th>权限对应请求地址</th>
-        <th>二级权限名称</th>
+        <th>权限名称</th>
+        <th>是否为一级权限</th>
         <th width="50">操作</th>
     </tr>
     </thead>
@@ -154,10 +155,9 @@
                 },
                 success:function (data) {
                     if (data.success){
-                        alert("权限添加成功");
+                        layer.msg("权限添加成功",{icon:1,time:1000});
                     }else{
                         layer.msg(data.errMsg,{icon:5,time:1000});
-                        alert("权限添加失败");
                     }
                 }
             });
@@ -180,8 +180,9 @@
                             var $no = $("<td>").attr("style","width:100px").html(items.authorizeNo);
                             var $resource = $("<td>").attr("style","width:100px").html(items.resourcekey);
                             var $remark = $("<td>").attr("style","width:100px").html(items.remark);
-                            var $delUrl = $("<td>").append($("<button>").attr("onclick","delRoler(this,"+items.authorizeNo+")").html("删除权限"));
-                            $("#tbodys").append($tr.append($no).append($resource).append($remark).append($delUrl));
+                            var $level = $("<td>").attr("style","width:100px").html(items.levelkey==1?'是':'否');
+                            var $delUrl = $("<td>").append($("<button>").attr("onclick","delRoler(this,"+items.authorizeNo+","+items.levelkey+")").html("删除权限"));
+                            $("#tbodys").append($tr.append($no).append($resource).append($remark).append($level).append($delUrl));
                         })
                     }else{
                         alert(data.errMsg);
@@ -190,7 +191,7 @@
             });
         });
     })
-    function delRoler(obj,authorizeNo) {
+    function delRoler(obj,authorizeNo,key) {
         $.ajax({
            url:"/Fengdi/roler/delRoler",
             type:"post",
@@ -200,8 +201,13 @@
             },
             success:function (data) {
                 if (data.success){
-                    $(obj).parents("tr").remove();
-                    layer.msg('已删除!',{icon:1,time:1000});
+                    if (key==1){
+                        $("#tbodys").empty();
+                        layer.msg('已删除!',{icon:1,time:1000});
+                    }else{
+                        $(obj).parents("tr").remove();
+                        layer.msg('已删除!',{icon:1,time:1000});
+                    }
                 }else{
                     layer.msg(data.errMsg,{icon:6,time:1000});
                 }

@@ -39,5 +39,4 @@
     authorize_list=#{authorizeList},update_time=#{updateTime}
     WHERE admin_no=#{adminNo}
   </update>
-
 </mapper>

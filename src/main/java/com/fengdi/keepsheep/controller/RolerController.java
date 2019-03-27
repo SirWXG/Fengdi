@@ -20,7 +20,10 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Administrator on 2019/3/13.
@@ -85,40 +88,44 @@ public class RolerController {
                                  @RequestParam(name = "adminNo")String adminNo){
         SimpleResult result = new SimpleResult();
         if(checkAuth()){
-            List<FAdminGroup> list = fAdminGroupService.selectRolerByAdminNo(adminNo);
-            if(list.size()==0){
-                FAdminGroup fAdminGroup = new FAdminGroup();
-                fAdminGroup.setAdminNo(adminNo);
-                fAdminGroup.setCreateTime(new Date());
-                fAdminGroup.setUpdateTime(new Date());
-                fAdminGroup.setAdminGroupNo(Random2Utils.buildSn(""));
-                fAdminGroup.setAuthorizeList(firstRemark+","+sRemark+",");
-                int flag = fAdminGroupService.addGroup(fAdminGroup);
-                if(flag<1){
-                    result.setErrMsg("增加权限失败");
-                }else{
-                    result.setSuccess(true);
-                }
+            if(firstRemark.trim().length()<1||adminNo.trim().length()<1){
+                result.setErrMsg("一级权限或分配人员名称不能为空");
             }else{
-                String auth = list.get(0).getAuthorizeList();
-                if(auth.contains(firstRemark)&&!auth.contains(sRemark)){
-                    auth=auth+sRemark+",";
-                }
-                if(auth.contains(sRemark)&&!auth.contains(firstRemark)){
-                    auth=auth+firstRemark+",";
-                }
-                if(!auth.contains(sRemark)&&!auth.contains(firstRemark)){
-                    auth=auth+firstRemark+","+sRemark+",";
-                }
-                Map<String,Object> map = new HashMap<String, Object>();
-                map.put("adminNo",adminNo);
-                map.put("authorizeList",auth);
-                map.put("updateTime",new Date());
-                int flag = fAdminGroupService.updateGroup(map);
-                if(flag<1){
-                    result.setErrMsg("增加权限失败");
+                List<FAdminGroup> list = fAdminGroupService.selectRolerByAdminNo(adminNo);
+                if(list.size()==0){
+                    FAdminGroup fAdminGroup = new FAdminGroup();
+                    fAdminGroup.setAdminNo(adminNo);
+                    fAdminGroup.setCreateTime(new Date());
+                    fAdminGroup.setUpdateTime(new Date());
+                    fAdminGroup.setAdminGroupNo(Random2Utils.buildSn(""));
+                    fAdminGroup.setAuthorizeList(firstRemark+","+sRemark+",");
+                    int flag = fAdminGroupService.addGroup(fAdminGroup);
+                    if(flag<1){
+                        result.setErrMsg("增加权限失败");
+                    }else{
+                        result.setSuccess(true);
+                    }
                 }else{
-                    result.setSuccess(true);
+                    String auth = list.get(0).getAuthorizeList();
+                    if(auth.contains(firstRemark)&&!auth.contains(sRemark)){
+                        auth=auth+sRemark+",";
+                    }
+                    if(auth.contains(sRemark)&&!auth.contains(firstRemark)){
+                        auth=auth+firstRemark+",";
+                    }
+                    if(!auth.contains(sRemark)&&!auth.contains(firstRemark)){
+                        auth=auth+firstRemark+","+sRemark+",";
+                    }
+                    Map<String,Object> map = new HashMap<String, Object>();
+                    map.put("adminNo",adminNo);
+                    map.put("authorizeList",auth);
+                    map.put("updateTime",new Date());
+                    int flag = fAdminGroupService.updateGroup(map);
+                    if(flag<1){
+                        result.setErrMsg("增加权限失败");
+                    }else{
+                        result.setSuccess(true);
+                    }
                 }
             }
         }else{
@@ -144,13 +151,16 @@ public class RolerController {
                 for(int i = 0 ;i < list_auth.size();i++){
                     f[i] = String.valueOf(list_auth.get(i).getAuthorizeNo());
                 }
-                String auth_array[] = new String[list_auth.size()];
+                String auth_array[] = new String[list_auth.size()+1];
                 int k = 0;
                 for(int i=0;i<f.length;i++){
                     if(auth_list.contains(f[i])){
                         auth_array[k] = f[i];
                         k++;
                     }
+                }
+                if(auth_list.contains(firstAuth)){
+                    auth_array[list_auth.size()] = firstAuth;
                 }
                 List<FAuthorize> lists = fAuthorizeService.selectListAuth(auth_array);
                 if(lists.size()==0){
@@ -173,27 +183,41 @@ public class RolerController {
                                  @RequestParam(name = "adminNo")String adminNo){
         SimpleResult result = new SimpleResult();
         if(checkAuth()){
+            //得到对应的权限
             List<FAdminGroup> list = fAdminGroupService.selectRolerByAdminNo(adminNo);
+            //根据一级编号查询的二级编号
+            List<FAuthorize> list_auth = fAuthorizeService.selectAuthBySecond(authorizeNo);
             String auth = list.get(0).getAuthorizeList();
-            String newAuth = auth.replace(authorizeNo,"");
-            String new_auth = newAuth.replace(",,",",");
-            StringBuffer sb = new StringBuffer(new_auth);
-            if(new_auth.startsWith(",")){
-                sb.replace(0,1,"");
+            if(list_auth.size()>=1){
+                //管理员的权限编号列表
+                //将二级编号放入数组之中
+                String f[] = new String[list_auth.size()+1];
+                for(int i = 0 ;i < list_auth.size();i++){
+                    f[i] = String.valueOf(list_auth.get(i).getAuthorizeNo());
+                }
+                f[list_auth.size()] = authorizeNo;
+                for(int i=0;i<f.length;i++){
+                    if(auth.contains(f[i])){
+                        auth = auth.replace(f[i],"");
+                    }
+                }
             }
-            if(new_auth.endsWith(",")){
-                sb.replace(sb.length()-1,sb.length(),"");
-            }
-            Map<String,Object> map = new HashMap<String, Object>();
-            map.put("authorizeList",sb.toString());
-            map.put("updateTime",new Date());
-            map.put("adminNo",adminNo);
-            int flag = fAdminGroupService.updateGroup(map);
-            if(flag<1){
-                result.setErrMsg("删除失败，请重新操作");
-            }else{
-                result.setSuccess(true);
-            }
+                String newAuth = auth.replace(authorizeNo,"");
+                String new_auth = newAuth.replace(",,",",");
+                StringBuffer sb = new StringBuffer(new_auth);
+                if(new_auth.endsWith(",")){
+                    sb.replace(sb.length()-1,sb.length(),"");
+                }
+                Map<String,Object> map = new HashMap<String, Object>();
+                map.put("authorizeList",sb.toString());
+                map.put("updateTime",new Date());
+                map.put("adminNo",adminNo);
+                int flag = fAdminGroupService.updateGroup(map);
+                if(flag<1){
+                    result.setErrMsg("删除失败，请重新操作");
+                }else{
+                    result.setSuccess(true);
+                }
         }else{
             result.setErrMsg("权限不足,无法操作");
         }
