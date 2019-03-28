@@ -56,6 +56,8 @@ public class BeforeController {
         model.addAttribute("_before_view",fAnnouncementService.selectByYes());
         //平台问题展示
         model.addAttribute("_before_question",fProblemService.selectByStatus());
+        //app下载二维码
+        model.addAttribute("_before_app",fPictureService.selectPicByAPP().get(0).getPictureImg());
 
         //标题展示
         List<AnnouncementUtils> list = new ArrayList<AnnouncementUtils>();

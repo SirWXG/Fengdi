@@ -104,6 +104,11 @@ public class FPictureImpl implements FPictureService {
         return fPictureMapper.checkPicByHot();
     }
 
+    @Override
+    public int checkPicByApp() {
+        return fPictureMapper.checkPicByApp();
+    }
+
     //前台查询热门推荐
     @Override
     public List<FPicture> selectPicByHot() {
@@ -125,6 +130,11 @@ public class FPictureImpl implements FPictureService {
     @Override
     public List<FPicture> selectPicByEmployee() {
         return fPictureMapper.selectPicByEmployee();
+    }
+
+    @Override
+    public List<FPicture> selectPicByAPP() {
+        return fPictureMapper.selectPicByAPP();
     }
 
 }
