@@ -873,7 +873,9 @@ section {
 
 .text_hezi p {
     font-family: ΢���ź�;
-    line-height: 25px
+    line-height: 25px;
+
+
 }
 
 
@@ -968,9 +970,10 @@ section {
 }
 
 
-.yewei{width: 1200px;margin: -40px auto 40px;text-align: center;}
+.yewei{width: 1200px;margin: -40px auto 40px;text-align: center;color: white;border: solid 3px red}
 .yewei p{
     padding-bottom: 20px;
+    color: white;
 }
 
 .da_hengxiang{margin: 15px 0}
