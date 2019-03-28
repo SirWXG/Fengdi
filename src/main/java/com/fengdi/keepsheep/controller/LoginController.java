@@ -86,7 +86,10 @@ public class LoginController {
 		List<FAdmin> list = fAdminService.checkLogin(map);
 		List<FAdminGroup> lists = fAdminGroupService.selectRolerByAdminNo(list.get(0).getAdminNo());
 		if(lists.size()==0||lists.get(0).getAuthorizeList()==null||lists.get(0).getAuthorizeList().trim().length()<1){
-			result.setErrMsg("您没有任何权限,请联系管理员分配权限");
+			result.setSuccess(true);
+			session.setAttribute("auth", null);
+			session.setAttribute("admin",list.get(0));
+			//result.setErrMsg("您没有任何权限,请联系管理员分配权限");
 		}else{
 			if("break".equals(list.get(0).getStatus())){
 				result.setErrCode("1");

@@ -37,16 +37,17 @@
 <br />
 <br />
     <div align="center">
-        <span>权限分配:
+        <span style="width: 20px">权限分配:
             <select name="f_Auth" style="width: 200px;height: 50px">
                 <option value="">请选择一级权限</option>
             </select>
         </span>
+        <br />
         <span>
-        二级权限分配:
-            <select name="s_auth" style="width: 200px;height: 50px">
-                <option value="">请选择二级权限</option>
-            </select>
+            <span style="width:20px ">二级权限分配:</span>
+            <span id="s_auth">
+
+            </span>
         </span>
         <br />
         <br />
@@ -125,7 +126,6 @@
         $("select[name='f_Auth']").change(function () {
             if ($("select[name='f_Auth']").val()==''){
                 $("select[name='s_auth']").empty();
-                $("select[name='s_auth']").append($("<option>").attr("value","").html("请选择二级权限"));
             }else{
                 $.ajax({
                     url:"/Fengdi/roler/selectRolerSecound",
@@ -134,10 +134,11 @@
                         superAuthorizeNo:$("select[name='f_Auth']").val()
                     },
                     success:function (data) {
-                        $("select[name='s_auth']").empty();
+                        $("#s_auth").empty();
                         $.each(data, function (index,items) {
-                            var $options = $("<option>").attr("value",items.authorizeNo).html(items.remark);
-                            $("select[name='s_auth']").append($options);
+                            var $options = $("<input>").attr("style","font-size:35px;;margin-left:10px;").attr("value",items.authorizeNo).attr("type","checkbox").attr("name","authNo");
+                            var $spans = $("<span>").attr("style","font-size:15px").html(items.remark);
+                            $("#s_auth").append($options).append($spans);
                         })
                     }
                 });
@@ -145,12 +146,18 @@
         });
         
         $("#addBut").click(function () {
+            var text = "";
+            $("input[name='authNo']").each(function () {
+                if ($(this).is(':checked')){
+                    text+=$(this).val()+",";
+                }
+            })
             $.ajax({
                 url:"/Fengdi/roler/addRoler",
                 type:"post",
                 data:{
                     firstRemark:$("select[name='f_Auth']").val(),
-                    s_remark:$("select[name='s_auth']").val(),
+                    s_remark:text,
                     adminNo:$("select[name='f_admin']").val()
                 },
                 success:function (data) {

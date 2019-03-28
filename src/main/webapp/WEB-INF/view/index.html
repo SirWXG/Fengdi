@@ -39,7 +39,7 @@
      <!-- 左侧菜单开始 -->
     <div class="left-nav">
       <div id="side-nav">
-        <ul id="nav">
+        <ul id="nav" th:if="${session.auth!=null}">
             <li th:each="auth:${session.auth}">
                 <a href="javascript:;">
                     <i class="iconfont">&#xe6b8;</i>

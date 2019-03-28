@@ -107,15 +107,16 @@ public class RolerController {
                     }
                 }else{
                     String auth = list.get(0).getAuthorizeList();
-                    if(auth.contains(firstRemark)&&!auth.contains(sRemark)){
-                        auth=auth+sRemark+",";
+                    String array[] = sRemark.split(",");
+                    if(!auth.contains(firstRemark)){
+                        auth = auth+","+firstRemark+",";
                     }
-                    if(auth.contains(sRemark)&&!auth.contains(firstRemark)){
-                        auth=auth+firstRemark+",";
+                    for(int i=0;i<array.length;i++){
+                        if(!auth.contains(array[i])){
+                            auth=auth+","+array[i]+",";
+                        }
                     }
-                    if(!auth.contains(sRemark)&&!auth.contains(firstRemark)){
-                        auth=auth+firstRemark+","+sRemark+",";
-                    }
+                    auth = auth.replace(",,",",");
                     Map<String,Object> map = new HashMap<String, Object>();
                     map.put("adminNo",adminNo);
                     map.put("authorizeList",auth);
