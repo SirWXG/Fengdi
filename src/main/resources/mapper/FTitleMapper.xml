@@ -273,4 +273,13 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where title_no = #{titleNo,jdbcType=VARCHAR}
   </update>
+  <update id="updatestauts"  parameterType="com.fengdi.keepsheep.bean.FAnnouncement" >
+    update f_title
+    <set >
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where title_no = #{titleNo,jdbcType=VARCHAR}
+  </update>
 </mapper>

@@ -53,7 +53,7 @@ public class FTitleImpl implements FTitleService {
 
     @Override
     public FTitle selectByPrimaryKey(String titleNo) {
-        return null;
+        return fTitleMapper.selectByPrimaryKey(titleNo);
     }
 
     @Override
@@ -68,11 +68,16 @@ public class FTitleImpl implements FTitleService {
 
     @Override
     public int updateByPrimaryKeySelective(FTitle record) {
-        return 0;
+        return fTitleMapper.updateByPrimaryKeySelective(record);
     }
 
     @Override
     public int updateByPrimaryKey(FTitle record) {
         return 0;
+    }
+
+    @Override
+    public int updatestauts(String titleNo, String status) {
+        return fTitleMapper.updatestauts(titleNo,status);
     }
 }

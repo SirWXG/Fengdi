@@ -24,11 +24,16 @@
         <div class="logo"><img src="/Fengdi/img/logo1.png"></div>
         <ul class="nav">
             <li><a href="#1F" id="a1">首页 /</a></li>
-            <li><a href="#2F">热门推荐 /</a></li>
-            <li><a href="#3F">新闻中心 /</a></li>
-            <li><a href="#4F">产品中心 /</a></li>
-            <li><a href="#5F">基地展示 /</a></li>
-            <li><a href="#6F">问题解决 /</a></li>
+            <li th:if="${a0=='1'}"><a href="#2F" id="l2" th:text="${s0+' /'}"></a></li>
+            <li th:if="${a0=='0'}"><a href="#2F" id="a" th:text="${s0}"> </a></li>
+            <li th:if="${a1=='1'}"><a href="#3F" id="l3" th:text="${s1+' /'}"></a></li>
+            <li th:if="${a1=='0'}"><a href="#3F" id="aa" th:text="${s1}+/"> </a></li>
+            <li th:if="${a2=='1'}"><a href="#4F" id="l4" th:text="${s2+' /'}"></a></li>
+            <li th:if="${a2=='0'}"><a href="#4F" id="aaa" th:text="${s2}"> </a></li>
+            <li th:if="${a3=='1'}"><a href="#5F" id="l5" th:text="${s3+' /'}"></a></li>
+            <li th:if="${a3=='0'}"><a href="#5F" id="aaaa" th:text="${s3}"> </a></li>
+            <li th:if="${a4=='1'}"><a href="#6F" id="l6" th:text="${s4+' /'}"></a></li>
+            <li th:if="${a4=='0'}"><a href="#6F" id="aaaaa" th:text="${s4}"> </a></li>
             <li id="l1"><a href="">APP下载 /</a></li>
         </ul>
         <div id="d1"><img src="/Fengdi/img/erweima.png"><p>请扫码下载</p></div>
@@ -37,6 +42,11 @@
            <a href="http://swk.fg321.cn/keepsheep/api/member/shareRegister">注册</a>
       </div>
         <script>
+            $("#a").hide();
+            $("#aa").hide();
+            $("#aaa").hide();
+            $("#aaaa").hide();
+            $("#aaaaa").hide();
             $("#l1").mousemove(function () {
                 $("#d1").show()
             }).mouseout(function () {
@@ -85,34 +95,37 @@
 
     </script>
     <!--热门推荐-->
-    <div class="popular">
-        <h2>热门推荐</h2>
+    <div id="d2">
+        <div class="popular">
+            <h2 th:text="${s0}"></h2>
 
-        <div class="popular-l"></div>
-        <p>我们用心为您做的更好</p>
-    </div>
-    <div class="recommend">
-        <div class="recommend-top">
-            <div class="recommend-left" th:each="hot:${_before_hot}">
-                <div class="recommend-img">
-                    <!--新闻-->
-                    <a name="3F"></a>
-                    <img th:src="${hot.pictureImg}" height="100%" width="100%" alt=""/>
-                    <div class="recommend-ping">
+            <div class="popular-l"></div>
+            <p>我们用心为您做的更好</p>
+        </div>
+        <div class="recommend">
+            <div class="recommend-top">
+                <div class="recommend-left" th:each="hot:${_before_hot}">
+                    <div class="recommend-img">
+                        <!--新闻-->
+                        <a name="3F"></a>
+                        <img th:src="${hot.pictureImg}" height="100%" width="100%" alt=""/>
+                        <div class="recommend-ping">
 
-                        <!--如果有需要,可以放一些文章在下面的p标签里-->
-                        <p th:text="${hot.pictureText}" style="text-align: center; margin-top: 100px; font-size: 22px; font-weight: bold;"></p >
+                            <!--如果有需要,可以放一些文章在下面的p标签里-->
+                            <p th:text="${hot.pictureText}" style="text-align: center; margin-top: 100px; font-size: 22px; font-weight: bold;"></p >
 
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
+
     <!--新闻中心box-->
-    <div  class="xinwen">
+    <div id="d3"  class="xinwen">
         <div class="xinwen_box">
-            <h1>新闻中心</h1>
+            <h1 th:text="${s1}"></h1>
 
             <div class="popular-l"  style="margin-bottom: 20px"></div>
         </div>
@@ -142,9 +155,9 @@
 
     </div>
     <!--产品中心box-->
-    <div class="product">
+    <div id="d4" class="product">
         <div class="product-text">
-            <h2>产品中心</h2>
+            <h2 th:text="${s2}"></h2>
             <p style="float: right ;margin-right: 40px"><a href="http://swk.fg321.cn/keepsheep/api/member/shareRegister">更多</a></p>
 
             <p>Product Center</p>
@@ -165,9 +178,9 @@
     </div>
 		
     <!--基地展示-->
-    <div class="base" style="border: 1px solid transparent;">
+    <div id="d5" class="base" style="border: 1px solid transparent;">
         <div class="base-text">
-            <p style="font-size: 2rem;margin-top: 35px;color: rgba(0,0,0,.8)"><b>基地展示</b></p>
+            <p style="font-size: 2rem;margin-top: 35px;color: rgba(0,0,0,.8)"><b th:text="${s3}"></b></p>
         </div>
         <div class="base-main">
             <!-- 图一-->
@@ -194,9 +207,9 @@
     <!--留言框-->
     
     <!--问题设置-->
-     <div class="dakuang">
+     <div id="d6"  class="dakuang">
      <div class="xiao_kuang">
-     <h1>解决方案</h1>
+     <h1 th:text="${s4}"></h1>
 
          <div class="datu">
              <img th:src="${problem.pictureImg}" th:each="problem:${_before_problem}">
@@ -365,5 +378,48 @@
     gallery.slider({
         interval:2000//自动轮播周期，若为0则不自动播放，默认为0；
     });
+</script>
+<script>
+    var l2=document.getElementById("l2");
+    var l3=document.getElementById("l3");
+    var l4=document.getElementById("l4");
+    var l5=document.getElementById("l5");
+    var l6=document.getElementById("l6");
+
+    var d2=document.getElementById("d2");
+    var d3=document.getElementById("d3");
+    var d4=document.getElementById("d4");
+    var d5=document.getElementById("d5");
+    var d6=document.getElementById("d6");
+
+    if(l2==undefined){
+        d2.style.display="none"
+    }else {
+        d2.style.display="block"
+    }
+
+    if(l3==undefined){
+        d3.style.display="none"
+    }else {
+        d3.style.display="block"
+    }
+
+    if(l4==undefined){
+        d4.style.display="none"
+    }else {
+        d4.style.display="block"
+    }
+
+    if(l5==undefined){
+        d5.style.display="none"
+    }else {
+        d5.style.display="block"
+    }
+
+    if(l6==undefined){
+        d6.style.display="none"
+    }else {
+        d6.style.display="block"
+    }
 </script>
 </html>

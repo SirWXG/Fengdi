@@ -27,4 +27,6 @@ public interface FTitleMapper {
     int updateByPrimaryKeySelective(FTitle record);
 
     int updateByPrimaryKey(FTitle record);
+
+    int updatestauts(@Param("titleNo")String titleNo,@Param("status")String status);
 }
