@@ -61,9 +61,13 @@ a {
     display: block;
 }
 
+.nav li:hover{
+    background-color: #88EB4B!important;
+}
+
 #d1{
-    width: 110px;
-    height: 140px;
+    width: 120px;
+    height: 175px;
     margin-top: 70px;
     margin-left: 62%;
     display: none;
@@ -74,6 +78,8 @@ a {
 
 #d1 img{
     margin: 5px 5px;
+    width: 70%;
+    height: 70%;
 }
 
 .nav a {
@@ -85,7 +91,6 @@ a {
 .nav a:hover {
     display: block;
     padding: 0 10px;
-    background-color: #88EB4B;
     color: black;
 }
 
@@ -288,8 +293,8 @@ nav li {
     list-style-type: decimal-leading-zero;
 }
 
-li:hover {
-    background-color: lightblue;
+nav li:hover {
+    background-color: #88EB4B;
 }
 
 section {
