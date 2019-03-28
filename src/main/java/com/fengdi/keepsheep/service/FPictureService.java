@@ -38,6 +38,8 @@ public interface FPictureService {
 
     int checkPicByHot();
 
+    int checkPicByApp();
+
     List<FPicture> selectPicByHot();
 
     List<FPicture> selectPicByNote();
@@ -45,4 +47,6 @@ public interface FPictureService {
     List<FPicture> selectPicByProblem();
 
     List<FPicture> selectPicByEmployee();
+
+    List<FPicture> selectPicByAPP();
 }

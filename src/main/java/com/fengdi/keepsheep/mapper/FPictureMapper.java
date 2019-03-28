@@ -52,6 +52,8 @@ public interface FPictureMapper {
 
     int checkPicByHot();
 
+    int checkPicByApp();
+
     List<FPicture> selectPictureByPno(String pictureNo);
 
     int checkPicNum(FPicture fPicture);
@@ -69,4 +71,6 @@ public interface FPictureMapper {
     List<FPicture> selectPicByProblem();
 
     List<FPicture> selectPicByEmployee();
+
+    List<FPicture> selectPicByAPP();
 }

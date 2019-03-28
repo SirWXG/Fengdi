@@ -69,6 +69,10 @@
     SELECT COUNT(*) FROM f_picture WHERE picture_area='热门搜索' AND status='yes'
   </select>
 
+  <select id="checkPicByApp" resultType="int">
+    SELECT COUNT(*) FROM f_picture WHERE picture_area='APP下载二维码' AND status='yes'
+  </select>
+
   <select id="selectPictureByPno" parameterType="string" resultMap="BaseResultMap">
     SELECT <include refid="Base_Column_List" />
     FROM f_picture
@@ -99,6 +103,12 @@
     SELECT <include refid="Base_Column_List"/>
     FROM f_picture
     WHERE picture_area='热门搜索' AND picture_type='展示图片' AND status='yes'
+  </select>
+
+  <select id="selectPicByAPP" resultMap="BaseResultMap">
+    SELECT <include refid="Base_Column_List"/>
+    FROM f_picture
+    WHERE picture_area='APP下载二维码' AND picture_type='展示图片' AND status='yes'
   </select>
 
   <select id="selectPicByNote" resultMap="BaseResultMap">

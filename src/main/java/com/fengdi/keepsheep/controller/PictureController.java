@@ -198,6 +198,13 @@ public class PictureController {
                             result.setSuccess(true);
                             fPictureService.updatePicStatus(map);
                         }
+                    }else if("APP下载二维码".equals(list.get(0).getPictureArea())){
+                        if(fPictureService.checkPicByApp()>0&&status.equals("yes")){
+                            result.setErrMsg("APP下载二维码图片最多设置一张，请重新操作");
+                        }else{
+                            result.setSuccess(true);
+                            fPictureService.updatePicStatus(map);
+                        }
                     }
                 }
             }else{
