@@ -1,6 +1,8 @@
 package com.fengdi.keepsheep.controller;
 
 import com.fengdi.keepsheep.bean.FService;
+import com.fengdi.keepsheep.bean.FTitle;
+import com.fengdi.keepsheep.bean.FTitleExample;
 import com.fengdi.keepsheep.service.*;
 import com.fengdi.keepsheep.util.AnnouncementUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +34,8 @@ public class BeforeController {
 
     @Resource
     private Fsservice fsservice;
+    @Resource
+    private FTitleService fTitleService;
 
     //与前端对接的借口  产品
     @RequestMapping(value = "/selectProductForBefore")
@@ -67,6 +71,17 @@ public class BeforeController {
             list.add(utils);
         }
         model.addAttribute("m",list);
+
+        List<FTitle> fTitles = fTitleService.selectByExample(new FTitleExample());
+        int k=0;
+        String s = "s";
+        String a = "a";
+        for(FTitle f:fTitles){
+            model.addAttribute(s+k,f.getTitleName());
+            model.addAttribute(a+k,f.getStatus());
+            k++;
+        }
+
         return "/before/index";
     }
 
